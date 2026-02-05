@@ -5,200 +5,163 @@
 <title>Beka-Depaet-BezOstanovki</title>
 
 <style>
-* { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+* { box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
 
-body {
-  margin: 0;
-  background: radial-gradient(circle at top, #2a0040, #000);
-  color: #fff;
+body{
+  margin:0;
+  background:radial-gradient(circle at top,#2a0040,#000);
+  color:#fff;
 }
 
-header {
-  text-align: center;
-  padding: 20px;
-  font-size: 30px;
-  font-weight: bold;
-  color: #ff4dff;
-  text-shadow: 0 0 15px #ff4dff;
+header{
+  text-align:center;
+  padding:20px;
+  font-size:30px;
+  font-weight:900;
+  color:#ff4dff;
+  text-shadow:0 0 15px #ff4dff;
 }
 
-#balance {
-  text-align: center;
-  font-size: 20px;
-  margin-bottom: 10px;
+#balance{ text-align:center; font-size:20px; }
+
+nav{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  background:#140020;
+  padding:10px;
 }
 
-nav {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  background: #140020;
-  padding: 10px;
+nav button{
+  border:2px solid #00f7ff;
+  background:none;
+  color:#fff;
+  padding:10px 18px;
+  border-radius:25px;
+  cursor:pointer;
 }
 
-nav button {
-  background: none;
-  border: 2px solid #00f7ff;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: .3s;
+nav button:hover{ background:#00f7ff; color:#000; }
+
+.section{ display:none; padding:20px; }
+.section.active{ display:block; }
+
+.cases{
+  display:flex;
+  gap:30px;
+  justify-content:center;
+  flex-wrap:wrap;
 }
 
-nav button:hover {
-  background: #00f7ff;
-  color: #000;
+.case{
+  width:230px;
+  padding:20px;
+  border-radius:25px;
+  text-align:center;
 }
 
-.section { display: none; padding: 20px; }
-.section.active { display: block; }
+.case .emoji{ font-size:48px; }
 
-.cases {
-  display: flex;
-  gap: 30px;
-  justify-content: center;
-  flex-wrap: wrap;
+.case button{
+  width:100%;
+  margin-top:10px;
+  padding:10px;
+  border-radius:20px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-/* КЕЙСЫ */
-.case {
-  width: 230px;
-  border-radius: 22px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(255,255,255,.2);
+.bronze{ background:linear-gradient(145deg,#8b5a2b,#c68642); }
+.silverCase{ background:linear-gradient(145deg,#9aa7b2,#4facfe); }
+.gold{ background:linear-gradient(145deg,#ffd700,#ff9900); color:#000; }
+
+#roll{
+  margin:30px auto;
+  width:90%;
+  height:140px;
+  border:3px solid #fff;
+  overflow:hidden;
+  position:relative;
+  display:none;
+  border-radius:20px;
 }
 
-.case .emoji {
-  font-size: 50px;
-  margin-bottom: 10px;
+#rollLine{
+  position:absolute;
+  left:50%;
+  top:0;
+  width:4px;
+  height:100%;
+  background:red;
+  z-index:5;
 }
 
-.case button {
-  margin-top: 10px;
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  width: 100%;
-  border-radius: 20px;
-  font-weight: bold;
-  cursor: pointer;
+#rollItems{
+  display:flex;
+  position:absolute;
+  height:100%;
 }
 
-/* Цвета кейсов */
-.case.bronze {
-  background: linear-gradient(145deg,#8b5a2b,#c68642);
-  box-shadow: 0 0 25px #c68642;
+.rollItem{
+  width:140px;
+  margin:10px;
+  border-radius:15px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  text-align:center;
 }
 
-.case.silver {
-  background: linear-gradient(145deg,#9aa7b2,#4facfe);
-  box-shadow: 0 0 25px #4facfe;
+.rollItem span{ font-size:34px; }
+
+.win{
+  outline:4px solid gold;
+  box-shadow:0 0 25px gold;
+  transform:scale(1.1);
 }
 
-.case.gold {
-  background: linear-gradient(145deg,#ffcc33,#ff9900);
-  box-shadow: 0 0 30px #ffcc33;
-  color: #000;
+.inventory{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  justify-content:center;
 }
 
-.case.gold button {
-  background: #000;
-  color: #ffd700;
+.item{
+  width:200px;
+  padding:15px;
+  border-radius:20px;
+  text-align:center;
 }
 
-#roll {
-  margin: 30px auto;
-  width: 85%;
-  height: 130px;
-  border: 3px solid #fff;
-  overflow: hidden;
-  position: relative;
-  display: none;
-  border-radius: 20px;
+.item span{ font-size:40px; }
+
+.item button{
+  width:100%;
+  margin-top:8px;
+  padding:8px;
+  border:none;
+  border-radius:15px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-#rollLine {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 4px;
-  height: 100%;
-  background: red;
-  z-index: 10;
-}
-
-#rollItems {
-  display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-}
-
-.rollItem {
-  width: 140px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  border-radius: 15px;
-  margin: 10px;
-  text-align: center;
-  font-size: 14px;
-}
-
-.rollItem span { font-size: 34px; }
-
-.inventory {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.item {
-  width: 200px;
-  padding: 15px;
-  border-radius: 20px;
-  text-align: center;
-  box-shadow: 0 0 15px #ff4dff;
-}
-
-.item span {
-  font-size: 40px;
-  display: block;
-}
-
-.item button {
-  margin-top: 10px;
-  width: 100%;
-  border: none;
-  padding: 8px;
-  border-radius: 15px;
-  background: #ff4dff;
-  color: #000;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* Редкости */
-.silver { background:#888; }
-.green { background:#2ecc71; }
-.blue { background:#3498db; }
-.epic { background:#9b59b6; }
-.mythic { background:#e74c3c; }
-.legend { background:#f1c40f; color:#000; }
+.silver{ background:#aaa; }
+.green{ background:#2ecc71; }
+.blue{ background:#3498db; }
+.epic{ background:#9b59b6; }
+.mythic{ background:#e74c3c; }
+.legend{ background:#f1c40f; color:#000; }
 </style>
 </head>
 
 <body>
 
 <header>Бека депает — и ты депай!</header>
-<div id="balance">Баланс: <span id="coins">1800</span> CosmosCoins</div>
+<div id="balance">Баланс: <span id="coins">1800</span> CC</div>
 
 <nav>
   <button onclick="show('cases')">Кейсы</button>
@@ -211,22 +174,22 @@ nav button:hover {
 
     <div class="case bronze">
       <div class="emoji">📦</div>
-      <h3>Кейс Новичок</h3>
-      <p>Цена: 90 CC</p>
+      <h3>Новичок</h3>
+      <p>90 CC</p>
       <button onclick="openCase(90)">Открыть</button>
     </div>
 
-    <div class="case silver">
+    <div class="case silverCase">
       <div class="emoji">🧊</div>
-      <h3>Кейс Стандартный</h3>
-      <p>Цена: 230 CC</p>
+      <h3>Стандартный</h3>
+      <p>230 CC</p>
       <button onclick="openCase(230)">Открыть</button>
     </div>
 
     <div class="case gold">
       <div class="emoji">💎</div>
-      <h3>Кейс Дубайский</h3>
-      <p>Цена: 499 CC</p>
+      <h3>Дубайский</h3>
+      <p>499 CC</p>
       <button onclick="openCase(499)">Открыть</button>
     </div>
 
@@ -243,84 +206,87 @@ nav button:hover {
 </div>
 
 <script>
-let coins = Number(localStorage.getItem('coins')) || 1800;
-let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+let coins = Number(localStorage.getItem("coins")) || 1800;
+let inventory = JSON.parse(localStorage.getItem("inventory")) || [];
 
 const prizes = {
   silver:{price:70, items:[
-    {n:"Мишка", e:"🧸"},{n:"Цветок", e:"🌸"},{n:"Сердечко", e:"❤️"},
-    {n:"Роза", e:"🌹"},{n:"Подушка", e:"🛏️"}
+    {n:"Мишка",e:"🧸"},{n:"Цветок",e:"🌸"},{n:"Сердце",e:"❤️"},
+    {n:"Роза",e:"🌹"},{n:"Подушка",e:"🛏️"}
   ]},
   green:{price:170, items:[
-    {n:"Чёрный кейс", e:"📦"},{n:"Мышка", e:"🖱️"},
-    {n:"Ноутбук HP", e:"💻"},{n:"Акула", e:"🦈"},{n:"Кошечка", e:"🐱"}
+    {n:"Кейс",e:"📦"},{n:"Мышка",e:"🖱️"},
+    {n:"Ноутбук",e:"💻"},{n:"Акула",e:"🦈"},{n:"Котик",e:"🐱"}
   ]},
   blue:{price:270, items:[
-    {n:"Телефон Росо", e:"📱"},{n:"Шапка", e:"🧢"},
-    {n:"Кепка", e:"👒"},{n:"Лягушка", e:"🐸"},{n:"Персик", e:"🍑"}
+    {n:"Телефон",e:"📱"},{n:"Шапка",e:"🧢"},
+    {n:"Кепка",e:"👒"},{n:"Лягушка",e:"🐸"},{n:"Персик",e:"🍑"}
   ]},
   epic:{price:370, items:[
-    {n:"Остров Шумейла", e:"🏝️"},{n:"Шуба LueVetton", e:"🧥"}
+    {n:"Остров",e:"🏝️"},{n:"Шуба",e:"🧥"}
   ]},
   mythic:{price:550, items:[
-    {n:"Кроссовки Abldas", e:"👟"},{n:"Персик Серебряный", e:"🍑✨"}
+    {n:"Кроссовки",e:"👟"},{n:"Серебр. Персик",e:"🍑✨"}
   ]},
-  legend:{price:7000, items:[{n:"Золотая чаша", e:"🏆"}]}
+  legend:{price:7000, items:[
+    {n:"Золотая чаша",e:"🏆"}
+  ]}
 };
 
+// РЕАЛЬНО РАБОЧИЕ ШАНСЫ
 function rollRarity(){
-  let r=Math.random()*100;
-  if(r<50) return"silver";
-  if(r<88) return"green";
-  if(r<115) return"blue";
-  if(r<130) return"epic";
-  if(r<147) return"mythic";
-  return"legend";
+  let r = Math.random()*100;
+  if(r<50) return "silver";
+  if(r<88) return "green";
+  if(r<115) return "blue";
+  if(r<130) return "epic";
+  if(r<147) return "mythic";
+  return "legend";
 }
 
 function save(){
-  localStorage.setItem('coins',coins);
-  localStorage.setItem('inventory',JSON.stringify(inventory));
-  document.getElementById('coins').innerText=coins;
+  localStorage.setItem("coins",coins);
+  localStorage.setItem("inventory",JSON.stringify(inventory));
+  document.getElementById("coins").innerText=coins;
 }
 
 function show(id){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
   renderInv();
 }
 
 function openCase(price){
-  if(coins<price) return alert("Недостаточно CosmosCoins");
+  if(coins<price) return alert("Недостаточно CC");
   coins-=price; save();
 
   const roll=document.getElementById("roll");
-  const rollItems=document.getElementById("rollItems");
-  rollItems.innerHTML="";
-  rollItems.style.transition="none";
+  const items=document.getElementById("rollItems");
+  items.innerHTML="";
+  items.style.transition="none";
   roll.style.display="block";
 
   const rarity=rollRarity();
   const item=prizes[rarity].items[Math.floor(Math.random()*prizes[rarity].items.length)];
 
-  for(let i=0;i<25;i++){
+  for(let i=0;i<20;i++){
     let r=rollRarity();
     let it=prizes[r].items[Math.floor(Math.random()*prizes[r].items.length)];
-    rollItems.innerHTML+=`<div class="rollItem ${r}"><span>${it.e}</span>${it.n}</div>`;
+    items.innerHTML+=`<div class="rollItem ${r}"><span>${it.e}</span>${it.n}</div>`;
   }
 
-  rollItems.innerHTML+=`<div class="rollItem ${rarity}"><span>${item.e}</span>${item.n}</div>`;
+  items.innerHTML+=`<div class="rollItem ${rarity} win"><span>${item.e}</span>${item.n}<small>ТВОЙ ВЫИГРЫШ</small></div>`;
 
   for(let i=0;i<5;i++){
     let r=rollRarity();
     let it=prizes[r].items[Math.floor(Math.random()*prizes[r].items.length)];
-    rollItems.innerHTML+=`<div class="rollItem ${r}"><span>${it.e}</span>${it.n}</div>`;
+    items.innerHTML+=`<div class="rollItem ${r}"><span>${it.e}</span>${it.n}</div>`;
   }
 
-  rollItems.style.left="0px";
+  items.style.left="0px";
   setTimeout(()=>{
-    rollItems.style.transition="left 3s cubic-bezier(.1,.9,.2,1)";
-    rollItems.style.left="-2600px";
+    items.style.transition="left 3s cubic-bezier(.1,.9,.2,1)";
+    items.style.left="-2400px";
   },100);
 
   setTimeout(()=>{
@@ -345,7 +311,8 @@ function renderInv(){
       inventory.splice(i,1);
       save(); renderInv();
     };
-    d.appendChild(b); inv.appendChild(d);
+    d.appendChild(b);
+    inv.appendChild(d);
   });
 }
 

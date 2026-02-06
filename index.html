@@ -175,8 +175,8 @@ nav button:hover{background:#00f7ff;color:#000}
     <div class="case spring">
       <div class="emoji">🌸</div>
       <h3>Весенний</h3>
-      <p>699 CC</p>
-      <button onclick="openCase('spring',699)">Открыть</button>
+      <p>399 CC</p>
+      <button onclick="openCase('spring',399)">Открыть</button>
     </div>
   </div>
 
@@ -223,13 +223,13 @@ function rollRarity(caseType){
   }
 }
 
+const coinsEl=document.getElementById("coins");
+
 function save(){
   localStorage.setItem("coins",coins);
   localStorage.setItem("inventory",JSON.stringify(inventory));
   coinsEl.innerText=coins;
 }
-
-const coinsEl=document.getElementById("coins");
 
 function show(id){
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
@@ -249,7 +249,7 @@ function openCase(type,price){
 
   let winR=rollRarity(type);
   let pool=items[winR].filter(i=>{
-    if(type!=="spring" && (i.n.includes("Венок"))) return false;
+    if(type!=="spring" && i.n.includes("Венок")) return false;
     return true;
   });
   let win=pool[Math.floor(Math.random()*pool.length)];
@@ -257,7 +257,7 @@ function openCase(type,price){
   for(let i=0;i<25;i++){
     let r=rollRarity(type);
     let p=items[r].filter(i=>{
-      if(type!=="spring" && (i.n.includes("Венок"))) return false;
+      if(type!=="spring" && i.n.includes("Венок")) return false;
       return true;
     });
     let it=p[Math.floor(Math.random()*p.length)];
@@ -301,5 +301,6 @@ function renderInv(){
 
 save();
 </script>
+
 </body>
 </html>

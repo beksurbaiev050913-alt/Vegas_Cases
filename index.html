@@ -93,7 +93,6 @@ nav button:hover{background:#00f7ff;color:#000}
   position:absolute;
   height:100%;
 }
-
 .rollItem{
   width:140px;
   margin:10px;
@@ -118,15 +117,15 @@ nav button:hover{background:#00f7ff;color:#000}
   justify-content:center;
 }
 .item{
-  width:200px;
+  width:220px;
   padding:15px;
   border-radius:20px;
   text-align:center;
 }
 .item span{font-size:40px}
+.item small{display:block;margin:6px 0;opacity:.9}
 .item button{
   width:100%;
-  margin-top:8px;
   padding:8px;
   border:none;
   border-radius:15px;
@@ -192,16 +191,15 @@ nav button:hover{background:#00f7ff;color:#000}
 </div>
 
 <script>
-// 🔥 авто-сброс старых багнутых данных
-if(localStorage.getItem("VERSION")!=="FINAL-SPRING"){
-  localStorage.clear();
-  localStorage.setItem("VERSION","FINAL-SPRING");
-}
-
 let coins = Number(localStorage.getItem("coins")) || 1800;
 let inventory = JSON.parse(localStorage.getItem("inventory")) || [];
 
-const itemsByRarity={
+const prices={
+  silver:70, green:170, blue:270,
+  epic:370, mythic:550, legend:7000
+};
+
+const items={
   silver:[{n:"Мишка",e:"🧸"}],
   green:[{n:"Мышка",e:"🖱️"}],
   blue:[{n:"Телефон",e:"📱"}],
@@ -210,38 +208,28 @@ const itemsByRarity={
   legend:[{n:"Золотая чаша",e:"🏆"},{n:"Золотой венок",e:"👑"}]
 };
 
-const caseTables={
-  novice:["silver","green","blue","epic"],
-  standard:["silver","green","blue","epic","mythic"],
-  dubai:["blue","epic","mythic","legend"],
-  spring:["blue","epic","mythic","legend"]
+const tables={
+  novice:{list:["silver","green","blue","epic"],ch:{silver:45,green:30,blue:20,epic:5}},
+  standard:{list:["silver","green","blue","epic","mythic"],ch:{silver:35,green:30,blue:20,epic:10,mythic:5}},
+  dubai:{list:["blue","epic","mythic","legend"],ch:{blue:40,epic:30,mythic:20,legend:10}},
+  spring:{list:["blue","epic","mythic","legend"],ch:{blue:45,epic:30,mythic:20,legend:5}}
 };
 
-const chances={
-  silver:40,
-  green:30,
-  blue:15,
-  epic:8,
-  mythic:5,
-  legend:2
-};
-
-function rollRarity(list){
-  let total=0;
-  list.forEach(r=>total+=chances[r]);
-  let rand=Math.random()*total;
-  let sum=0;
-  for(let r of list){
-    sum+=chances[r];
-    if(rand<sum) return r;
+function rollRarity(caseType){
+  let r=Math.random()*100,sum=0;
+  for(let k of tables[caseType].list){
+    sum+=tables[caseType].ch[k];
+    if(r<sum) return k;
   }
 }
 
 function save(){
   localStorage.setItem("coins",coins);
   localStorage.setItem("inventory",JSON.stringify(inventory));
-  document.getElementById("coins").innerText=coins;
+  coinsEl.innerText=coins;
 }
+
+const coinsEl=document.getElementById("coins");
 
 function show(id){
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
@@ -254,58 +242,55 @@ function openCase(type,price){
   coins-=price; save();
 
   const roll=document.getElementById("roll");
-  const items=document.getElementById("rollItems");
-  items.innerHTML="";
-  items.style.transition="none";
+  const box=document.getElementById("rollItems");
+  box.innerHTML="";
+  box.style.transition="none";
   roll.style.display="block";
 
-  const table=caseTables[type];
-  let winR=rollRarity(table);
-  let pool=itemsByRarity[winR].filter(i=>{
-    if(type!=="spring" && (i.n==="Венок"||i.n==="Золотой венок")) return false;
+  let winR=rollRarity(type);
+  let pool=items[winR].filter(i=>{
+    if(type!=="spring" && (i.n.includes("Венок"))) return false;
     return true;
   });
-  let winItem=pool[Math.floor(Math.random()*pool.length)];
+  let win=pool[Math.floor(Math.random()*pool.length)];
 
   for(let i=0;i<25;i++){
-    let r=rollRarity(table);
-    let p=itemsByRarity[r].filter(i=>{
-      if(type!=="spring" && (i.n==="Венок"||i.n==="Золотой венок")) return false;
+    let r=rollRarity(type);
+    let p=items[r].filter(i=>{
+      if(type!=="spring" && (i.n.includes("Венок"))) return false;
       return true;
     });
     let it=p[Math.floor(Math.random()*p.length)];
-    items.innerHTML+=`<div class="rollItem ${r}"><span>${it.e}</span>${it.n}</div>`;
+    box.innerHTML+=`<div class="rollItem ${r}"><span>${it.e}</span>${it.n}</div>`;
   }
 
-  items.innerHTML+=`<div class="rollItem ${winR} win"><span>${winItem.e}</span>${winItem.n}</div>`;
+  box.innerHTML+=`<div class="rollItem ${winR} win"><span>${win.e}</span>${win.n}</div>`;
 
-  const itemWidth=160;
-  items.style.left="0px";
   setTimeout(()=>{
-    items.style.transition="transform 3s cubic-bezier(.1,.9,.2,1)";
-    items.style.transform=`translateX(-${itemWidth*25}px)`;
+    box.style.transition="transform 3s cubic-bezier(.1,.9,.2,1)";
+    box.style.transform="translateX(-4200px)";
   },50);
 
   setTimeout(()=>{
-    inventory.push({name:winItem.n,emoji:winItem.e,rarity:winR});
+    inventory.push({name:win.n,emoji:win.e,rarity:winR});
     save();
-    alert(`🎉 Ты выбил: ${winItem.e} ${winItem.n}`);
+    alert(`🎉 Ты выбил: ${win.e} ${win.n}`);
     roll.style.display="none";
-    items.style.transform="translateX(0)";
+    box.style.transform="translateX(0)";
   },3200);
 }
 
 function renderInv(){
-  const inv=document.getElementById("inv");
   inv.innerHTML="";
   inventory.forEach((it,i)=>{
     let d=document.createElement("div");
     d.className="item "+it.rarity;
-    d.innerHTML=`<span>${it.emoji}</span><b>${it.name}</b>`;
+    d.innerHTML=`<span>${it.emoji}</span><b>${it.name}</b>
+    <small>Цена продажи: ${prices[it.rarity]} CC</small>`;
     let b=document.createElement("button");
     b.innerText="Продать";
     b.onclick=()=>{
-      coins+=100;
+      coins+=prices[it.rarity];
       inventory.splice(i,1);
       save(); renderInv();
     };

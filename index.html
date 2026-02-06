@@ -27,7 +27,6 @@ nav{
   gap:15px;
   background:#140020;
   padding:10px;
-  flex-wrap:wrap;
 }
 nav button{
   border:2px solid #00f7ff;
@@ -55,7 +54,6 @@ nav button:hover{background:#00f7ff;color:#000}
   text-align:center;
 }
 .case .emoji{font-size:48px}
-
 .case button{
   width:100%;
   margin-top:10px;
@@ -69,12 +67,12 @@ nav button:hover{background:#00f7ff;color:#000}
 .bronze{background:linear-gradient(145deg,#8b5a2b,#c68642)}
 .silverCase{background:linear-gradient(145deg,#9aa7b2,#4facfe)}
 .gold{background:linear-gradient(145deg,#ffd700,#ff9900);color:#000}
-.spring{background:linear-gradient(145deg,#ffb6c1,#ff69b4)}
+.spring{background:linear-gradient(145deg,#2ecc71,#a3ffcb);color:#000}
 
 #roll{
   margin:30px auto;
   width:90%;
-  height:150px;
+  height:140px;
   border:3px solid #fff;
   overflow:hidden;
   position:relative;
@@ -88,14 +86,14 @@ nav button:hover{background:#00f7ff;color:#000}
   width:4px;
   height:100%;
   background:red;
-  z-index:10;
+  z-index:5;
 }
 #rollItems{
   display:flex;
   position:absolute;
   height:100%;
-  left:0;
 }
+
 .rollItem{
   width:140px;
   margin:10px;
@@ -106,7 +104,12 @@ nav button:hover{background:#00f7ff;color:#000}
   justify-content:center;
   font-weight:bold;
 }
-.rollItem span{font-size:36px}
+.rollItem span{font-size:34px}
+
+.win{
+  outline:4px solid gold;
+  box-shadow:0 0 25px gold;
+}
 
 .inventory{
   display:flex;
@@ -147,7 +150,6 @@ nav button:hover{background:#00f7ff;color:#000}
 
 <nav>
   <button onclick="show('cases')">Кейсы</button>
-  <button onclick="show('spring')">🌸 Весенний кейс</button>
   <button onclick="show('inventory')">Мои герои</button>
 </nav>
 
@@ -171,23 +173,18 @@ nav button:hover{background:#00f7ff;color:#000}
       <p>499 CC</p>
       <button onclick="openCase('dubai',499)">Открыть</button>
     </div>
-  </div>
-</div>
-
-<div id="spring" class="section">
-  <div class="cases">
     <div class="case spring">
       <div class="emoji">🌸</div>
       <h3>Весенний</h3>
-      <p>349 CC</p>
-      <button onclick="openCase('spring',349)">Открыть</button>
+      <p>699 CC</p>
+      <button onclick="openCase('spring',699)">Открыть</button>
     </div>
   </div>
-</div>
 
-<div id="roll">
-  <div id="rollLine"></div>
-  <div id="rollItems"></div>
+  <div id="roll">
+    <div id="rollLine"></div>
+    <div id="rollItems"></div>
+  </div>
 </div>
 
 <div id="inventory" class="section">
@@ -195,92 +192,49 @@ nav button:hover{background:#00f7ff;color:#000}
 </div>
 
 <script>
+// 🔥 авто-сброс старых багнутых данных
+if(localStorage.getItem("VERSION")!=="FINAL-SPRING"){
+  localStorage.clear();
+  localStorage.setItem("VERSION","FINAL-SPRING");
+}
+
 let coins = Number(localStorage.getItem("coins")) || 1800;
 let inventory = JSON.parse(localStorage.getItem("inventory")) || [];
 
-const prizes={
-  silver:{price:70,items:[{n:"Мишка",e:"🧸"}]},
-  green:{price:170,items:[{n:"Мышка",e:"🖱️"}]},
-  blue:{price:270,items:[{n:"Телефон",e:"📱"}]},
-  epic:{price:370,items:[{n:"Шуба",e:"🧥"}]},
-  mythic:{price:550,items:[{n:"Кроссовки",e:"👟"}]},
-  legend:{price:7000,items:[{n:"Золотая чаша",e:"🏆"}]},
-  springEpic:{price:370,items:[{n:"Шуба",e:"🧥"},{n:"Венок",e:"🌿"}]},
-  springLegend:{price:7000,items:[{n:"Золотая чаша",e:"🏆"},{n:"Золотой венок",e:"👑🌿"}]}
+const itemsByRarity={
+  silver:[{n:"Мишка",e:"🧸"}],
+  green:[{n:"Мышка",e:"🖱️"}],
+  blue:[{n:"Телефон",e:"📱"}],
+  epic:[{n:"Шуба",e:"🧥"},{n:"Венок",e:"🌿"}],
+  mythic:[{n:"Кроссовки",e:"👟"}],
+  legend:[{n:"Золотая чаша",e:"🏆"},{n:"Золотой венок",e:"👑"}]
 };
 
-function realRoll(type){
-  let r=Math.random()*100;
-  if(type==="spring"){
-    if(r<40) return"blue";
-    if(r<65) return"springEpic";
-    if(r<85) return"mythic";
-    return"springLegend";
+const caseTables={
+  novice:["silver","green","blue","epic"],
+  standard:["silver","green","blue","epic","mythic"],
+  dubai:["blue","epic","mythic","legend"],
+  spring:["blue","epic","mythic","legend"]
+};
+
+const chances={
+  silver:40,
+  green:30,
+  blue:15,
+  epic:8,
+  mythic:5,
+  legend:2
+};
+
+function rollRarity(list){
+  let total=0;
+  list.forEach(r=>total+=chances[r]);
+  let rand=Math.random()*total;
+  let sum=0;
+  for(let r of list){
+    sum+=chances[r];
+    if(rand<sum) return r;
   }
-  if(type==="novice"){
-    if(r<50) return"silver";
-    if(r<75) return"green";
-    if(r<90) return"blue";
-    return"epic";
-  }
-  if(type==="dubai"){
-    if(r<40) return"blue";
-    if(r<70) return"epic";
-    if(r<90) return"mythic";
-    return"legend";
-  }
-  if(r<50) return"silver";
-  if(r<70) return"green";
-  if(r<85) return"blue";
-  if(r<93) return"epic";
-  if(r<98) return"mythic";
-  return"legend";
-}
-
-function openCase(type,price){
-  if(coins<price) return alert("Недостаточно CC");
-  coins-=price;
-  save();
-
-  const roll=document.getElementById("roll");
-  const items=document.getElementById("rollItems");
-  items.innerHTML="";
-  items.style.transition="none";
-  roll.style.display="block";
-
-  const winR=realRoll(type);
-  const winItem=prizes[winR].items[Math.floor(Math.random()*prizes[winR].items.length)];
-
-  let list=[];
-  for(let i=0;i<30;i++){
-    let r=realRoll(type);
-    let it=prizes[r].items[Math.floor(Math.random()*prizes[r].items.length)];
-    list.push({r,it});
-  }
-  list[20]={r:winR,it:winItem};
-
-  list.forEach(x=>{
-    items.innerHTML+=`<div class="rollItem ${x.r}"><span>${x.it.e}</span>${x.it.n}</div>`;
-  });
-
-  setTimeout(()=>{
-    items.style.transition="left 3s cubic-bezier(.1,.9,.2,1)";
-    items.style.left="-2520px";
-  },50);
-
-  setTimeout(()=>{
-    inventory.push({name:winItem.n,emoji:winItem.e,rarity:winR});
-    save();
-    alert(`🎉 Ты выбил: ${winItem.e} ${winItem.n}`);
-    roll.style.display="none";
-    items.style.left="0";
-  },3200);
-}
-
-function show(id){
-  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  renderInv();
 }
 
 function save(){
@@ -289,17 +243,69 @@ function save(){
   document.getElementById("coins").innerText=coins;
 }
 
+function show(id){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  renderInv();
+}
+
+function openCase(type,price){
+  if(coins<price) return alert("Недостаточно CC");
+  coins-=price; save();
+
+  const roll=document.getElementById("roll");
+  const items=document.getElementById("rollItems");
+  items.innerHTML="";
+  items.style.transition="none";
+  roll.style.display="block";
+
+  const table=caseTables[type];
+  let winR=rollRarity(table);
+  let pool=itemsByRarity[winR].filter(i=>{
+    if(type!=="spring" && (i.n==="Венок"||i.n==="Золотой венок")) return false;
+    return true;
+  });
+  let winItem=pool[Math.floor(Math.random()*pool.length)];
+
+  for(let i=0;i<25;i++){
+    let r=rollRarity(table);
+    let p=itemsByRarity[r].filter(i=>{
+      if(type!=="spring" && (i.n==="Венок"||i.n==="Золотой венок")) return false;
+      return true;
+    });
+    let it=p[Math.floor(Math.random()*p.length)];
+    items.innerHTML+=`<div class="rollItem ${r}"><span>${it.e}</span>${it.n}</div>`;
+  }
+
+  items.innerHTML+=`<div class="rollItem ${winR} win"><span>${winItem.e}</span>${winItem.n}</div>`;
+
+  const itemWidth=160;
+  items.style.left="0px";
+  setTimeout(()=>{
+    items.style.transition="transform 3s cubic-bezier(.1,.9,.2,1)";
+    items.style.transform=`translateX(-${itemWidth*25}px)`;
+  },50);
+
+  setTimeout(()=>{
+    inventory.push({name:winItem.n,emoji:winItem.e,rarity:winR});
+    save();
+    alert(`🎉 Ты выбил: ${winItem.e} ${winItem.n}`);
+    roll.style.display="none";
+    items.style.transform="translateX(0)";
+  },3200);
+}
+
 function renderInv(){
   const inv=document.getElementById("inv");
   inv.innerHTML="";
   inventory.forEach((it,i)=>{
     let d=document.createElement("div");
     d.className="item "+it.rarity;
-    d.innerHTML=`<span>${it.emoji}</span><b>${it.name}</b><br>${prizes[it.rarity].price} CC`;
+    d.innerHTML=`<span>${it.emoji}</span><b>${it.name}</b>`;
     let b=document.createElement("button");
     b.innerText="Продать";
     b.onclick=()=>{
-      coins+=prizes[it.rarity].price;
+      coins+=100;
       inventory.splice(i,1);
       save(); renderInv();
     };
@@ -310,6 +316,5 @@ function renderInv(){
 
 save();
 </script>
-
 </body>
 </html>

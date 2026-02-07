@@ -2,316 +2,152 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Beka Depaet</title>
-
+<title>Кейсы Беки</title>
 <style>
-*{box-sizing:border-box;font-family:Segoe UI,sans-serif}
-body{
-  margin:0;
-  background:radial-gradient(circle at top,#2a0040,#000);
-  color:#fff;
+body {
+  background: radial-gradient(circle, #3a005f, #12001f);
+  color: white;
+  font-family: Arial;
+  margin: 0;
 }
-header{
-  text-align:center;
-  padding:20px;
-  font-size:32px;
-  font-weight:900;
-  color:#ff4dff;
-  text-shadow:0 0 15px #ff4dff;
+header {
+  text-align: center;
+  padding: 20px;
 }
-#stats{text-align:center;margin-bottom:10px;font-size:18px}
+button {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.case {
+  background: #222;
+  padding: 15px;
+  border-radius: 15px;
+  margin: 10px;
+  display: inline-block;
+}
+#heroes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px,1fr));
+  gap: 10px;
+  padding: 15px;
+}
+.card {
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+}
+.common { background:#e67e22; }
+.rare { background:#9b59b6; }
+.legend { background:#f1c40f; color:black; }
 
-nav{
-  display:flex;
-  justify-content:center;
-  gap:15px;
-  background:#140020;
-  padding:10px;
+.opening {
+  animation: pop 0.6s ease;
 }
-nav button{
-  border:2px solid #00f7ff;
-  background:none;
-  color:#fff;
-  padding:10px 18px;
-  border-radius:25px;
-  cursor:pointer;
+@keyframes pop {
+  0% { transform: scale(0.5); opacity:0; }
+  100% { transform: scale(1); opacity:1; }
 }
-nav button:hover{background:#00f7ff;color:#000}
-
-.section{display:none;padding:20px}
-.section.active{display:block}
-
-.cases{
-  display:flex;
-  gap:25px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-.case{
-  width:220px;
-  padding:20px;
-  border-radius:25px;
-  text-align:center;
-}
-.case button{
-  width:100%;
-  margin-top:10px;
-  padding:10px;
-  border-radius:20px;
-  border:none;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.basic{background:#2ecc71}
-.standard{background:#3498db}
-.dubai{background:linear-gradient(145deg,#ffd700,#ff9900);color:#000}
-.dust{background:#7f8c8d}
-
-#roll{
-  margin:30px auto;
-  width:90%;
-  height:130px;
-  border:3px solid #fff;
-  overflow:hidden;
-  position:relative;
-  display:none;
-  border-radius:20px;
-}
-#rollLine{
-  position:absolute;
-  left:50%;
-  top:0;
-  width:4px;
-  height:100%;
-  background:red;
-}
-#rollItems{
-  display:flex;
-  position:absolute;
-  height:100%;
-}
-.rollItem{
-  width:130px;
-  margin:10px;
-  border-radius:15px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
-}
-
-.inventory{
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-.item{
-  width:200px;
-  padding:15px;
-  border-radius:20px;
-  text-align:center;
-}
-.item button{
-  width:100%;
-  margin-top:6px;
-  padding:8px;
-  border:none;
-  border-radius:15px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.blue{background:#2980b9}
-.epic{background:#9b59b6}
-.mythic{background:#e67e22}
-.legend{background:#f1c40f;color:#000}
 </style>
 </head>
-
 <body>
 
-<header>Бека депает — и ты депай!</header>
-<div id="stats">
-Баланс: <span id="coins">2000</span> CC |
-Пыль: <span id="dust">0</span>
-</div>
+<header>
+<h1>Бека депает — и ты депай!</h1>
+<p>Баланс: <span id="money">2000</span> CC | Пыль: <span id="dust">0</span></p>
+</header>
 
-<nav>
-<button onclick="show('cases')">Кейсы</button>
-<button onclick="show('inventory')">Мои герои</button>
-</nav>
-
-<div id="cases" class="section active">
-<div class="cases">
-  <div class="case basic">
-    <h3>Новичок</h3><p>90 CC</p>
-    <button onclick="openCase('basic',90)">Открыть</button>
-  </div>
-
-  <div class="case standard">
-    <h3>Стандарт</h3><p>230 CC</p>
-    <button onclick="openCase('standard',230)">Открыть</button>
-  </div>
-
-  <div class="case dubai">
-    <h3>Дубай</h3><p>499 CC</p>
-    <button onclick="openCase('dubai',499)">Открыть</button>
-  </div>
-
-  <div class="case dust">
-    <h3>Пыльный кейс</h3>
-    <p>5000 пыли</p>
-    <button onclick="openDust(1)">Открыть ×1</button>
-    <button onclick="openDust(10)">Открыть ×10</button>
+<div style="text-align:center">
+  <div class="case"><b>Новичок</b><br><button onclick="openCase('starter',1)">Открыть</button></div>
+  <div class="case"><b>Стандарт</b><br><button onclick="openCase('standard',1)">Открыть</button></div>
+  <div class="case"><b>Дубай</b><br><button onclick="openCase('dubai',1)">Открыть</button></div>
+  <div class="case"><b>Пыльный</b><br>
+    <button onclick="openCase('dusty',1)">x1</button>
+    <button onclick="openCase('dusty',10)">x10</button>
   </div>
 </div>
 
-<div id="roll">
-  <div id="rollLine"></div>
-  <div id="rollItems"></div>
-</div>
-</div>
-
-<div id="inventory" class="section">
-<div class="inventory" id="inv"></div>
-</div>
+<h2 style="text-align:center">Мои герои</h2>
+<div id="heroes"></div>
 
 <script>
-let coins=+localStorage.coins||2000;
-let dust=+localStorage.dust||0;
-let inv=JSON.parse(localStorage.inv||"[]");
+let money = 2000;
+let dust = 0;
+let heroes = [];
+let uid = 0;
 
-const loot={
-basic:[
-  {n:"Мышка",e:"🖱️",r:"blue",p:230,d:230},
-  {n:"Шапка",e:"🎩",r:"epic",p:370,d:370}
-],
-standard:[
-  {n:"Кроссовок",e:"👟",r:"epic",p:370,d:370},
-  {n:"Книга",e:"📘",r:"mythic",p:780,d:780}
-],
-dubai:[
-  {n:"Часы",e:"⌚",r:"epic",p:370,d:370},
-  {n:"Остров",e:"🏝️",r:"mythic",p:780,d:780},
-  {n:"Золотая медаль",e:"🥇",r:"legend",p:11600,d:1300}
-]
+const cases = {
+  starter: [
+    {name:"Книга", type:"common", sell:50, dust:5, chance:70},
+    {name:"Кроссовок", type:"rare", sell:150, dust:15, chance:25},
+    {name:"Шапка", type:"legend", sell:400, dust:40, chance:5}
+  ],
+  standard: [
+    {name:"Шаурма", type:"common", sell:100, dust:10, chance:65},
+    {name:"Кроссовок", type:"rare", sell:300, dust:30, chance:30},
+    {name:"Остров", type:"legend", sell:780, dust:80, chance:5}
+  ],
+  dubai: [
+    {name:"Квартира Бишкек", type:"rare", sell:600, dust:60, chance:85},
+    {name:"Золотая медаль", type:"legend", sell:1100, dust:120, chance:15}
+  ],
+  dusty: [
+    {name:"Пыль", type:"common", sell:0, dust:20, chance:90},
+    {name:"Шапка", type:"rare", sell:300, dust:40, chance:9},
+    {name:"Золотой клык", type:"legend", sell:1100, dust:150, chance:1}
+  ]
 };
 
-const dustLoot={
-legend:[
-["Золотая чаша","🏆"],
-["Золотая медаль","🥇"],
-["Золотая кепка Беки","🧢"],
-["Золотой клык","🦷"],
-["Галстук Беки","👔"]
-],
-mythic:[
-["Серебряный кроссовок","👟"],
-["Книга по математике","📕"],
-["Шаурма","🌯"],
-["Квартира в Бишкеке","🏢"]
-]
-};
-
-function save(){
-localStorage.coins=coins;
-localStorage.dust=dust;
-localStorage.inv=JSON.stringify(inv);
-coinsEl.innerText=coins;
-dustEl.innerText=dust;
+function roll(items) {
+  let r = Math.random()*100;
+  let sum = 0;
+  for (let i of items) {
+    sum += i.chance;
+    if (r <= sum) return {...i};
+  }
 }
 
-const coinsEl=document.getElementById("coins");
-const dustEl=document.getElementById("dust");
-
-function show(id){
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-renderInv();
+function openCase(type, count) {
+  for (let i=0;i<count;i++) {
+    const item = roll(cases[type]);
+    item.id = uid++;
+    heroes.push(item);
+    setTimeout(renderHeroes, 200);
+  }
 }
 
-function rollDubai(){
-let r=Math.random()*100;
-if(r<45)return loot.dubai[0];
-if(r<80)return loot.dubai[1];
-return loot.dubai[2];
+function renderHeroes() {
+  const box = document.getElementById("heroes");
+  box.innerHTML = "";
+  heroes.forEach(h=>{
+    const d = document.createElement("div");
+    d.className = `card ${h.type} opening`;
+    d.innerHTML = `
+      <b>${h.name}</b><br>
+      ${h.sell} CC<br>
+      <button onclick="sell(${h.id})">Продать</button>
+      <button onclick="dustItem(${h.id})">Распылить</button>
+    `;
+    box.appendChild(d);
+  });
+  document.getElementById("money").textContent = money;
+  document.getElementById("dust").textContent = dust;
 }
 
-function openCase(type,price){
-if(coins<price)return alert("Нет CC");
-coins-=price; save();
-
-let item;
-if(type==="dubai") item=rollDubai();
-else item=loot[type][Math.floor(Math.random()*loot[type].length)];
-
-animate(item,()=>{
-inv.push(item);
-save();
-alert("🎉 "+item.e+" "+item.n);
-});
+function sell(id){
+  const i = heroes.findIndex(h=>h.id===id);
+  money += heroes[i].sell;
+  heroes.splice(i,1);
+  renderHeroes();
 }
-
-function animate(item,cb){
-const box=document.getElementById("roll");
-const items=document.getElementById("rollItems");
-items.innerHTML="";
-box.style.display="block";
-items.style.left="0px";
-items.style.transition="none";
-
-for(let i=0;i<20;i++){
-items.innerHTML+=`<div class="rollItem ${item.r}">${item.e}<br>${item.n}</div>`;
+function dustItem(id){
+  const i = heroes.findIndex(h=>h.id===id);
+  dust += heroes[i].dust;
+  heroes.splice(i,1);
+  renderHeroes();
 }
-
-setTimeout(()=>{
-items.style.transition="left 2.5s ease-out";
-items.style.left="-1600px";
-},50);
-
-setTimeout(()=>{
-box.style.display="none";
-cb();
-},2700);
-}
-
-function openDust(x){
-if(dust<5000*x)return alert("Недостаточно пыли");
-dust-=5000*x;
-
-for(let i=0;i<x;i++){
-let pool=Math.random()<0.5?dustLoot.legend:dustLoot.mythic;
-let r=Math.random()<0.5?"legend":"mythic";
-let it=pool[Math.floor(Math.random()*pool.length)];
-inv.push({n:it[0],e:it[1],r,p:r==="legend"?11600:3500,d:r==="legend"?1300:780});
-}
-save();
-alert("💨 Пыльный кейс открыт");
-}
-
-function renderInv(){
-const c=document.getElementById("inv");
-c.innerHTML="";
-inv.forEach((it,i)=>{
-let d=document.createElement("div");
-d.className="item "+it.r;
-d.innerHTML=`${it.e}<br><b>${it.n}</b><br>${it.p} CC`;
-let sell=document.createElement("button");
-sell.innerText="Продать";
-sell.onclick=()=>{coins+=it.p;inv.splice(i,1);save();renderInv();};
-let dis=document.createElement("button");
-dis.innerText="Распылить";
-dis.onclick=()=>{dust+=it.d;inv.splice(i,1);save();renderInv();};
-d.appendChild(sell);
-d.appendChild(dis);
-c.appendChild(d);
-});
-}
-
-save();
 </script>
+
 </body>
 </html>

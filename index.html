@@ -54,7 +54,6 @@ nav button:hover{background:#00f7ff;color:#000}
   text-align:center;
 }
 .case .emoji{font-size:48px}
-
 .case button{
   width:100%;
   margin-top:8px;
@@ -131,9 +130,9 @@ nav button:hover{background:#00f7ff;color:#000}
   font-weight:bold;
 }
 
-.blue{background:#3498db}
-.green{background:#2ecc71}
 .silverR{background:#aaa}
+.green{background:#2ecc71}
+.blue{background:#3498db}
 .epic{background:#9b59b6}
 .mythic{background:#e74c3c}
 .legend{background:#f1c40f;color:#000}
@@ -151,7 +150,6 @@ nav button:hover{background:#00f7ff;color:#000}
 <nav>
   <button onclick="show('cases')">Кейсы</button>
   <button onclick="show('inventory')">Мои герои</button>
-  <button onclick="window.open('https://t.me/KosmosHardoxxx','_blank')">Тех.Поддержка</button>
 </nav>
 
 <div id="cases" class="section active">
@@ -161,24 +159,24 @@ nav button:hover{background:#00f7ff;color:#000}
       <div class="emoji">📦</div>
       <h3>Новичок</h3>
       <p>90 CC</p>
-      <button onclick="openCase('basic',1)">Открыть</button>
-      <button onclick="openCase('basic',10)">Открыть ×10</button>
+      <button onclick="openCase('basic',90,1)">Открыть</button>
+      <button onclick="openCase('basic',90,10)">Открыть ×10</button>
     </div>
 
     <div class="case silver">
       <div class="emoji">🧊</div>
       <h3>Стандарт</h3>
       <p>230 CC</p>
-      <button onclick="openCase('standard',1)">Открыть</button>
-      <button onclick="openCase('standard',10)">Открыть ×10</button>
+      <button onclick="openCase('standard',230,1)">Открыть</button>
+      <button onclick="openCase('standard',230,10)">Открыть ×10</button>
     </div>
 
     <div class="case gold">
       <div class="emoji">💎</div>
       <h3>Дубайский</h3>
       <p>499 CC</p>
-      <button onclick="openCase('dubai',1)">Открыть</button>
-      <button onclick="openCase('dubai',10)">Открыть ×10</button>
+      <button onclick="openCase('dubai',499,1)">Открыть</button>
+      <button onclick="openCase('dubai',499,10)">Открыть ×10</button>
     </div>
 
     <div class="case dust">
@@ -201,64 +199,109 @@ nav button:hover{background:#00f7ff;color:#000}
 </div>
 
 <script>
-let coins = +localStorage.getItem("coins") || 1800;
-let dust  = +localStorage.getItem("dust") || 0;
-let inventory = JSON.parse(localStorage.getItem("inventory")) || [];
+let coins=+localStorage.getItem("coins")||1800;
+let dust=+localStorage.getItem("dust")||0;
+let inventory=JSON.parse(localStorage.getItem("inventory"))||[];
 
-const dustValue={
-  silverR:90, green:160, blue:230, epic:370, mythic:780, legend:1300
+const loot={
+  basic:{
+    silverR:["🧸","🌸","❤️"],
+    green:["📦","🐱"],
+    blue:["🖱️","📱"],
+    epic:["🧥"]
+  },
+  standard:{
+    green:["📦","🐱"],
+    blue:["🖱️","📱"],
+    epic:["🧥"],
+    mythic:["👟"]
+  },
+  dubai:{
+    epic:["🧥"],
+    mythic:["🏝️"],
+    legend:["🥇"]
+  }
 };
 
-const sellPrice={
-  mythic:3500,
-  legend:11600
-};
+function rollRarity(type){
+  let r=Math.random()*100;
+  if(type==="basic"){
+    if(r<40)return"silverR";
+    if(r<65)return"green";
+    if(r<85)return"blue";
+    return"epic";
+  }
+  if(type==="standard"){
+    if(r<35)return"green";
+    if(r<65)return"blue";
+    if(r<85)return"epic";
+    return"mythic";
+  }
+  if(type==="dubai"){
+    if(r<50)return"epic";
+    if(r<85)return"mythic";
+    return"legend";
+  }
+}
 
-const dustCase={
-  legend:[
-    ["Золотая чаша","🏆"],
-    ["Золотая медаль","🥇"],
-    ["Золотая кепка Беки","🧢✨"],
-    ["Золотой клык","🦷✨"],
-    ["Галстук Беки","👔✨"]
-  ],
-  mythic:[
-    ["Серебряный кроссовок","👟✨"],
-    ["Кроссовок","👟"],
-    ["Книга по математике","📘"],
-    ["Шаурма","🌯"],
-    ["Квартира в центре Бишкека","🏢"]
-  ]
-};
+function openCase(type,price,count){
+  if(coins<price*count)return alert("Недостаточно CC");
+  coins-=price*count;
+
+  if(count===1) animateRoll(type);
+
+  for(let i=0;i<count;i++){
+    let r=rollRarity(type);
+    let arr=loot[type][r];
+    let emoji=arr[Math.floor(Math.random()*arr.length)];
+    inventory.push({emoji,rarity:r});
+  }
+  save();
+}
+
+function animateRoll(type){
+  const roll=document.getElementById("roll");
+  const items=document.getElementById("rollItems");
+  items.innerHTML="";
+  roll.style.display="block";
+  items.style.left="0px";
+  items.style.transition="none";
+
+  for(let i=0;i<20;i++){
+    let r=rollRarity(type);
+    let e=loot[type][r][0];
+    items.innerHTML+=`<div class="rollItem ${r}"><span>${e}</span></div>`;
+  }
+
+  setTimeout(()=>{
+    items.style.transition="left 3s cubic-bezier(.1,.9,.2,1)";
+    items.style.left="-2000px";
+  },100);
+
+  setTimeout(()=>roll.style.display="none",3200);
+}
+
+function openDust(){
+  if(dust<5000)return alert("Не хватает пыли");
+  dust-=5000;
+  for(let i=0;i<10;i++){
+    inventory.push({emoji:"🏆",rarity:i<5?"legend":"mythic"});
+  }
+  save();
+}
 
 function save(){
   localStorage.setItem("coins",coins);
   localStorage.setItem("dust",dust);
   localStorage.setItem("inventory",JSON.stringify(inventory));
-  coinsEl.innerText=coins;
-  dustEl.innerText=dust;
+  document.getElementById("coins").innerText=coins;
+  document.getElementById("dust").innerText=dust;
 }
-const coinsEl=document.getElementById("coins");
-const dustEl=document.getElementById("dust");
-save();
 
 function show(id){
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   renderInv();
-}
-
-function openDust(){
-  if(dust<5000) return alert("Не хватает пыли");
-  dust-=5000;
-
-  for(let i=0;i<10;i++){
-    let r=i<5?"legend":"mythic";
-    let it=dustCase[r][Math.floor(Math.random()*dustCase[r].length)];
-    inventory.push({name:it[0],emoji:it[1],rarity:r});
-  }
-  save();
-  alert("💨 Пыльный кейс открыт!");
 }
 
 function renderInv(){
@@ -267,29 +310,11 @@ function renderInv(){
   inventory.forEach((it,i)=>{
     let d=document.createElement("div");
     d.className="item "+it.rarity;
-    d.innerHTML=`<span>${it.emoji}</span><b>${it.name}</b><br>`;
-    
-    let sell=document.createElement("button");
-    sell.innerText="Продать";
-    sell.onclick=()=>{
-      coins+=sellPrice[it.rarity]||0;
-      inventory.splice(i,1);
-      save(); renderInv();
-    };
-
-    let dis=document.createElement("button");
-    dis.innerText="Распылить";
-    dis.onclick=()=>{
-      dust+=dustValue[it.rarity]||0;
-      inventory.splice(i,1);
-      save(); renderInv();
-    };
-
-    d.appendChild(sell);
-    d.appendChild(dis);
+    d.innerHTML=`<span>${it.emoji}</span><br>${it.rarity}`;
     inv.appendChild(d);
   });
 }
+save();
 </script>
 
 </body>

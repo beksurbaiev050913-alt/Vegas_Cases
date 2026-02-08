@@ -2,236 +2,313 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Vegas_Kazik</title>
+<title>Beka-Depaet-BezOstanovki</title>
 
 <style>
-*{box-sizing:border-box;font-family:Arial}
+*{box-sizing:border-box;font-family:Segoe UI,sans-serif}
 body{
   margin:0;
-  background:radial-gradient(circle at top,#3a005f,#000);
+  background:radial-gradient(circle at top,#2a0040,#000);
   color:#fff;
-  text-align:center;
 }
-h1{color:#ff5cff}
+header{
+  text-align:center;
+  padding:20px;
+  font-size:30px;
+  font-weight:900;
+  color:#ff4dff;
+  text-shadow:0 0 15px #ff4dff;
+}
+#balance{text-align:center;font-size:20px;margin-bottom:10px}
 
+nav{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  background:#140020;
+  padding:10px;
+}
 nav button{
-  background:#00eaff;
-  color:#000;
-  border:none;
-  border-radius:12px;
-  padding:8px 14px;
-  margin:4px;
+  border:2px solid #00f7ff;
+  background:none;
+  color:#fff;
+  padding:10px 18px;
+  border-radius:25px;
   cursor:pointer;
 }
+nav button:hover{background:#00f7ff;color:#000}
 
+.section{display:none;padding:20px}
+.section.active{display:block}
+
+/* ---------- CASES ---------- */
+.cases{
+  display:flex;
+  gap:30px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
 .case{
-  display:inline-block;
-  background:#222;
-  padding:15px;
-  border-radius:16px;
-  margin:10px;
-  width:160px;
+  width:230px;
+  padding:20px;
+  border-radius:25px;
+  text-align:center;
+}
+.case .emoji{font-size:48px}
+.case button{
+  width:100%;
+  margin-top:10px;
+  padding:10px;
+  border-radius:20px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-.case span{font-size:32px}
+.bronze{background:linear-gradient(145deg,#8b5a2b,#c68642)}
+.silverCase{background:linear-gradient(145deg,#9aa7b2,#4facfe)}
+.gold{background:linear-gradient(145deg,#ffd700,#ff9900);color:#000}
+.spring{background:linear-gradient(145deg,#2ecc71,#a3ffcb);color:#000}
 
+/* ---------- ROLL ---------- */
 #roll{
+  margin:30px auto;
   width:90%;
-  height:120px;
-  margin:20px auto;
+  height:140px;
   border:3px solid #fff;
   overflow:hidden;
   position:relative;
-  border-radius:15px;
   display:none;
+  border-radius:20px;
 }
-#line{
+#rollLine{
   position:absolute;
   left:50%;
   top:0;
   width:4px;
   height:100%;
   background:red;
+  z-index:5;
 }
-#items{
+#rollItems{
   display:flex;
   position:absolute;
-  left:0;
-  top:0;
   height:100%;
 }
-
 .rollItem{
-  width:120px;
+  width:140px;
   margin:10px;
-  border-radius:12px;
+  border-radius:15px;
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
   font-weight:bold;
 }
+.rollItem span{font-size:34px}
+.win{outline:4px solid gold;box-shadow:0 0 25px gold}
 
+/* ---------- INVENTORY ---------- */
+.inventory{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
 .item{
-  display:inline-block;
-  width:170px;
-  margin:8px;
-  padding:10px;
+  width:220px;
+  padding:15px;
+  border-radius:20px;
+  text-align:center;
+}
+.item span{font-size:40px}
+.item small{display:block;margin:6px 0;opacity:.9}
+.item button{
+  width:100%;
+  padding:8px;
+  border:none;
   border-radius:15px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
+.silver{background:#aaa}
+.green{background:#2ecc71}
 .blue{background:#3498db}
 .epic{background:#9b59b6}
-.mythic{background:#e67e22}
+.mythic{background:#e74c3c}
 .legend{background:#f1c40f;color:#000}
 
-.hidden{display:none}
+/* ---------- BLACK PASS ---------- */
+.pass{
+  max-width:800px;
+  margin:auto;
+}
+.pass-header{
+  text-align:center;
+  font-size:26px;
+  margin-bottom:15px;
+  color:#00f7ff;
+}
+.pass-level{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#1c0030;
+  padding:12px 18px;
+  border-radius:20px;
+  margin-bottom:12px;
+}
+.pass-level.locked{opacity:.4}
+.pass-level button{
+  padding:6px 14px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.free{color:#fff}
+.premium{color:#ffd700}
 </style>
 </head>
 
 <body>
 
-<h1>🎰 Vegas_Kazik</h1>
-<div>
-  Баланс: <b id="cc"></b> CC |
-  Пыль: <b id="dust"></b>
-</div>
+<header>Бека депает — и ты депай!</header>
+<div id="balance">Баланс: <span id="coins">1800</span> CC</div>
 
 <nav>
   <button onclick="show('cases')">Кейсы</button>
-  <button onclick="show('inv')">Мои герои</button>
+  <button onclick="show('inventory')">Мои герои</button>
+  <button onclick="show('pass')">Black Pass</button>
 </nav>
 
-<div id="cases">
-  <div class="case"><span>📦</span><br>Новичок<br>100 CC<br><button onclick="openCase('starter')">Открыть</button></div>
-  <div class="case"><span>🧊</span><br>Стандарт<br>300 CC<br><button onclick="openCase('standard')">Открыть</button></div>
-  <div class="case"><span>💎</span><br>Дубай<br>600 CC<br><button onclick="openCase('dubai')">Открыть</button></div>
-  <div class="case"><span>🌫️</span><br>Пыльный<br>5000 пыли<br><button onclick="openCase('dusty')">Открыть</button></div>
+<!-- ---------- CASES ---------- -->
+<div id="cases" class="section active">
+  <div class="cases">
+    <div class="case bronze">
+      <div class="emoji">📦</div>
+      <h3>Новичок</h3>
+      <p>90 CC</p>
+      <button onclick="openCase('novice',90)">Открыть</button>
+    </div>
+    <div class="case silverCase">
+      <div class="emoji">🧊</div>
+      <h3>Стандартный</h3>
+      <p>230 CC</p>
+      <button onclick="openCase('standard',230)">Открыть</button>
+    </div>
+    <div class="case gold">
+      <div class="emoji">💎</div>
+      <h3>Дубайский</h3>
+      <p>499 CC</p>
+      <button onclick="openCase('dubai',499)">Открыть</button>
+    </div>
+    <div class="case spring">
+      <div class="emoji">🌸</div>
+      <h3>Весенний</h3>
+      <p>699 CC</p>
+      <button onclick="openCase('spring',699)">Открыть</button>
+    </div>
+  </div>
 
   <div id="roll">
-    <div id="line"></div>
-    <div id="items"></div>
+    <div id="rollLine"></div>
+    <div id="rollItems"></div>
   </div>
 </div>
 
-<div id="inv" class="hidden"></div>
+<!-- ---------- INVENTORY ---------- -->
+<div id="inventory" class="section">
+  <div class="inventory" id="inv"></div>
+</div>
+
+<!-- ---------- BLACK PASS ---------- -->
+<div id="pass" class="section">
+  <div class="pass">
+    <div class="pass-header">🔥 Black Pass</div>
+    <div id="passLevels"></div>
+    <button onclick="buyPremium()">💎 Купить Premium Pass (999 CC)</button>
+  </div>
+</div>
 
 <script>
-let cc = Number(localStorage.getItem("cc")) || 2000;
-let dust = Number(localStorage.getItem("dust")) || 0;
-let inv = JSON.parse(localStorage.getItem("inv")) || [];
+let coins = Number(localStorage.getItem("coins")) || 1800;
+let inventory = JSON.parse(localStorage.getItem("inventory")) || [];
+let passLevel = Number(localStorage.getItem("passLevel")) || 1;
+let premium = localStorage.getItem("premium")==="1";
 
-const prices={
-  starter:{cc:100},
-  standard:{cc:300},
-  dubai:{cc:600},
-  dusty:{dust:5000}
-};
+const coinsEl=document.getElementById("coins");
+const inv=document.getElementById("inv");
 
-const loot={
-  starter:[
-    {n:"Блокнот",r:"blue",p:230,d:230},
-    {n:"Флешка",r:"blue",p:230,d:230},
-    {n:"Шапка",r:"epic",p:370,d:370}
-  ],
-  standard:[
-    {n:"Мышка",r:"blue",p:230,d:230},
-    {n:"Кроссовок",r:"epic",p:370,d:370},
-    {n:"Остров",r:"mythic",p:3500,d:780}
-  ],
-  dubai:[
-    {n:"Очки",r:"epic",p:370,d:370},
-    {n:"Квартира Бишкек",r:"mythic",p:3500,d:780},
-    {n:"Золотая медаль",r:"legend",p:11600,d:1300}
-  ],
-  dusty:[
-    {n:"Золотая чаша",r:"legend",p:11600},
-    {n:"Золотая медаль",r:"legend",p:11600},
-    {n:"Золотая кепка Беки",r:"legend",p:11600},
-    {n:"Золотой клык",r:"legend",p:11600},
-    {n:"Галстук Беки",r:"legend",p:11600},
-    {n:"Серебряный кроссовок",r:"mythic",p:3500},
-    {n:"Книга по математике",r:"mythic",p:3500},
-    {n:"Шаурма",r:"mythic",p:3500},
-    {n:"Кроссовок",r:"mythic",p:3500},
-    {n:"Квартира в центре Бишкека",r:"mythic",p:3500}
-  ]
-};
+const passRewards=[
+ {free:"+100 CC",premium:"Стандартный кейс"},
+ {free:"Новичок кейс",premium:"+300 CC"},
+ {free:"+200 CC",premium:"Дубайский кейс"},
+ {free:"Эпик предмет",premium:"Весенний кейс"}
+];
 
 function save(){
-  localStorage.setItem("cc",cc);
-  localStorage.setItem("dust",dust);
-  localStorage.setItem("inv",JSON.stringify(inv));
-  document.getElementById("cc").innerText=cc;
-  document.getElementById("dust").innerText=dust;
+  localStorage.setItem("coins",coins);
+  localStorage.setItem("inventory",JSON.stringify(inventory));
+  localStorage.setItem("passLevel",passLevel);
+  localStorage.setItem("premium",premium?"1":"0");
+  coinsEl.innerText=coins;
 }
 
 function show(id){
-  document.getElementById("cases").classList.add("hidden");
-  document.getElementById("inv").classList.add("hidden");
-  document.getElementById(id).classList.remove("hidden");
-  if(id==="inv") renderInv();
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  renderInv();
+  renderPass();
 }
 
-function openCase(type){
-  let price=prices[type];
-  if(price.cc && cc<price.cc) return alert("Мало CC");
-  if(price.dust && dust<price.dust) return alert("Мало пыли");
-
-  if(price.cc) cc-=price.cc;
-  if(price.dust) dust-=price.dust;
-
-  let pool=loot[type];
-  let win=pool[Math.floor(Math.random()*pool.length)];
-
-  let roll=document.getElementById("roll");
-  let items=document.getElementById("items");
-  items.innerHTML="";
-  roll.style.display="block";
-  items.style.left="0px";
-  items.style.transition="none";
-
-  for(let i=0;i<20;i++){
-    let it=pool[Math.floor(Math.random()*pool.length)];
-    items.innerHTML+=`<div class="rollItem ${it.r}">${it.n}</div>`;
-  }
-
-  setTimeout(()=>{
-    items.style.transition="left 3s ease";
-    items.style.left="-1600px";
-  },50);
-
-  setTimeout(()=>{
-    inv.push(win);
-    save();
-    roll.style.display="none";
-    alert("🎉 Ты выбил: "+win.n);
-  },3100);
+/* ---------- PASS ---------- */
+function renderPass(){
+  passLevels.innerHTML="";
+  passRewards.forEach((r,i)=>{
+    let lvl=i+1;
+    let d=document.createElement("div");
+    d.className="pass-level"+(passLevel<lvl?" locked":"");
+    d.innerHTML=`
+      <div>
+        <b>Уровень ${lvl}</b><br>
+        <span class="free">🎁 ${r.free}</span><br>
+        <span class="premium">💎 ${r.premium}</span>
+      </div>
+      ${passLevel===lvl?'<button onclick="claim('+lvl+')">Забрать</button>':""}
+    `;
+    passLevels.appendChild(d);
+  });
 }
 
+function claim(lvl){
+  if(lvl!==passLevel) return;
+  coins+=100;
+  if(premium) coins+=200;
+  passLevel++;
+  save();
+  alert("🎉 Награды получены!");
+  renderPass();
+}
+
+function buyPremium(){
+  if(premium) return alert("Уже куплено");
+  if(coins<999) return alert("Не хватает CC");
+  coins-=999;
+  premium=true;
+  save();
+  alert("💎 Premium Pass активирован!");
+}
+
+/* ---------- INVENTORY ---------- */
 function renderInv(){
-  let d=document.getElementById("inv");
-  d.innerHTML="";
-  inv.forEach((it,i)=>{
-    let e=document.createElement("div");
-    e.className="item "+it.r;
-    e.innerHTML=`<b>${it.n}</b><br>${it.p} CC<br>`;
-    let s=document.createElement("button");
-    s.innerText="Продать";
-    s.onclick=()=>{
-      cc+=it.p;
-      inv.splice(i,1);
-      save();renderInv();
-    };
-    let dis=document.createElement("button");
-    dis.innerText="Распылить";
-    dis.onclick=()=>{
-      dust+=it.d||0;
-      inv.splice(i,1);
-      save();renderInv();
-    };
-    e.appendChild(s);
-    e.appendChild(dis);
-    d.appendChild(e);
+  inv.innerHTML="";
+  inventory.forEach((it,i)=>{
+    let d=document.createElement("div");
+    d.className="item "+it.rarity;
+    d.innerHTML=`<span>${it.emoji}</span><b>${it.name}</b>`;
+    inv.appendChild(d);
   });
 }
 

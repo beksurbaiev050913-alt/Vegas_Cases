@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Car Cases</title>
+  <title>Бека Prime - Возвращение Vegas - Cases</title>
   <style>
     * { box-sizing: border-box; }
     html, body {
@@ -13,15 +13,14 @@
       font-family: Arial, Helvetica, sans-serif;
       color: #fff;
       background:
-        radial-gradient(circle at 20% 20%, rgba(0,255,255,0.16), transparent 25%),
-        radial-gradient(circle at 80% 30%, rgba(255,0,200,0.16), transparent 28%),
-        radial-gradient(circle at 50% 80%, rgba(0,120,255,0.16), transparent 30%),
-        linear-gradient(135deg, #070814, #111433 35%, #160f2e 65%, #07111b);
+        radial-gradient(circle at 20% 20%, rgba(0,255,255,.16), transparent 24%),
+        radial-gradient(circle at 80% 30%, rgba(255,0,200,.15), transparent 25%),
+        radial-gradient(circle at 55% 85%, rgba(80,120,255,.16), transparent 28%),
+        linear-gradient(135deg, #070814, #10152f 35%, #150d2b 68%, #07111b);
       overflow-x: hidden;
     }
 
-    body::before,
-    body::after {
+    body::before, body::after {
       content: "";
       position: fixed;
       inset: 0;
@@ -32,30 +31,30 @@
     body::before {
       background:
         linear-gradient(90deg, rgba(0,255,255,.05) 1px, transparent 1px),
-        linear-gradient(rgba(255,0,200,.04) 1px, transparent 1px);
-      background-size: 38px 38px, 38px 38px;
+        linear-gradient(rgba(255,0,200,.035) 1px, transparent 1px);
+      background-size: 40px 40px;
       animation: gridMove 18s linear infinite;
       opacity: .35;
     }
 
     body::after {
       background:
-        radial-gradient(circle at 25% 25%, rgba(0,255,255,.22), transparent 18%),
-        radial-gradient(circle at 75% 55%, rgba(255,0,190,.2), transparent 18%),
-        radial-gradient(circle at 55% 85%, rgba(90,0,255,.2), transparent 18%);
-      filter: blur(38px);
+        radial-gradient(circle at 25% 25%, rgba(0,255,255,.18), transparent 16%),
+        radial-gradient(circle at 75% 55%, rgba(255,0,180,.16), transparent 18%),
+        radial-gradient(circle at 50% 80%, rgba(95,0,255,.18), transparent 18%);
+      filter: blur(45px);
       animation: glowShift 8s ease-in-out infinite alternate;
-      opacity: .75;
+      opacity: .8;
     }
 
     @keyframes gridMove {
       from { transform: translateY(0); }
-      to { transform: translateY(38px); }
+      to { transform: translateY(40px); }
     }
 
     @keyframes glowShift {
       from { transform: translate(0,0) scale(1); }
-      to { transform: translate(12px,-8px) scale(1.08); }
+      to { transform: translate(14px,-8px) scale(1.08); }
     }
 
     .app {
@@ -66,37 +65,37 @@
     }
 
     .panel {
-      background: rgba(10, 16, 35, 0.74);
-      border: 1px solid rgba(0,255,255,0.22);
+      background: rgba(10,16,35,.78);
+      border: 1px solid rgba(0,255,255,.18);
       border-radius: 22px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 20px rgba(0,255,255,0.08), 0 0 20px rgba(255,0,200,0.08);
+      box-shadow: 0 0 20px rgba(0,255,255,.08), 0 0 20px rgba(255,0,200,.08);
+      backdrop-filter: blur(9px);
     }
 
     .topbar {
       display: flex;
       justify-content: space-between;
       gap: 16px;
-      flex-wrap: wrap;
       align-items: flex-start;
+      flex-wrap: wrap;
       margin-bottom: 18px;
     }
 
     .stats-mini {
-      width: 310px;
+      width: 320px;
       padding: 16px;
     }
 
     .stats-mini h3 {
-      margin: 0 0 12px;
-      color: #7df9ff;
-      font-size: 19px;
+      margin: 0 0 10px;
+      color: #88f9ff;
+      font-size: 20px;
     }
 
-    .stats-mini .line {
+    .line {
       margin: 7px 0;
       font-size: 14px;
-      color: #eafcff;
+      color: #e9f8ff;
     }
 
     .title-box {
@@ -121,9 +120,9 @@
 
     .currency-bar {
       display: flex;
+      justify-content: center;
       gap: 10px;
       flex-wrap: wrap;
-      justify-content: center;
       margin-top: 14px;
     }
 
@@ -133,7 +132,6 @@
       background: rgba(255,255,255,.07);
       border: 1px solid rgba(255,255,255,.12);
       font-weight: 700;
-      box-shadow: 0 0 14px rgba(255,255,255,.04);
     }
 
     .nav-buttons {
@@ -149,17 +147,17 @@
       border-radius: 14px;
       padding: 12px 16px;
       font-size: 15px;
-      font-weight: bold;
+      font-weight: 700;
       cursor: pointer;
       color: #fff;
-      background: linear-gradient(135deg, rgba(0,180,255,.88), rgba(150,0,255,.88));
-      box-shadow: 0 0 16px rgba(0,180,255,0.18), 0 0 18px rgba(255,0,200,0.14);
+      background: linear-gradient(135deg, rgba(0,180,255,.9), rgba(145,0,255,.9));
+      box-shadow: 0 0 16px rgba(0,180,255,.18), 0 0 18px rgba(255,0,200,.14);
       transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
     }
 
     button:hover, .link-btn:hover {
       transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 0 24px rgba(0,255,255,0.24), 0 0 24px rgba(255,0,200,0.18);
+      box-shadow: 0 0 24px rgba(0,255,255,.24), 0 0 24px rgba(255,0,200,.18);
     }
 
     button:disabled {
@@ -168,34 +166,34 @@
       transform: none;
     }
 
-    .danger-btn {
-      background: linear-gradient(135deg, rgba(255,90,90,.9), rgba(255,0,120,.9));
-    }
-
     .gold-btn {
-      background: linear-gradient(135deg, rgba(255,170,0,.95), rgba(255,215,90,.95));
-      color: #241600;
+      background: linear-gradient(135deg, rgba(255,180,20,.95), rgba(255,215,90,.95));
+      color: #241500;
     }
 
-    .cases-title {
+    .danger-btn {
+      background: linear-gradient(135deg, rgba(255,90,90,.95), rgba(255,0,120,.95));
+    }
+
+    .section-title {
       text-align: center;
       font-size: 28px;
-      margin: 10px 0 18px;
+      margin: 10px 0 16px;
       text-shadow: 0 0 12px #00f0ff;
     }
 
-    .cases-grid {
+    .cases-grid, .inventory-grid, .store-grid, .pass-grid, .quest-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 16px;
-      margin-bottom: 20px;
+      gap: 14px;
     }
 
-    .case-card {
-      padding: 16px;
+    .case-card, .item-card, .quest-card, .pass-level-card {
+      padding: 15px;
       position: relative;
-      overflow: hidden;
-      min-height: 240px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
     }
 
     .case-card::before {
@@ -203,61 +201,78 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(145deg, rgba(255,255,255,.04), transparent 45%, rgba(0,255,255,.06));
+      border-radius: 18px;
       pointer-events: none;
     }
 
     .case-icon {
-      font-size: 46px;
-      margin-bottom: 10px;
+      font-size: 44px;
+      margin-bottom: 8px;
     }
 
-    .case-card h3 {
-      margin: 6px 0 10px;
-      font-size: 22px;
+    .case-card h3, .item-card h4, .pass-level-card h4, .quest-card h4 {
+      margin: 0 0 8px;
+      font-size: 20px;
     }
 
-    .case-card .price {
+    .price {
       font-size: 18px;
       font-weight: 700;
-      color: #ffe082;
-      margin-bottom: 10px;
+      color: #ffd978;
+      margin-bottom: 8px;
     }
 
-    .case-card .small {
-      color: #cfe8ff;
+    .small, .meta {
+      color: #d5ecff;
       font-size: 14px;
       margin: 5px 0;
     }
 
-    .case-card .bottom-btn {
-      margin-top: 14px;
-      width: 100%;
-    }
-
-    .season-badge {
+    .season-badge, .tag {
       display: inline-block;
-      padding: 6px 10px;
+      padding: 5px 9px;
       border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
-      background: rgba(255,0,170,.16);
-      border: 1px solid rgba(255,0,170,.4);
-      color: #ffd9f5;
       margin-bottom: 8px;
+      border: 1px solid rgba(255,255,255,.15);
     }
 
-    .legend-text { color: #ffd45a; font-weight: 700; }
-    .myth-text { color: #ff6adf; font-weight: 700; }
-    .epic-text { color: #b26cff; font-weight: 700; }
-    .blue-text { color: #53b6ff; font-weight: 700; }
-    .green-text { color: #76ff8f; font-weight: 700; }
-    .silver-text { color: #d5dce3; font-weight: 700; }
+    .season-badge {
+      background: rgba(255,0,170,.16);
+      color: #ffd8f1;
+    }
+
+    .rarity-silver { background: rgba(210,220,230,.12); color: #dce4ea; }
+    .rarity-green { background: rgba(40,255,110,.12); color: #88ff9e; }
+    .rarity-blue { background: rgba(45,150,255,.14); color: #69b9ff; }
+    .rarity-epic { background: rgba(170,70,255,.15); color: #cf9cff; }
+    .rarity-mythic { background: rgba(255,70,190,.15); color: #ff8fe0; }
+    .rarity-legendary { background: rgba(255,190,40,.15); color: #ffd45e; }
+
+    .silver-text { color: #dce4ea; font-weight: 700; }
+    .green-text { color: #88ff9e; font-weight: 700; }
+    .blue-text { color: #69b9ff; font-weight: 700; }
+    .epic-text { color: #cf9cff; font-weight: 700; }
+    .myth-text { color: #ff8fe0; font-weight: 700; }
+    .legend-text { color: #ffd45e; font-weight: 700; }
+
+    .case-stock {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #bfe7ff;
+    }
+
+    .bottom-btn {
+      margin-top: 12px;
+      width: 100%;
+    }
 
     .modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(5, 8, 18, 0.76);
+      background: rgba(5,8,18,.78);
       z-index: 999;
       align-items: center;
       justify-content: center;
@@ -266,14 +281,14 @@
     }
 
     .modal-content {
-      width: min(1100px, 100%);
+      width: min(1120px, 100%);
       max-height: 90vh;
       overflow: auto;
       padding: 18px;
       border-radius: 24px;
-      background: rgba(12, 17, 38, 0.96);
-      border: 1px solid rgba(0,255,255,0.24);
-      box-shadow: 0 0 26px rgba(0,255,255,0.1), 0 0 28px rgba(255,0,200,0.08);
+      background: rgba(12,17,38,.96);
+      border: 1px solid rgba(0,255,255,.22);
+      box-shadow: 0 0 26px rgba(0,255,255,.1), 0 0 28px rgba(255,0,200,.08);
     }
 
     .modal-header {
@@ -290,14 +305,10 @@
       text-shadow: 0 0 10px #00f0ff;
     }
 
-    .close-btn {
-      min-width: 110px;
-    }
-
     .wheel-wrap {
       display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 20px;
+      grid-template-columns: 1fr 330px;
+      gap: 18px;
       align-items: center;
     }
 
@@ -305,7 +316,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
     .pointer {
@@ -315,7 +326,7 @@
       border-right: 18px solid transparent;
       border-top: 36px solid #ff4343;
       filter: drop-shadow(0 0 10px rgba(255,67,67,.7));
-      margin-bottom: -6px;
+      margin-bottom: -4px;
       z-index: 2;
     }
 
@@ -323,13 +334,17 @@
       background: radial-gradient(circle, rgba(255,255,255,.04), rgba(255,255,255,.01));
       border-radius: 50%;
       border: 6px solid rgba(255,255,255,.12);
-      box-shadow:
-        0 0 20px rgba(0,255,255,.12),
-        0 0 28px rgba(255,0,200,.12),
-        inset 0 0 24px rgba(255,255,255,.05);
+      box-shadow: 0 0 18px rgba(0,255,255,.12), 0 0 22px rgba(255,0,200,.12);
       width: 100%;
       max-width: 460px;
-      aspect-ratio: 1/1;
+      aspect-ratio: 1 / 1;
+    }
+
+    .wheel-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .wheel-side {
@@ -340,7 +355,7 @@
     }
 
     .wheel-side .case-name {
-      font-size: 23px;
+      font-size: 24px;
       margin-bottom: 8px;
       font-weight: 700;
     }
@@ -351,102 +366,56 @@
       font-size: 14px;
     }
 
-    .wheel-side .drop-name {
+    .drop-name {
       margin-top: 10px;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
-      min-height: 48px;
+      min-height: 44px;
     }
 
-    .result-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .inventory-grid, .store-grid, .pass-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 14px;
-    }
-
-    .item-card {
-      padding: 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-      position: relative;
-    }
-
-    .item-card h4 {
-      margin: 0 0 8px;
-      font-size: 20px;
-    }
-
-    .item-card .meta {
-      font-size: 14px;
-      color: #d8ebff;
-      margin: 4px 0;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      border: 1px solid rgba(255,255,255,.15);
-    }
-
-    .rarity-silver { background: rgba(210,220,230,.12); color: #dce4ea; }
-    .rarity-green { background: rgba(30,255,80,.12); color: #7fff97; }
-    .rarity-blue { background: rgba(40,150,255,.14); color: #64b8ff; }
-    .rarity-epic { background: rgba(170,70,255,.15); color: #cf9cff; }
-    .rarity-mythic { background: rgba(255,70,190,.15); color: #ff8fe0; }
-    .rarity-legendary { background: rgba(255,190,40,.15); color: #ffd45e; }
-
-    .item-actions {
+    .result-actions, .item-actions {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       margin-top: 12px;
     }
 
-    .item-actions button {
+    .result-actions button, .item-actions button {
       flex: 1;
-      min-width: 100px;
+      min-width: 110px;
       padding: 10px 10px;
       font-size: 13px;
     }
 
-    .empty-text {
-      text-align: center;
-      color: #bcdcff;
-      font-size: 17px;
-      padding: 30px 10px;
-    }
-
-    .pass-top {
-      margin-bottom: 16px;
-      padding: 14px;
+    .season-store-banner, .pass-top {
+      margin-bottom: 14px;
+      padding: 16px;
       border-radius: 18px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(135deg, rgba(255,170,0,.14), rgba(255,0,120,.1));
+      border: 1px solid rgba(255,200,80,.22);
     }
 
-    .pass-top .title {
+    .season-store-banner h3, .pass-top .title {
+      margin: 0 0 8px;
       font-size: 24px;
+      color: #ffd978;
       font-weight: 700;
-      margin-bottom: 8px;
-      color: #ffe082;
     }
 
-    .progress-wrap {
-      margin: 8px 0 4px;
+    .reward-box {
+      margin: 7px 0;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+      font-size: 14px;
+      color: #e9f6ff;
     }
 
+    .claimed {
+      opacity: .6;
+    }
+
+    .progress-wrap { margin: 10px 0 6px; }
     .progress-bar {
       width: 100%;
       height: 16px;
@@ -463,44 +432,8 @@
       box-shadow: 0 0 16px rgba(0,219,255,.25);
     }
 
-    .pass-level-card {
-      padding: 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-    }
-
-    .pass-level-card h4 {
-      margin: 0 0 10px;
-      font-size: 20px;
-    }
-
-    .reward-box {
-      margin: 7px 0;
-      padding: 9px 10px;
-      border-radius: 12px;
-      background: rgba(255,255,255,.04);
-      font-size: 14px;
-      color: #e9f6ff;
-    }
-
-    .claimed {
-      opacity: .62;
-      filter: grayscale(.2);
-    }
-
-    .season-store-banner {
-      margin-bottom: 14px;
-      padding: 16px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(255,170,0,.14), rgba(255,0,120,.1));
-      border: 1px solid rgba(255,200,80,.22);
-    }
-
-    .season-store-banner h3 {
-      margin: 0 0 8px;
-      color: #ffd978;
-      font-size: 24px;
+    .quest-card.done {
+      opacity: .6;
     }
 
     .craft-box {
@@ -508,6 +441,21 @@
       padding: 38px 16px;
       font-size: 20px;
       color: #dff6ff;
+    }
+
+    .empty-text {
+      text-align: center;
+      padding: 26px 10px;
+      color: #cde8ff;
+      grid-column: 1 / -1;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #c6def8;
+      font-size: 13px;
+      margin-top: 18px;
+      opacity: .85;
     }
 
     .toast {
@@ -536,15 +484,7 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    .footer-note {
-      text-align: center;
-      color: #c6def8;
-      font-size: 13px;
-      margin-top: 18px;
-      opacity: .85;
-    }
-
-    @media (max-width: 900px) {
+    @media (max-width: 920px) {
       .wheel-wrap {
         grid-template-columns: 1fr;
       }
@@ -553,19 +493,12 @@
       }
     }
 
-    @media (max-width: 600px) {
-      .title-box h1 {
-        font-size: 28px;
-      }
-      .cases-title {
-        font-size: 24px;
-      }
-      .modal-content {
-        padding: 14px;
-      }
-      .modal-header h2 {
-        font-size: 22px;
-      }
+    @media (max-width: 620px) {
+      .title-box h1 { font-size: 28px; }
+      .section-title { font-size: 24px; }
+      .modal-header h2 { font-size: 22px; }
+      .wheel-controls { flex-direction: column; width: 100%; }
+      .wheel-controls button { width: 100%; }
     }
   </style>
 </head>
@@ -578,21 +511,22 @@
         <div class="line">🧪 Пыль: <span id="statDust">0</span></div>
         <div class="line">🎟 Premium Pass: <span id="statPremium">Нет</span></div>
         <div class="line">⭐ Уровень аккаунта: <span id="statLevel">1</span></div>
-        <div class="line">✨ EXP: <span id="statExp">0</span> / <span id="statExpNeed">8</span></div>
+        <div class="line">✨ EXP аккаунта: <span id="statAccExp">0</span> / <span id="statAccNeed">8</span></div>
+        <div class="line">🎫 Уровень BP: <span id="statBpLevel">1</span></div>
+        <div class="line">⚡ BP EXP: <span id="statBpExp">0</span> / 25</div>
         <div class="line">📦 Открыто кейсов: <span id="statOpened">0</span></div>
         <div class="line">🏆 Легендарок: <span id="statLegends">0</span></div>
       </div>
 
       <div class="panel title-box">
-        <h1>Japan Legends</h1>
-        <p><h1 style="margin:0; font-size:36px; text-shadow:0 0 10px #00f0ff, 0 0 22px #ff00d4; letter-spacing:1px;">
-  Бека Prime - Возвращение Vegas - Cases
-</h1></p>
+        <h1>Бека Prime - Возвращение Vegas - Cases</h1>
+        <p>Крути кейсы, выбивай топ тачки, выполняй квесты и качай Battle Pass</p>
 
         <div class="currency-bar">
           <div class="currency-chip">💎 Алмазы: <span id="diamondsLabel">0</span></div>
           <div class="currency-chip">🧪 Пыль: <span id="dustLabel">0</span></div>
           <div class="currency-chip">⭐ Lv. <span id="levelLabel">1</span></div>
+          <div class="currency-chip">🎫 BP Lv. <span id="bpLevelChip">1</span></div>
         </div>
       </div>
     </div>
@@ -601,16 +535,16 @@
       <button onclick="openStore()">🛒 Магазин</button>
       <button onclick="openInventory()">🚗 Мои предметы</button>
       <button onclick="openBattlePass()">🎟 Battle Pass</button>
+      <button onclick="openQuests()">📋 Квесты</button>
       <button onclick="openCraft()">🛠 Крафт</button>
       <a class="link-btn" href="https://t.me/KosmosHardoxxx" target="_blank">🆘 Тех.Поддержка</a>
     </div>
 
-    <div class="cases-title">📦 Кейсы сезона <span class="legend-text">Japan Legends</span></div>
-
+    <div class="section-title">📦 Кейсы сезона <span class="legend-text">Japan Legends</span></div>
     <div class="cases-grid" id="casesGrid"></div>
 
     <div class="footer-note">
-      Сезонная машина в магазине доступна ограниченное время. Всё сохраняется автоматически.
+      В battle pass 1 уровень = 25 BP EXP. За каждый квест даётся 50 BP EXP.
     </div>
   </div>
 
@@ -618,14 +552,19 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2>🎡 Открытие кейса</h2>
-        <button class="close-btn" onclick="closeWheelModal()">Закрыть</button>
+        <button onclick="closeWheelModal()">Закрыть</button>
       </div>
 
       <div class="wheel-wrap">
         <div class="wheel-box">
           <div class="pointer"></div>
           <canvas id="wheelCanvas" width="500" height="500"></canvas>
-          <button id="spinBtn" class="gold-btn" onclick="spinWheel()">Крутить колесо</button>
+
+          <div class="wheel-controls">
+            <button id="buyCaseBtn" onclick="buyCase()">💰 Купить</button>
+            <button id="spinBtn" class="gold-btn" onclick="spinWheel()">🎡 SPIN</button>
+            <button onclick="openCaseX10()">🔥 Открыть x10</button>
+          </div>
         </div>
 
         <div class="wheel-side">
@@ -633,7 +572,8 @@
           <p id="wheelCaseInfo">Описание кейса</p>
           <p>💰 Цена: <span id="wheelCasePrice">0</span></p>
           <p>🎯 Главный приз: <span id="wheelMainPrize">-</span></p>
-          <div class="drop-name" id="dropResultText">Нажми на кнопку, чтобы начать</div>
+          <p>📦 Куплено штук: <span id="wheelCaseStock">0</span></p>
+          <div class="drop-name" id="dropResultText">Сначала нажми "Купить", потом SPIN</div>
 
           <div class="result-actions">
             <button id="saveToInventoryBtn" onclick="saveDropToInventory()" disabled>📥 В инвентарь</button>
@@ -649,9 +589,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2>🚗 Мои предметы</h2>
-        <button class="close-btn" onclick="closeInventory()">Закрыть</button>
+        <button onclick="closeInventory()">Закрыть</button>
       </div>
-      <div id="inventoryList" class="inventory-grid"></div>
+      <div class="inventory-grid" id="inventoryList"></div>
     </div>
   </div>
 
@@ -659,7 +599,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2>🛒 Магазин</h2>
-        <button class="close-btn" onclick="closeStore()">Закрыть</button>
+        <button onclick="closeStore()">Закрыть</button>
       </div>
 
       <div class="season-store-banner">
@@ -677,13 +617,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2>🎟 Battle Pass</h2>
-        <button class="close-btn" onclick="closeBattlePass()">Закрыть</button>
+        <button onclick="closeBattlePass()">Закрыть</button>
       </div>
 
       <div class="pass-top">
         <div class="title">Japan Legends Pass</div>
-        <div>Цена премиум-пасса: <b>13 000 💎</b></div>
-        <div style="margin-top:6px;">Уровень: <b id="bpAccountLevel">1</b> | EXP: <b id="bpExpLabel">0</b> / <b id="bpExpNeedLabel">8</b></div>
+        <div>Цена Premium Pass: <b>13 000 💎</b></div>
+        <div style="margin-top:6px;">Уровень BP: <b id="bpLevelLabel">1</b> / 35</div>
+        <div style="margin-top:6px;">BP EXP: <b id="bpExpLabel">0</b> / 25</div>
         <div style="margin-top:6px;">Премиум доступ: <b id="bpPremiumLabel">Нет</b></div>
 
         <div class="progress-wrap">
@@ -702,11 +643,28 @@
     </div>
   </div>
 
+  <div class="modal" id="questsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📋 Квесты</h2>
+        <button onclick="closeQuests()">Закрыть</button>
+      </div>
+
+      <div class="season-store-banner">
+        <h3>Как качать BP</h3>
+        <div>Выполняй задания ниже. Каждый квест даёт <b>50 BP EXP</b>.</div>
+        <div style="margin-top:8px;">1 уровень Battle Pass = <b>25 BP EXP</b>.</div>
+      </div>
+
+      <div class="quest-grid" id="questGrid"></div>
+    </div>
+  </div>
+
   <div class="modal" id="craftModal">
     <div class="modal-content" style="max-width:700px;">
       <div class="modal-header">
         <h2>🛠 Крафт</h2>
-        <button class="close-btn" onclick="closeCraft()">Закрыть</button>
+        <button onclick="closeCraft()">Закрыть</button>
       </div>
       <div class="craft-box">
         <div style="font-size:42px; margin-bottom:12px;">⚙️</div>
@@ -719,23 +677,11 @@
   <div class="toast" id="toast"></div>
 
   <script>
+    const STORAGE_KEY = "beka_prime_vegas_cases_v4";
+
     const SALE_PRICES = {
-      diamonds: {
-        silver: 40,
-        green: 130,
-        blue: 230,
-        epic: 1200,
-        mythic: 2300,
-        legendary: 8000
-      },
-      dust: {
-        silver: 100,
-        green: 300,
-        blue: 700,
-        epic: 1900,
-        mythic: 3500,
-        legendary: 5000
-      }
+      diamonds: { silver: 40, green: 130, blue: 230, epic: 1200, mythic: 2300, legendary: 8000 },
+      dust:     { silver: 100, green: 300, blue: 700, epic: 1900, mythic: 3500, legendary: 5000 }
     };
 
     const RARITY_NAMES = {
@@ -767,19 +713,19 @@
 
     const RARITY_COLORS = {
       silver: "#cad4dc",
-      green: "#3dff74",
-      blue: "#3da9ff",
-      epic: "#a856ff",
-      mythic: "#ff4fd9",
+      green: "#43ff79",
+      blue: "#43a7ff",
+      epic: "#aa56ff",
+      mythic: "#ff50da",
       legendary: "#ffcb43"
     };
 
-    const EXP_GAIN = {
+    const ACCOUNT_EXP_GAIN = {
       newbie: 2,
       standard: 4,
       elite: 7,
-      special: 12,
-      japan: 5
+      japan: 5,
+      special: 12
     };
 
     const CASES = {
@@ -820,7 +766,7 @@
         icon: "🎁",
         price: 249,
         currency: "diamonds",
-        description: "Уже посерьёзнее. Максимум — мифик.",
+        description: "Средний кейс. Максимум — мифик.",
         mainPrize: "Mercedes W212",
         items: [
           { name: "Hyundai Solaris", rarity: "silver" },
@@ -951,40 +897,24 @@
         rarity: "legendary",
         price: 8000,
         type: "seasonal",
-        description: "Лимитная машина сезона. Купить можно только 1 раз и только ограниченное время."
-      },
-      {
-        id: "diamonds_pack_small",
-        name: "Набор алмазов S",
-        rarity: "blue",
-        price: 0,
-        grantDiamonds: 1000,
-        type: "freepack",
-        description: "Бонусный набор для теста игры. Можно взять 1 раз."
-      },
-      {
-        id: "diamonds_pack_medium",
-        name: "Набор алмазов M",
-        rarity: "epic",
-        price: 0,
-        grantDiamonds: 2500,
-        type: "freepack",
-        description: "Ещё один бонусный набор. Можно взять 1 раз."
+        description: "Лимитная машина сезона. Купить можно только один раз."
       }
     ];
 
     const PASS_LEVELS = Array.from({ length: 35 }, (_, i) => {
       const level = i + 1;
-      let freeReward = { type: "diamonds", amount: 120 + level * 8, label: `${120 + level * 8} 💎` };
-      let premiumReward = { type: "dust", amount: 90 + level * 20, label: `${90 + level * 20} 🧪` };
 
-      if (level % 5 === 0) freeReward = { type: "case", caseId: "newbie", label: "Кейс Новичок" };
-      if (level % 7 === 0) premiumReward = { type: "case", caseId: "japan", label: "Japan Style" };
-      if (level === 10) freeReward = { type: "case", caseId: "standard", label: "Стандартный кейс" };
-      if (level === 15) premiumReward = { type: "case", caseId: "elite", label: "Элитный кейс" };
+      let freeReward = { type: "diamonds", amount: 100 + level * 10, label: `${100 + level * 10} 💎` };
+      let premiumReward = { type: "dust", amount: 120 + level * 35, label: `${120 + level * 35} 🧪` };
+
+      if (level % 5 === 0) freeReward = { type: "diamonds", amount: 350 + level * 10, label: `${350 + level * 10} 💎` };
+      if (level % 6 === 0) premiumReward = { type: "diamonds", amount: 500 + level * 15, label: `${500 + level * 15} 💎` };
+
+      if (level === 10) freeReward = { type: "dust", amount: 1500, label: "1500 🧪" };
+      if (level === 15) premiumReward = { type: "caseStock", caseId: "elite", amount: 1, label: "1 Элитный кейс" };
       if (level === 20) premiumReward = { type: "car", item: { name: "Subaru Impreza 80", rarity: "epic", source: "Battle Pass Premium" }, label: "Subaru Impreza 80" };
-      if (level === 25) freeReward = { type: "dust", amount: 2200, label: "2200 🧪" };
-      if (level === 30) premiumReward = { type: "case", caseId: "special", label: "Особый кейс" };
+      if (level === 25) freeReward = { type: "caseStock", caseId: "japan", amount: 1, label: "1 Japan Style" };
+      if (level === 30) premiumReward = { type: "caseStock", caseId: "special", amount: 1, label: "1 Особый кейс" };
       if (level === 35) {
         freeReward = { type: "car", item: { name: "Nissan Skyline R34", rarity: "legendary", source: "Battle Pass Free" }, label: "Nissan Skyline R34" };
         premiumReward = { type: "car", item: { name: "Nissan 240sx", rarity: "legendary", source: "Battle Pass Premium" }, label: "Nissan 240sx" };
@@ -993,22 +923,57 @@
       return { level, freeReward, premiumReward };
     });
 
-    const STORAGE_KEY = "japan_legends_save_v3";
+    const QUESTS_TEMPLATE = [
+      {
+        id: "open1",
+        title: "Открой 1 кейс",
+        description: "Нужно открыть любой 1 кейс",
+        goal: 1,
+        reward: 50,
+        type: "openCases"
+      },
+      {
+        id: "open3",
+        title: "Открой 3 кейса",
+        description: "Нужно открыть любые 3 кейса",
+        goal: 3,
+        reward: 50,
+        type: "openCases"
+      },
+      {
+        id: "sell2",
+        title: "Продай 2 машины",
+        description: "Продай 2 предмета из инвентаря",
+        goal: 2,
+        reward: 50,
+        type: "sellCars"
+      },
+      {
+        id: "epic1",
+        title: "Получи эпик или выше",
+        description: "Выбей 1 эпическую, мифическую или легендарную машину",
+        goal: 1,
+        reward: 50,
+        type: "epicPlus"
+      }
+    ];
 
     let state = {
-      diamonds: 1200,
-      dust: 0,
+      diamonds: 9999999,
+      dust: 9999999,
       inventory: [],
+      caseStock: { newbie: 0, standard: 0, elite: 0, special: 0, japan: 0 },
       accountLevel: 1,
-      exp: 0,
-      openedCases: 0,
+      accountExp: 0,
+      bpExp: 0,
       premiumPass: false,
       claimedPassRewards: {},
       purchasedStoreItems: {},
       storeSeasonEndsAt: Date.now() + 24 * 60 * 60 * 1000,
       pendingDrop: null,
-      ownedCasesFromPass: [],
-      legendsDropped: 0
+      openedCases: 0,
+      legendsDropped: 0,
+      quests: {}
     };
 
     let currentCase = null;
@@ -1017,20 +982,32 @@
     let isSpinning = false;
     let wheelCanvas, wheelCtx;
 
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    function defaultQuestState() {
+      const obj = {};
+      QUESTS_TEMPLATE.forEach(q => {
+        obj[q.id] = { progress: 0, claimed: false };
+      });
+      return obj;
     }
 
     function loadState() {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        try {
-          const parsed = JSON.parse(raw);
-          state = { ...state, ...parsed };
-        } catch (e) {
-          console.log("Не удалось прочитать сохранение");
-        }
+      if (!raw) {
+        state.quests = defaultQuestState();
+        return;
       }
+      try {
+        const parsed = JSON.parse(raw);
+        state = { ...state, ...parsed };
+        state.caseStock = { newbie: 0, standard: 0, elite: 0, special: 0, japan: 0, ...(parsed.caseStock || {}) };
+        state.quests = { ...defaultQuestState(), ...(parsed.quests || {}) };
+      } catch {
+        state.quests = defaultQuestState();
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
     function showToast(text) {
@@ -1038,26 +1015,48 @@
       toast.textContent = text;
       toast.classList.add("show");
       clearTimeout(showToast.timer);
-      showToast.timer = setTimeout(() => {
-        toast.classList.remove("show");
-      }, 2200);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 2200);
     }
 
-    function expNeededForLevel(level) {
+    function expNeededForAccount(level) {
       return 8 + (level - 1) * 2;
     }
 
-    function gainExp(amount) {
-      state.exp += amount;
-
-      while (state.exp >= expNeededForLevel(state.accountLevel)) {
-        state.exp -= expNeededForLevel(state.accountLevel);
+    function gainAccountExp(amount) {
+      state.accountExp += amount;
+      while (state.accountExp >= expNeededForAccount(state.accountLevel)) {
+        state.accountExp -= expNeededForAccount(state.accountLevel);
         state.accountLevel++;
         showToast(`🎉 Новый уровень аккаунта: ${state.accountLevel}`);
       }
-
       saveState();
       updateUI();
+    }
+
+    function gainBpExp(amount) {
+      state.bpExp += amount;
+      saveState();
+      updateUI();
+    }
+
+    function getBpLevel() {
+      return Math.min(35, Math.floor(state.bpExp / 25) + 1);
+    }
+
+    function getBpExpInCurrentLevel() {
+      return state.bpExp % 25;
+    }
+
+    function rarityLabel(r) {
+      return RARITY_NAMES[r] || r;
+    }
+
+    function getRarityTagClass(r) {
+      return RARITY_CLASSES[r] || "rarity-silver";
+    }
+
+    function getTextRarityClass(r) {
+      return RARITY_TEXT_CLASSES[r] || "silver-text";
     }
 
     function addInventoryItem(item) {
@@ -1067,53 +1066,15 @@
         rarity: item.rarity,
         source: item.source || "Кейс"
       });
-      saveState();
-      updateUI();
     }
 
-    function rarityLabel(rarity) {
-      return RARITY_NAMES[rarity] || rarity;
-    }
-
-    function getRarityTagClass(rarity) {
-      return RARITY_CLASSES[rarity] || "rarity-silver";
-    }
-
-    function getTextRarityClass(rarity) {
-      return RARITY_TEXT_CLASSES[rarity] || "silver-text";
+    function getMainPrizeRarity(caseObj) {
+      const found = caseObj.items.find(item => item.name === caseObj.mainPrize);
+      return found ? found.rarity : "legendary";
     }
 
     function countLegends() {
-      return state.inventory.filter(item => item.rarity === "legendary").length + state.legendsDropped;
-    }
-
-    function updateUI() {
-      document.getElementById("diamondsLabel").textContent = state.diamonds;
-      document.getElementById("dustLabel").textContent = state.dust;
-      document.getElementById("levelLabel").textContent = state.accountLevel;
-
-      document.getElementById("statDiamonds").textContent = state.diamonds;
-      document.getElementById("statDust").textContent = state.dust;
-      document.getElementById("statPremium").textContent = state.premiumPass ? "Да" : "Нет";
-      document.getElementById("statLevel").textContent = state.accountLevel;
-      document.getElementById("statExp").textContent = state.exp;
-      document.getElementById("statExpNeed").textContent = expNeededForLevel(state.accountLevel);
-      document.getElementById("statOpened").textContent = state.openedCases;
-      document.getElementById("statLegends").textContent = countLegends();
-
-      document.getElementById("bpAccountLevel").textContent = state.accountLevel;
-      document.getElementById("bpExpLabel").textContent = state.exp;
-      document.getElementById("bpExpNeedLabel").textContent = expNeededForLevel(state.accountLevel);
-      document.getElementById("bpPremiumLabel").textContent = state.premiumPass ? "Да" : "Нет";
-
-      const fillPercent = Math.min(100, (state.exp / expNeededForLevel(state.accountLevel)) * 100);
-      document.getElementById("bpProgressFill").style.width = fillPercent + "%";
-
-      renderCases();
-      renderInventory();
-      renderStore();
-      renderBattlePass();
-      saveState();
+      return state.inventory.filter(i => i.rarity === "legendary").length + state.legendsDropped;
     }
 
     function renderCases() {
@@ -1122,12 +1083,9 @@
 
       Object.values(CASES).forEach(c => {
         const card = document.createElement("div");
-        card.className = "panel case-card";
+        card.className = "case-card";
 
-        const priceText = c.currency === "diamonds"
-          ? `${c.price} 💎`
-          : `${c.price} 🧪`;
-
+        const priceText = c.currency === "diamonds" ? `${c.price} 💎` : `${c.price} 🧪`;
         const chanceText = c.chances.map(ch => `${rarityLabel(ch.rarity)} ${ch.chance}%`).join(" • ");
 
         card.innerHTML = `
@@ -1138,41 +1096,64 @@
           <div class="small">${c.description}</div>
           <div class="small">Главный приз: <span class="${getTextRarityClass(getMainPrizeRarity(c))}">${c.mainPrize}</span></div>
           <div class="small">Шансы: ${chanceText}</div>
-          <button class="bottom-btn" onclick="openCaseWheel('${c.id}')">Открыть</button>
+          <div class="case-stock">Куплено: ${state.caseStock[c.id] || 0}</div>
+          <button class="bottom-btn" onclick="openCaseWheel('${c.id}')">Открыть окно</button>
         `;
 
         grid.appendChild(card);
       });
     }
 
-    function getMainPrizeRarity(caseObj) {
-      const found = caseObj.items.find(item => item.name === caseObj.mainPrize);
-      return found ? found.rarity : "legendary";
+    function updateUI() {
+      document.getElementById("diamondsLabel").textContent = state.diamonds;
+      document.getElementById("dustLabel").textContent = state.dust;
+      document.getElementById("levelLabel").textContent = state.accountLevel;
+      document.getElementById("bpLevelChip").textContent = getBpLevel();
+
+      document.getElementById("statDiamonds").textContent = state.diamonds;
+      document.getElementById("statDust").textContent = state.dust;
+      document.getElementById("statPremium").textContent = state.premiumPass ? "Да" : "Нет";
+      document.getElementById("statLevel").textContent = state.accountLevel;
+      document.getElementById("statAccExp").textContent = state.accountExp;
+      document.getElementById("statAccNeed").textContent = expNeededForAccount(state.accountLevel);
+      document.getElementById("statBpLevel").textContent = getBpLevel();
+      document.getElementById("statBpExp").textContent = getBpExpInCurrentLevel();
+      document.getElementById("statOpened").textContent = state.openedCases;
+      document.getElementById("statLegends").textContent = countLegends();
+
+      document.getElementById("bpLevelLabel").textContent = getBpLevel();
+      document.getElementById("bpExpLabel").textContent = getBpExpInCurrentLevel();
+      document.getElementById("bpPremiumLabel").textContent = state.premiumPass ? "Да" : "Нет";
+      document.getElementById("bpProgressFill").style.width = (getBpExpInCurrentLevel() / 25 * 100) + "%";
+
+      renderCases();
+      renderInventory();
+      renderStore();
+      renderBattlePass();
+      renderQuests();
+
+      if (currentCase) {
+        document.getElementById("wheelCaseStock").textContent = state.caseStock[currentCase.id] || 0;
+      }
+
+      saveState();
     }
 
     function openCaseWheel(caseId) {
       const c = CASES[caseId];
       if (!c) return;
-
-      if (c.currency === "diamonds" && state.diamonds < c.price) {
-        showToast("❌ Не хватает алмазов");
-        return;
-      }
-      if (c.currency === "dust" && state.dust < c.price) {
-        showToast("❌ Не хватает пыли");
-        return;
-      }
-
       currentCase = c;
       state.pendingDrop = null;
       document.getElementById("saveToInventoryBtn").disabled = true;
       document.getElementById("sellForDiamondsBtn").disabled = true;
       document.getElementById("sellForDustBtn").disabled = true;
-      document.getElementById("dropResultText").textContent = "Нажми на кнопку, чтобы начать";
+      document.getElementById("dropResultText").textContent = 'Сначала нажми "Купить", потом SPIN';
+
       document.getElementById("wheelCaseName").textContent = c.name;
       document.getElementById("wheelCaseInfo").textContent = c.description;
       document.getElementById("wheelCasePrice").textContent = c.currency === "diamonds" ? `${c.price} 💎` : `${c.price} 🧪`;
       document.getElementById("wheelMainPrize").innerHTML = `<span class="${getTextRarityClass(getMainPrizeRarity(c))}">${c.mainPrize}</span>`;
+      document.getElementById("wheelCaseStock").textContent = state.caseStock[c.id] || 0;
       document.getElementById("wheelModal").style.display = "flex";
 
       buildWheelItems(c);
@@ -1186,22 +1167,13 @@
 
     function buildWheelItems(caseObj) {
       const pool = [];
-      caseObj.items.forEach(item => {
-        pool.push({ ...item });
-      });
-
+      caseObj.items.forEach(item => pool.push({ ...item }));
       while (pool.length < 12) {
         caseObj.items.forEach(item => {
           if (pool.length < 12) pool.push({ ...item });
         });
       }
-
       wheelItems = shuffleArray(pool).slice(0, 12);
-      if (wheelItems.length < 12) {
-        while (wheelItems.length < 12) {
-          wheelItems.push({ ...caseObj.items[Math.floor(Math.random() * caseObj.items.length)] });
-        }
-      }
     }
 
     function shuffleArray(arr) {
@@ -1233,14 +1205,13 @@
     function ensureDropOnWheel(drop) {
       const existingIndex = wheelItems.findIndex(item => item.name === drop.name && item.rarity === drop.rarity);
       if (existingIndex !== -1) return existingIndex;
-
       const replaceIndex = Math.floor(Math.random() * wheelItems.length);
       wheelItems[replaceIndex] = { ...drop };
       return replaceIndex;
     }
 
-    function spinWheel() {
-      if (!currentCase || isSpinning) return;
+    function buyCase() {
+      if (!currentCase) return;
 
       if (currentCase.currency === "diamonds") {
         if (state.diamonds < currentCase.price) {
@@ -1256,15 +1227,60 @@
         state.dust -= currentCase.price;
       }
 
-      state.openedCases++;
-      gainExp(EXP_GAIN[currentCase.id] || 1);
+      state.caseStock[currentCase.id] = (state.caseStock[currentCase.id] || 0) + 1;
+      document.getElementById("wheelCaseStock").textContent = state.caseStock[currentCase.id];
+      showToast(`✅ Куплен кейс: ${currentCase.name}`);
+      updateUI();
+    }
+
+    function openCaseX10() {
+      if (!currentCase) return;
+      const totalCost = currentCase.price * 10;
+
+      if (currentCase.currency === "diamonds") {
+        if (state.diamonds < totalCost) {
+          showToast("❌ Не хватает алмазов");
+          return;
+        }
+        state.diamonds -= totalCost;
+      } else {
+        if (state.dust < totalCost) {
+          showToast("❌ Не хватает пыли");
+          return;
+        }
+        state.dust -= totalCost;
+      }
+
+      const results = [];
+      for (let i = 0; i < 10; i++) {
+        const drop = chooseDrop(currentCase);
+        addInventoryItem(drop);
+        handleOpenedDropForStats(drop, currentCase.id);
+        results.push(drop.name);
+      }
+
+      state.openedCases += 10;
+      updateQuestProgress("openCases", 10);
+      showToast("🔥 x10 открытие выполнено");
+      document.getElementById("dropResultText").textContent = "x10 открыто! Всё уже в инвентаре";
+      updateUI();
+    }
+
+    function spinWheel() {
+      if (!currentCase || isSpinning) return;
+
+      if ((state.caseStock[currentCase.id] || 0) <= 0) {
+        showToast('Сначала нажми "Купить"');
+        return;
+      }
+
+      state.caseStock[currentCase.id]--;
+      document.getElementById("wheelCaseStock").textContent = state.caseStock[currentCase.id];
 
       const drop = chooseDrop(currentCase);
       state.pendingDrop = drop;
-      if (drop.rarity === "legendary") state.legendsDropped++;
 
       const index = ensureDropOnWheel(drop);
-
       const segmentAngle = (Math.PI * 2) / wheelItems.length;
       const targetAngle = -(index * segmentAngle) - segmentAngle / 2;
       const desiredCanvasRotation = (Math.PI * 1.5) + targetAngle;
@@ -1272,8 +1288,9 @@
       const finalRotation = fullSpins + desiredCanvasRotation;
 
       const startRotation = wheelRotation;
-      const duration = 5200;
+      const duration = 4500;
       const startTime = performance.now();
+
       isSpinning = true;
       document.getElementById("spinBtn").disabled = true;
       document.getElementById("dropResultText").textContent = "Колесо крутится...";
@@ -1290,7 +1307,10 @@
         } else {
           isSpinning = false;
           document.getElementById("spinBtn").disabled = false;
+          state.openedCases++;
+          handleOpenedDropForStats(drop, currentCase.id);
           showDropResult(drop);
+          updateQuestProgress("openCases", 1);
           updateUI();
         }
       }
@@ -1298,16 +1318,26 @@
       requestAnimationFrame(animate);
     }
 
+    function handleOpenedDropForStats(drop, caseId) {
+      gainAccountExp(ACCOUNT_EXP_GAIN[caseId] || 1);
+      if (drop.rarity === "legendary") {
+        state.legendsDropped++;
+        gainAccountExp(7);
+      } else if (drop.rarity === "mythic") {
+        gainAccountExp(3);
+      }
+
+      if (["epic", "mythic", "legendary"].includes(drop.rarity)) {
+        updateQuestProgress("epicPlus", 1);
+      }
+    }
+
     function showDropResult(drop) {
-      const text = document.getElementById("dropResultText");
-      text.innerHTML = `Тебе выпало: <span class="${getTextRarityClass(drop.rarity)}">${drop.name}</span>`;
+      document.getElementById("dropResultText").innerHTML =
+        `Тебе выпало: <span class="${getTextRarityClass(drop.rarity)}">${drop.name}</span>`;
       document.getElementById("saveToInventoryBtn").disabled = false;
       document.getElementById("sellForDiamondsBtn").disabled = false;
       document.getElementById("sellForDustBtn").disabled = false;
-
-      if (drop.rarity === "mythic") gainExp(3);
-      if (drop.rarity === "legendary") gainExp(7);
-
       showToast(`🎉 Выпало: ${drop.name}`);
     }
 
@@ -1316,11 +1346,7 @@
       addInventoryItem(state.pendingDrop);
       showToast(`📥 ${state.pendingDrop.name} добавлен в инвентарь`);
       state.pendingDrop = null;
-      document.getElementById("saveToInventoryBtn").disabled = true;
-      document.getElementById("sellForDiamondsBtn").disabled = true;
-      document.getElementById("sellForDustBtn").disabled = true;
-      document.getElementById("dropResultText").textContent = "Нажми на кнопку, чтобы начать";
-      saveState();
+      resetPendingDropButtons();
       updateUI();
     }
 
@@ -1337,13 +1363,17 @@
         showToast(`🧪 Продано за ${amount} пыли`);
       }
 
+      updateQuestProgress("sellCars", 1);
       state.pendingDrop = null;
+      resetPendingDropButtons();
+      updateUI();
+    }
+
+    function resetPendingDropButtons() {
       document.getElementById("saveToInventoryBtn").disabled = true;
       document.getElementById("sellForDiamondsBtn").disabled = true;
       document.getElementById("sellForDustBtn").disabled = true;
-      document.getElementById("dropResultText").textContent = "Нажми на кнопку, чтобы начать";
-      saveState();
-      updateUI();
+      document.getElementById("dropResultText").textContent = 'Сначала нажми "Купить", потом SPIN';
     }
 
     function drawWheel() {
@@ -1375,7 +1405,7 @@
         ctx.arc(0, 0, radius, start, end);
         ctx.closePath();
         ctx.fillStyle = RARITY_COLORS[item.rarity];
-        ctx.globalAlpha = 0.9;
+        ctx.globalAlpha = 0.92;
         ctx.fill();
 
         ctx.lineWidth = 3;
@@ -1385,9 +1415,9 @@
         ctx.save();
         ctx.rotate(start + segAngle / 2);
         ctx.textAlign = "right";
-        ctx.fillStyle = "#07111b";
+        ctx.fillStyle = "#0b1024";
         ctx.font = "bold 15px Arial";
-        ctx.fillText(shortName(item.name, 16), radius - 20, 6);
+        ctx.fillText(shortName(item.name, 16), radius - 18, 6);
         ctx.restore();
       }
 
@@ -1395,7 +1425,7 @@
 
       ctx.beginPath();
       ctx.arc(cx, cy, 52, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(7,17,27,.95)";
+      ctx.fillStyle = "rgba(7,17,27,.96)";
       ctx.fill();
       ctx.lineWidth = 4;
       ctx.strokeStyle = "rgba(255,255,255,.15)";
@@ -1416,16 +1446,16 @@
       list.innerHTML = "";
 
       if (!state.inventory.length) {
-        list.innerHTML = `<div class="empty-text" style="grid-column:1/-1;">Пока что инвентарь пуст 😔</div>`;
+        list.innerHTML = `<div class="empty-text">Пока что инвентарь пуст 😔</div>`;
         return;
       }
 
       state.inventory.forEach(item => {
         const dPrice = SALE_PRICES.diamonds[item.rarity];
         const dustPrice = SALE_PRICES.dust[item.rarity];
+
         const card = document.createElement("div");
         card.className = "item-card";
-
         card.innerHTML = `
           <div class="tag ${getRarityTagClass(item.rarity)}">${rarityLabel(item.rarity)}</div>
           <h4>${item.name}</h4>
@@ -1437,7 +1467,6 @@
             <button onclick="sellInventoryItem('${item.id}','dust')">Продать за 🧪</button>
           </div>
         `;
-
         list.appendChild(card);
       });
     }
@@ -1458,7 +1487,7 @@
       }
 
       state.inventory.splice(index, 1);
-      saveState();
+      updateQuestProgress("sellCars", 1);
       updateUI();
     }
 
@@ -1476,27 +1505,22 @@
       grid.innerHTML = "";
 
       STORE_ITEMS.forEach(item => {
-        const alreadyBought = !!state.purchasedStoreItems[item.id];
-        const isExpired = item.type === "seasonal" && Date.now() > state.storeSeasonEndsAt;
+        const bought = !!state.purchasedStoreItems[item.id];
+        const expired = item.type === "seasonal" && Date.now() > state.storeSeasonEndsAt;
 
         const card = document.createElement("div");
         card.className = "item-card";
-
-        let buttonHtml = "";
-        if (item.type === "seasonal") {
-          buttonHtml = `<button class="gold-btn" onclick="buyStoreItem('${item.id}')" ${alreadyBought || isExpired ? "disabled" : ""}>${alreadyBought ? "Уже куплено" : isExpired ? "Недоступно" : `Купить за ${item.price} 💎`}</button>`;
-        } else {
-          buttonHtml = `<button onclick="buyStoreItem('${item.id}')" ${alreadyBought ? "disabled" : ""}>${alreadyBought ? "Уже получено" : "Получить"}</button>`;
-        }
-
         card.innerHTML = `
-          <div class="tag ${getRarityTagClass(item.rarity)}">${item.type === "seasonal" ? "LIMITED" : "Бонус"}</div>
+          <div class="tag ${getRarityTagClass(item.rarity)}">LIMITED</div>
           <h4>${item.name}</h4>
           <div class="meta">${item.description}</div>
-          <div class="meta">${item.type === "seasonal" ? `Цена: ${item.price} 💎` : `Награда: +${item.grantDiamonds} 💎`}</div>
-          <div class="item-actions">${buttonHtml}</div>
+          <div class="meta">Цена: ${item.price} 💎</div>
+          <div class="item-actions">
+            <button class="gold-btn" onclick="buyStoreItem('${item.id}')" ${bought || expired ? "disabled" : ""}>
+              ${bought ? "Уже куплено" : expired ? "Недоступно" : "Купить"}
+            </button>
+          </div>
         `;
-
         grid.appendChild(card);
       });
     }
@@ -1508,27 +1532,19 @@
         showToast("Уже куплено");
         return;
       }
-
-      if (item.type === "seasonal") {
-        if (Date.now() > state.storeSeasonEndsAt) {
-          showToast("❌ Время предложения закончилось");
-          return;
-        }
-        if (state.diamonds < item.price) {
-          showToast("❌ Не хватает алмазов");
-          return;
-        }
-        state.diamonds -= item.price;
-        addInventoryItem({ name: item.name, rarity: item.rarity, source: "Магазин" });
-        state.purchasedStoreItems[item.id] = true;
-        showToast(`🔥 Куплено: ${item.name}`);
-      } else {
-        state.diamonds += item.grantDiamonds;
-        state.purchasedStoreItems[item.id] = true;
-        showToast(`🎁 Получено +${item.grantDiamonds} 💎`);
+      if (Date.now() > state.storeSeasonEndsAt) {
+        showToast("❌ Время предложения закончилось");
+        return;
+      }
+      if (state.diamonds < item.price) {
+        showToast("❌ Не хватает алмазов");
+        return;
       }
 
-      saveState();
+      state.diamonds -= item.price;
+      addInventoryItem({ name: item.name, rarity: item.rarity, source: "Магазин" });
+      state.purchasedStoreItems[item.id] = true;
+      showToast(`🔥 Куплено: ${item.name}`);
       updateUI();
     }
 
@@ -1544,14 +1560,13 @@
 
     function updateStoreTimer() {
       const el = document.getElementById("storeTimer");
-      const diff = Math.max(0, state.storeSeasonEndsAt - Date.now());
+      if (!el) return;
 
+      const diff = Math.max(0, state.storeSeasonEndsAt - Date.now());
       const h = Math.floor(diff / 3600000);
       const m = Math.floor((diff % 3600000) / 60000);
       const s = Math.floor((diff % 60000) / 1000);
-
       el.textContent = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-      renderStore();
     }
 
     function renderBattlePass() {
@@ -1566,7 +1581,6 @@
 
         const card = document.createElement("div");
         card.className = "pass-level-card";
-
         card.innerHTML = `
           <h4>Уровень ${levelData.level}</h4>
           <div class="reward-box ${freeClaimed ? "claimed" : ""}">
@@ -1576,40 +1590,34 @@
             Premium: ${levelData.premiumReward.label} ${premiumClaimed ? "✅" : ""} ${!state.premiumPass ? "(нужен пасс)" : ""}
           </div>
         `;
-
         grid.appendChild(card);
       });
     }
 
-    function getCurrentPassLevelUnlocked() {
-      return Math.min(35, state.accountLevel);
-    }
-
     function claimAvailablePassRewards() {
-      const unlocked = getCurrentPassLevelUnlocked();
+      const unlocked = getBpLevel();
       let claimedAny = false;
 
       for (let level = 1; level <= unlocked; level++) {
-        const levelData = PASS_LEVELS.find(l => l.level === level);
-        if (!levelData) continue;
+        const data = PASS_LEVELS.find(l => l.level === level);
+        if (!data) continue;
 
         const freeKey = `free_${level}`;
         if (!state.claimedPassRewards[freeKey]) {
-          givePassReward(levelData.freeReward);
+          givePassReward(data.freeReward);
           state.claimedPassRewards[freeKey] = true;
           claimedAny = true;
         }
 
         const premiumKey = `premium_${level}`;
         if (state.premiumPass && !state.claimedPassRewards[premiumKey]) {
-          givePassReward(levelData.premiumReward);
+          givePassReward(data.premiumReward);
           state.claimedPassRewards[premiumKey] = true;
           claimedAny = true;
         }
       }
 
       if (claimedAny) {
-        saveState();
         updateUI();
         showToast("🎁 Награды Battle Pass получены");
       } else {
@@ -1624,16 +1632,8 @@
         state.dust += reward.amount;
       } else if (reward.type === "car") {
         addInventoryItem(reward.item);
-      } else if (reward.type === "case") {
-        const c = CASES[reward.caseId];
-        if (!c) return;
-        if (c.currency === "diamonds") {
-          state.diamonds += c.price;
-          showToast(`🎁 За ${reward.label} выдано ${c.price} 💎`);
-        } else {
-          state.dust += c.price;
-          showToast(`🎁 За ${reward.label} выдано ${c.price} 🧪`);
-        }
+      } else if (reward.type === "caseStock") {
+        state.caseStock[reward.caseId] = (state.caseStock[reward.caseId] || 0) + reward.amount;
       }
     }
 
@@ -1646,13 +1646,11 @@
         showToast("❌ Не хватает алмазов");
         return;
       }
-
       state.diamonds -= 13000;
       state.premiumPass = true;
-      gainExp(20);
-      saveState();
-      updateUI();
+      gainAccountExp(20);
       showToast("🎟 Premium Pass куплен");
+      updateUI();
     }
 
     function openBattlePass() {
@@ -1662,6 +1660,67 @@
 
     function closeBattlePass() {
       document.getElementById("battlePassModal").style.display = "none";
+    }
+
+    function updateQuestProgress(type, amount) {
+      QUESTS_TEMPLATE.forEach(q => {
+        if (q.type === type && !state.quests[q.id].claimed) {
+          state.quests[q.id].progress = Math.min(q.goal, state.quests[q.id].progress + amount);
+        }
+      });
+      saveState();
+      renderQuests();
+    }
+
+    function renderQuests() {
+      const grid = document.getElementById("questGrid");
+      if (!grid) return;
+      grid.innerHTML = "";
+
+      QUESTS_TEMPLATE.forEach(q => {
+        const data = state.quests[q.id];
+        const done = data.progress >= q.goal;
+        const card = document.createElement("div");
+        card.className = "quest-card" + (data.claimed ? " done" : "");
+        card.innerHTML = `
+          <h4>${q.title}</h4>
+          <div class="meta">${q.description}</div>
+          <div class="meta">Прогресс: ${Math.min(data.progress, q.goal)} / ${q.goal}</div>
+          <div class="meta">Награда: ${q.reward} BP EXP</div>
+          <div class="item-actions">
+            <button onclick="claimQuest('${q.id}')" ${!done || data.claimed ? "disabled" : ""}>
+              ${data.claimed ? "Получено" : "Забрать"}
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function claimQuest(id) {
+      const quest = QUESTS_TEMPLATE.find(q => q.id === id);
+      if (!quest) return;
+      const data = state.quests[id];
+      if (data.claimed) return;
+      if (data.progress < quest.goal) {
+        showToast("Квест ещё не выполнен");
+        return;
+      }
+
+      data.claimed = true;
+      gainBpExp(quest.reward);
+      showToast(`📋 Квест выполнен: +${quest.reward} BP EXP`);
+      renderQuests();
+      renderBattlePass();
+    }
+
+    function openQuests() {
+      document.getElementById("questsModal").style.display = "flex";
+      renderQuests();
+    }
+
+    function closeQuests() {
+      document.getElementById("questsModal").style.display = "none";
     }
 
     function openCraft() {
@@ -1678,34 +1737,27 @@
       drawWheel();
     }
 
-    function closeOnBackdrop(modalId) {
+    function closeOnBackdrop(modalId, closeFn) {
       const modal = document.getElementById(modalId);
       modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-          if (modalId === "wheelModal") closeWheelModal();
-          if (modalId === "inventoryModal") closeInventory();
-          if (modalId === "storeModal") closeStore();
-          if (modalId === "battlePassModal") closeBattlePass();
-          if (modalId === "craftModal") closeCraft();
-        }
+        if (e.target === modal) closeFn();
       });
     }
 
     function init() {
       loadState();
-
-      if (!state.storeSeasonEndsAt || Number.isNaN(state.storeSeasonEndsAt)) {
+      if (!state.storeSeasonEndsAt) {
         state.storeSeasonEndsAt = Date.now() + 24 * 60 * 60 * 1000;
       }
-
       setupCanvas();
       updateUI();
 
-      closeOnBackdrop("wheelModal");
-      closeOnBackdrop("inventoryModal");
-      closeOnBackdrop("storeModal");
-      closeOnBackdrop("battlePassModal");
-      closeOnBackdrop("craftModal");
+      closeOnBackdrop("wheelModal", closeWheelModal);
+      closeOnBackdrop("inventoryModal", closeInventory);
+      closeOnBackdrop("storeModal", closeStore);
+      closeOnBackdrop("battlePassModal", closeBattlePass);
+      closeOnBackdrop("questsModal", closeQuests);
+      closeOnBackdrop("craftModal", closeCraft);
 
       setInterval(updateStoreTimer, 1000);
     }

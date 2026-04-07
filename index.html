@@ -3,1766 +3,661 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Бека Prime - Возвращение Vegas - Cases</title>
+  <title>Calm Quest — Квесты дня</title>
   <style>
     * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      min-height: 100%;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #fff;
+    :root{
+      --bg1:#dff6ff;
+      --bg2:#f4fff4;
+      --card:#ffffffcc;
+      --text:#1f2a44;
+      --muted:#5f6f94;
+      --accent:#6aa9ff;
+      --accent2:#7bd389;
+      --accent3:#ffd166;
+      --danger:#ff8c94;
+      --shadow:0 10px 30px rgba(50,80,130,.15);
+      --radius:22px;
+    }
+    body{
+      margin:0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color:var(--text);
       background:
-        radial-gradient(circle at 20% 20%, rgba(0,255,255,.16), transparent 24%),
-        radial-gradient(circle at 80% 30%, rgba(255,0,200,.15), transparent 25%),
-        radial-gradient(circle at 55% 85%, rgba(80,120,255,.16), transparent 28%),
-        linear-gradient(135deg, #070814, #10152f 35%, #150d2b 68%, #07111b);
-      overflow-x: hidden;
+        radial-gradient(circle at top left, #ffffffcc 0, #ffffff00 30%),
+        linear-gradient(135deg,var(--bg1),var(--bg2));
+      min-height:100vh;
+    }
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:20px;
+    }
+    .hero{
+      background:linear-gradient(135deg,#a6d8ff,#d2ffd8,#fff2b2);
+      border-radius:28px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero h1{
+      margin:0 0 8px;
+      font-size:38px;
+    }
+    .hero p{
+      margin:0;
+      color:#355070;
+      font-size:17px;
+    }
+    .floating{
+      position:absolute;
+      font-size:26px;
+      opacity:.35;
+      animation: float 5s ease-in-out infinite;
+      user-select:none;
+    }
+    .f1{ top:18px; right:24px; }
+    .f2{ top:65px; right:90px; animation-delay:1s; }
+    .f3{ bottom:18px; right:35px; animation-delay:2s; }
+    @keyframes float{
+      0%,100%{ transform:translateY(0px) rotate(0); }
+      50%{ transform:translateY(-8px) rotate(6deg); }
     }
 
-    body::before, body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
+    .grid{
+      display:grid;
+      grid-template-columns: 1.3fr .9fr;
+      gap:18px;
+      margin-top:18px;
+    }
+    .card{
+      background:var(--card);
+      backdrop-filter: blur(10px);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .card h2{
+      margin:0 0 14px;
+      font-size:24px;
     }
 
-    body::before {
-      background:
-        linear-gradient(90deg, rgba(0,255,255,.05) 1px, transparent 1px),
-        linear-gradient(rgba(255,0,200,.035) 1px, transparent 1px);
-      background-size: 40px 40px;
-      animation: gridMove 18s linear infinite;
-      opacity: .35;
+    .top-stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+      margin-top:18px;
+    }
+    .stat{
+      background:#fff;
+      border-radius:20px;
+      padding:14px;
+      box-shadow:var(--shadow);
+      text-align:center;
+    }
+    .stat .big{
+      font-size:28px;
+      font-weight:800;
+      margin-bottom:4px;
+    }
+    .stat .small{
+      color:var(--muted);
+      font-size:14px;
     }
 
-    body::after {
-      background:
-        radial-gradient(circle at 25% 25%, rgba(0,255,255,.18), transparent 16%),
-        radial-gradient(circle at 75% 55%, rgba(255,0,180,.16), transparent 18%),
-        radial-gradient(circle at 50% 80%, rgba(95,0,255,.18), transparent 18%);
-      filter: blur(45px);
-      animation: glowShift 8s ease-in-out infinite alternate;
-      opacity: .8;
+    .quest-controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:14px;
+    }
+    button{
+      border:none;
+      border-radius:14px;
+      padding:11px 15px;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.18s transform,.18s opacity,.18s box-shadow;
+      box-shadow:var(--shadow);
+    }
+    button:hover{ transform:translateY(-2px); }
+    button.primary{ background:var(--accent); color:#fff; }
+    button.green{ background:var(--accent2); color:#123; }
+    button.yellow{ background:var(--accent3); color:#5b4300; }
+    button.red{ background:var(--danger); color:#fff; }
+    button.gray{ background:#e9eef8; color:#334; }
+
+    .quest-list{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .quest{
+      background:#fff;
+      border-radius:18px;
+      padding:14px;
+      border:2px solid transparent;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      transition:.2s;
+    }
+    .quest.done{
+      border-color:#7bd389;
+      background:#effff2;
+    }
+    .quest .check{
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      border:2px solid #9db8d4;
+      flex:0 0 auto;
+      margin-top:2px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+      font-weight:800;
+      color:#fff;
+      background:#fff;
+    }
+    .quest.done .check{
+      background:#7bd389;
+      border-color:#7bd389;
+    }
+    .quest-title{
+      font-weight:700;
+      margin-bottom:4px;
+      line-height:1.3;
+    }
+    .quest-desc{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.4;
     }
 
-    @keyframes gridMove {
-      from { transform: translateY(0); }
-      to { transform: translateY(40px); }
+    .title-box{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .mini-title{
+      background:#fff;
+      border-radius:16px;
+      padding:12px;
+      border:2px dashed #dbe7ff;
+    }
+    .mini-title.active{
+      background:linear-gradient(135deg,#fef3c7,#fff,#dcfce7);
+      border-color:#ffd166;
+    }
+    .mini-title h3{
+      margin:0 0 4px;
+      font-size:16px;
+    }
+    .mini-title p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
     }
 
-    @keyframes glowShift {
-      from { transform: translate(0,0) scale(1); }
-      to { transform: translate(14px,-8px) scale(1.08); }
+    .current-title{
+      margin-top:14px;
+      background:linear-gradient(135deg,#eef7ff,#f4fff6);
+      border-radius:18px;
+      padding:14px;
+      font-size:18px;
+      font-weight:800;
     }
 
-    .app {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      padding: 18px;
+    .phrase{
+      font-size:16px;
+      line-height:1.5;
+      padding:14px;
+      border-radius:18px;
+      background:#fff;
+      margin-top:12px;
+      color:#335;
     }
 
-    .panel {
-      background: rgba(10,16,35,.78);
-      border: 1px solid rgba(0,255,255,.18);
-      border-radius: 22px;
-      box-shadow: 0 0 20px rgba(0,255,255,.08), 0 0 20px rgba(255,0,200,.08);
-      backdrop-filter: blur(9px);
+    .bank-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+    .bank-row input{
+      flex:1;
+      min-width:140px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:2px solid #d8e6ff;
+      font-size:15px;
+      outline:none;
+    }
+    .progress{
+      width:100%;
+      height:24px;
+      border-radius:999px;
+      background:#e7edf8;
+      overflow:hidden;
+      margin:10px 0 8px;
+    }
+    .progress-fill{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg,#6aa9ff,#7bd389,#ffd166);
+      transition:.25s;
+    }
+    .bank-info{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-weight:700;
     }
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
+    .anti-box{
+      display:grid;
+      gap:10px;
+    }
+    .tip{
+      background:#fff;
+      border-radius:15px;
+      padding:12px;
+      font-size:14px;
+      line-height:1.45;
     }
 
-    .stats-mini {
-      width: 320px;
-      padding: 16px;
+    .footer-note{
+      margin-top:18px;
+      text-align:center;
+      color:#5b6b90;
+      font-size:14px;
     }
 
-    .stats-mini h3 {
-      margin: 0 0 10px;
-      color: #88f9ff;
-      font-size: 20px;
+    .badge{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+      background:#eef5ff;
+      color:#355070;
+      margin:4px 6px 0 0;
     }
 
-    .line {
-      margin: 7px 0;
-      font-size: 14px;
-      color: #e9f8ff;
+    @media (max-width: 980px){
+      .grid{ grid-template-columns:1fr; }
+      .quest-list{ grid-template-columns:1fr; }
+      .top-stats{ grid-template-columns:1fr 1fr; }
     }
 
-    .title-box {
-      flex: 1;
-      min-width: 280px;
-      text-align: center;
-      padding: 18px;
-    }
-
-    .title-box h1 {
-      margin: 0;
-      font-size: 36px;
-      text-shadow: 0 0 10px #00f0ff, 0 0 22px #ff00d4;
-      letter-spacing: 1px;
-    }
-
-    .title-box p {
-      margin: 8px 0 0;
-      color: #cfe8ff;
-      font-size: 15px;
-    }
-
-    .currency-bar {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-
-    .currency-chip {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.12);
-      font-weight: 700;
-    }
-
-    .nav-buttons {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 22px 0;
-    }
-
-    button, .link-btn {
-      border: none;
-      border-radius: 14px;
-      padding: 12px 16px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      color: #fff;
-      background: linear-gradient(135deg, rgba(0,180,255,.9), rgba(145,0,255,.9));
-      box-shadow: 0 0 16px rgba(0,180,255,.18), 0 0 18px rgba(255,0,200,.14);
-      transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
-    }
-
-    button:hover, .link-btn:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 0 24px rgba(0,255,255,.24), 0 0 24px rgba(255,0,200,.18);
-    }
-
-    button:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .gold-btn {
-      background: linear-gradient(135deg, rgba(255,180,20,.95), rgba(255,215,90,.95));
-      color: #241500;
-    }
-
-    .danger-btn {
-      background: linear-gradient(135deg, rgba(255,90,90,.95), rgba(255,0,120,.95));
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 28px;
-      margin: 10px 0 16px;
-      text-shadow: 0 0 12px #00f0ff;
-    }
-
-    .cases-grid, .inventory-grid, .store-grid, .pass-grid, .quest-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 14px;
-    }
-
-    .case-card, .item-card, .quest-card, .pass-level-card {
-      padding: 15px;
-      position: relative;
-      border-radius: 18px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-    }
-
-    .case-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(145deg, rgba(255,255,255,.04), transparent 45%, rgba(0,255,255,.06));
-      border-radius: 18px;
-      pointer-events: none;
-    }
-
-    .case-icon {
-      font-size: 44px;
-      margin-bottom: 8px;
-    }
-
-    .case-card h3, .item-card h4, .pass-level-card h4, .quest-card h4 {
-      margin: 0 0 8px;
-      font-size: 20px;
-    }
-
-    .price {
-      font-size: 18px;
-      font-weight: 700;
-      color: #ffd978;
-      margin-bottom: 8px;
-    }
-
-    .small, .meta {
-      color: #d5ecff;
-      font-size: 14px;
-      margin: 5px 0;
-    }
-
-    .season-badge, .tag {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      border: 1px solid rgba(255,255,255,.15);
-    }
-
-    .season-badge {
-      background: rgba(255,0,170,.16);
-      color: #ffd8f1;
-    }
-
-    .rarity-silver { background: rgba(210,220,230,.12); color: #dce4ea; }
-    .rarity-green { background: rgba(40,255,110,.12); color: #88ff9e; }
-    .rarity-blue { background: rgba(45,150,255,.14); color: #69b9ff; }
-    .rarity-epic { background: rgba(170,70,255,.15); color: #cf9cff; }
-    .rarity-mythic { background: rgba(255,70,190,.15); color: #ff8fe0; }
-    .rarity-legendary { background: rgba(255,190,40,.15); color: #ffd45e; }
-
-    .silver-text { color: #dce4ea; font-weight: 700; }
-    .green-text { color: #88ff9e; font-weight: 700; }
-    .blue-text { color: #69b9ff; font-weight: 700; }
-    .epic-text { color: #cf9cff; font-weight: 700; }
-    .myth-text { color: #ff8fe0; font-weight: 700; }
-    .legend-text { color: #ffd45e; font-weight: 700; }
-
-    .case-stock {
-      margin-top: 8px;
-      font-size: 13px;
-      color: #bfe7ff;
-    }
-
-    .bottom-btn {
-      margin-top: 12px;
-      width: 100%;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(5,8,18,.78);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      backdrop-filter: blur(6px);
-    }
-
-    .modal-content {
-      width: min(1120px, 100%);
-      max-height: 90vh;
-      overflow: auto;
-      padding: 18px;
-      border-radius: 24px;
-      background: rgba(12,17,38,.96);
-      border: 1px solid rgba(0,255,255,.22);
-      box-shadow: 0 0 26px rgba(0,255,255,.1), 0 0 28px rgba(255,0,200,.08);
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .modal-header h2 {
-      margin: 0;
-      font-size: 28px;
-      text-shadow: 0 0 10px #00f0ff;
-    }
-
-    .wheel-wrap {
-      display: grid;
-      grid-template-columns: 1fr 330px;
-      gap: 18px;
-      align-items: center;
-    }
-
-    .wheel-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .pointer {
-      width: 0;
-      height: 0;
-      border-left: 18px solid transparent;
-      border-right: 18px solid transparent;
-      border-top: 36px solid #ff4343;
-      filter: drop-shadow(0 0 10px rgba(255,67,67,.7));
-      margin-bottom: -4px;
-      z-index: 2;
-    }
-
-    canvas#wheelCanvas {
-      background: radial-gradient(circle, rgba(255,255,255,.04), rgba(255,255,255,.01));
-      border-radius: 50%;
-      border: 6px solid rgba(255,255,255,.12);
-      box-shadow: 0 0 18px rgba(0,255,255,.12), 0 0 22px rgba(255,0,200,.12);
-      width: 100%;
-      max-width: 460px;
-      aspect-ratio: 1 / 1;
-    }
-
-    .wheel-controls {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .wheel-side {
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-    }
-
-    .wheel-side .case-name {
-      font-size: 24px;
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-
-    .wheel-side p {
-      margin: 8px 0;
-      color: #d9efff;
-      font-size: 14px;
-    }
-
-    .drop-name {
-      margin-top: 10px;
-      font-size: 18px;
-      font-weight: 700;
-      min-height: 44px;
-    }
-
-    .result-actions, .item-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    .result-actions button, .item-actions button {
-      flex: 1;
-      min-width: 110px;
-      padding: 10px 10px;
-      font-size: 13px;
-    }
-
-    .season-store-banner, .pass-top {
-      margin-bottom: 14px;
-      padding: 16px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(255,170,0,.14), rgba(255,0,120,.1));
-      border: 1px solid rgba(255,200,80,.22);
-    }
-
-    .season-store-banner h3, .pass-top .title {
-      margin: 0 0 8px;
-      font-size: 24px;
-      color: #ffd978;
-      font-weight: 700;
-    }
-
-    .reward-box {
-      margin: 7px 0;
-      padding: 8px 10px;
-      border-radius: 12px;
-      background: rgba(255,255,255,.04);
-      font-size: 14px;
-      color: #e9f6ff;
-    }
-
-    .claimed {
-      opacity: .6;
-    }
-
-    .progress-wrap { margin: 10px 0 6px; }
-    .progress-bar {
-      width: 100%;
-      height: 16px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,.08);
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #00dbff, #6f6dff, #ff00b7);
-      box-shadow: 0 0 16px rgba(0,219,255,.25);
-    }
-
-    .quest-card.done {
-      opacity: .6;
-    }
-
-    .craft-box {
-      text-align: center;
-      padding: 38px 16px;
-      font-size: 20px;
-      color: #dff6ff;
-    }
-
-    .empty-text {
-      text-align: center;
-      padding: 26px 10px;
-      color: #cde8ff;
-      grid-column: 1 / -1;
-    }
-
-    .footer-note {
-      text-align: center;
-      color: #c6def8;
-      font-size: 13px;
-      margin-top: 18px;
-      opacity: .85;
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 24px;
-      transform: translateX(-50%) translateY(30px);
-      min-width: 260px;
-      max-width: calc(100vw - 30px);
-      padding: 14px 18px;
-      border-radius: 15px;
-      background: rgba(11,16,34,.96);
-      border: 1px solid rgba(0,255,255,.22);
-      box-shadow: 0 0 18px rgba(0,255,255,.12), 0 0 20px rgba(255,0,200,.08);
-      color: #fff;
-      font-weight: 700;
-      z-index: 2000;
-      opacity: 0;
-      pointer-events: none;
-      transition: .25s ease;
-      text-align: center;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    @media (max-width: 920px) {
-      .wheel-wrap {
-        grid-template-columns: 1fr;
-      }
-      .stats-mini {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 620px) {
-      .title-box h1 { font-size: 28px; }
-      .section-title { font-size: 24px; }
-      .modal-header h2 { font-size: 22px; }
-      .wheel-controls { flex-direction: column; width: 100%; }
-      .wheel-controls button { width: 100%; }
+    @media (max-width: 560px){
+      .hero h1{ font-size:29px; }
+      .top-stats{ grid-template-columns:1fr; }
+      .title-box{ grid-template-columns:1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <div class="topbar">
-      <div class="panel stats-mini">
-        <h3>📊 Статистика</h3>
-        <div class="line">💎 Баланс: <span id="statDiamonds">0</span></div>
-        <div class="line">🧪 Пыль: <span id="statDust">0</span></div>
-        <div class="line">🎟 Premium Pass: <span id="statPremium">Нет</span></div>
-        <div class="line">⭐ Уровень аккаунта: <span id="statLevel">1</span></div>
-        <div class="line">✨ EXP аккаунта: <span id="statAccExp">0</span> / <span id="statAccNeed">8</span></div>
-        <div class="line">🎫 Уровень BP: <span id="statBpLevel">1</span></div>
-        <div class="line">⚡ BP EXP: <span id="statBpExp">0</span> / 25</div>
-        <div class="line">📦 Открыто кейсов: <span id="statOpened">0</span></div>
-        <div class="line">🏆 Легендарок: <span id="statLegends">0</span></div>
+  <div class="wrap">
+    <section class="hero">
+      <div class="floating f1">🌤️</div>
+      <div class="floating f2">🛡️</div>
+      <div class="floating f3">✨</div>
+      <h1>Calm Quest — Квесты дня</h1>
+      <p>Проходи квесты, получай титулы, держи серию дней и копи на свою цель. День без лишних глюков = лучший день 😄</p>
+    </section>
+
+    <div class="top-stats">
+      <div class="stat">
+        <div class="big" id="doneCount">0/30</div>
+        <div class="small">Квестов выполнено</div>
       </div>
-
-      <div class="panel title-box">
-        <h1>Бека Prime - Возвращение Vegas - Cases</h1>
-        <p>Крути кейсы, выбивай топ тачки, выполняй квесты и качай Battle Pass</p>
-
-        <div class="currency-bar">
-          <div class="currency-chip">💎 Алмазы: <span id="diamondsLabel">0</span></div>
-          <div class="currency-chip">🧪 Пыль: <span id="dustLabel">0</span></div>
-          <div class="currency-chip">⭐ Lv. <span id="levelLabel">1</span></div>
-          <div class="currency-chip">🎫 BP Lv. <span id="bpLevelChip">1</span></div>
-        </div>
+      <div class="stat">
+        <div class="big" id="streakCount">0 🔥</div>
+        <div class="small">Серия дней</div>
+      </div>
+      <div class="stat">
+        <div class="big" id="coinsCount">0 💎</div>
+        <div class="small">Кристаллы</div>
+      </div>
+      <div class="stat">
+        <div class="big" id="titleNow">—</div>
+        <div class="small">Титул дня</div>
       </div>
     </div>
 
-    <div class="nav-buttons">
-      <button onclick="openStore()">🛒 Магазин</button>
-      <button onclick="openInventory()">🚗 Мои предметы</button>
-      <button onclick="openBattlePass()">🎟 Battle Pass</button>
-      <button onclick="openQuests()">📋 Квесты</button>
-      <button onclick="openCraft()">🛠 Крафт</button>
-      <a class="link-btn" href="https://t.me/KosmosHardoxxx" target="_blank">🆘 Тех.Поддержка</a>
-    </div>
+    <div class="grid">
+      <div>
+        <section class="card">
+          <h2>🎯 30 квестов на сегодня</h2>
+          <div class="quest-controls">
+            <button class="primary" onclick="newDay()">🔄 Новый день</button>
+            <button class="green" onclick="completeAll()">✅ Выполнить всё</button>
+            <button class="yellow" onclick="showPhrase()">💬 Случайная фраза</button>
+            <button class="gray" onclick="resetToday()">🧹 Сбросить день</button>
+          </div>
 
-    <div class="section-title">📦 Кейсы сезона <span class="legend-text">Japan Legends</span></div>
-    <div class="cases-grid" id="casesGrid"></div>
+          <div class="quest-list" id="questList"></div>
+
+          <div class="phrase" id="phraseBox">Жми «Случайная фраза» — тут будут прикольные мотивации 😄</div>
+        </section>
+      </div>
+
+      <div>
+        <section class="card">
+          <h2>🏆 Титулы дня</h2>
+          <div class="title-box" id="titlesBox"></div>
+          <div class="current-title" id="currentTitle">Текущий титул: Пока нет, но это легко исправить 😎</div>
+        </section>
+
+        <section class="card" style="margin-top:18px;">
+          <h2>🐷 Мини-копилка</h2>
+          <div class="bank-row">
+            <input type="number" id="goalInput" placeholder="Сколько хочешь накопить?" min="1">
+            <button class="primary" onclick="setGoal()">Поставить цель</button>
+          </div>
+          <div class="bank-row">
+            <input type="number" id="addMoneyInput" placeholder="Сколько добавить?" min="1">
+            <button class="green" onclick="addMoney()">Добавить</button>
+            <button class="red" onclick="resetBank()">Сбросить</button>
+          </div>
+          <div class="progress">
+            <div class="progress-fill" id="bankFill"></div>
+          </div>
+          <div class="bank-info">
+            <div id="bankSaved">Накоплено: 0</div>
+            <div id="bankGoal">Цель: 0</div>
+            <div id="bankPercent">0%</div>
+          </div>
+        </section>
+
+        <section class="card" style="margin-top:18px;">
+          <h2>🌙 Анти-тревога</h2>
+          <div class="anti-box">
+            <div class="tip">🛏️ Ложись примерно в одно и то же время — режим реально делает голову спокойнее.</div>
+            <div class="tip">📱 Перед сном лучше не смотреть жуткие вещи и не накручивать себя.</div>
+            <div class="tip">🫁 Если тревожно — 5 медленных вдохов и выдохов. Это банально, но работает.</div>
+            <div class="tip">👨‍👩‍👦 Поболтай с семьёй, братом или другом. Когда не держишь всё в себе — легче.</div>
+            <div class="tip">🛡️ Напоминание: ты в безопасности, а мозг иногда просто слишком активно защищает.</div>
+          </div>
+        </section>
+      </div>
+    </div>
 
     <div class="footer-note">
-      В battle pass 1 уровень = 25 BP EXP. За каждый квест даётся 50 BP EXP.
+      Сделано для спокойных, сильных и легендарных дней ✨
     </div>
   </div>
-
-  <div class="modal" id="wheelModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>🎡 Открытие кейса</h2>
-        <button onclick="closeWheelModal()">Закрыть</button>
-      </div>
-
-      <div class="wheel-wrap">
-        <div class="wheel-box">
-          <div class="pointer"></div>
-          <canvas id="wheelCanvas" width="500" height="500"></canvas>
-
-          <div class="wheel-controls">
-            <button id="buyCaseBtn" onclick="buyCase()">💰 Купить</button>
-            <button id="spinBtn" class="gold-btn" onclick="spinWheel()">🎡 SPIN</button>
-            <button onclick="openCaseX10()">🔥 Открыть x10</button>
-          </div>
-        </div>
-
-        <div class="wheel-side">
-          <div class="case-name" id="wheelCaseName">Кейс</div>
-          <p id="wheelCaseInfo">Описание кейса</p>
-          <p>💰 Цена: <span id="wheelCasePrice">0</span></p>
-          <p>🎯 Главный приз: <span id="wheelMainPrize">-</span></p>
-          <p>📦 Куплено штук: <span id="wheelCaseStock">0</span></p>
-          <div class="drop-name" id="dropResultText">Сначала нажми "Купить", потом SPIN</div>
-
-          <div class="result-actions">
-            <button id="saveToInventoryBtn" onclick="saveDropToInventory()" disabled>📥 В инвентарь</button>
-            <button id="sellForDiamondsBtn" onclick="sellPendingDrop('diamonds')" disabled>💎 Продать за алмазы</button>
-            <button id="sellForDustBtn" onclick="sellPendingDrop('dust')" disabled>🧪 Продать за пыль</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="inventoryModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>🚗 Мои предметы</h2>
-        <button onclick="closeInventory()">Закрыть</button>
-      </div>
-      <div class="inventory-grid" id="inventoryList"></div>
-    </div>
-  </div>
-
-  <div class="modal" id="storeModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>🛒 Магазин</h2>
-        <button onclick="closeStore()">Закрыть</button>
-      </div>
-
-      <div class="season-store-banner">
-        <h3>🔥 Сезонное предложение</h3>
-        <div>Nissan GTR R35 — лимитная машина сезона <b>Japan Legends</b></div>
-        <div style="margin-top:8px;">Цена: <b>8000 💎</b></div>
-        <div style="margin-top:8px;">Осталось времени: <span id="storeTimer">24:00:00</span></div>
-      </div>
-
-      <div class="store-grid" id="storeGrid"></div>
-    </div>
-  </div>
-
-  <div class="modal" id="battlePassModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>🎟 Battle Pass</h2>
-        <button onclick="closeBattlePass()">Закрыть</button>
-      </div>
-
-      <div class="pass-top">
-        <div class="title">Japan Legends Pass</div>
-        <div>Цена Premium Pass: <b>13 000 💎</b></div>
-        <div style="margin-top:6px;">Уровень BP: <b id="bpLevelLabel">1</b> / 35</div>
-        <div style="margin-top:6px;">BP EXP: <b id="bpExpLabel">0</b> / 25</div>
-        <div style="margin-top:6px;">Премиум доступ: <b id="bpPremiumLabel">Нет</b></div>
-
-        <div class="progress-wrap">
-          <div class="progress-bar">
-            <div class="progress-fill" id="bpProgressFill"></div>
-          </div>
-        </div>
-
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
-          <button onclick="buyPremiumPass()">Купить Premium Pass</button>
-          <button onclick="claimAvailablePassRewards()">Забрать доступные награды</button>
-        </div>
-      </div>
-
-      <div class="pass-grid" id="passGrid"></div>
-    </div>
-  </div>
-
-  <div class="modal" id="questsModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>📋 Квесты</h2>
-        <button onclick="closeQuests()">Закрыть</button>
-      </div>
-
-      <div class="season-store-banner">
-        <h3>Как качать BP</h3>
-        <div>Выполняй задания ниже. Каждый квест даёт <b>50 BP EXP</b>.</div>
-        <div style="margin-top:8px;">1 уровень Battle Pass = <b>25 BP EXP</b>.</div>
-      </div>
-
-      <div class="quest-grid" id="questGrid"></div>
-    </div>
-  </div>
-
-  <div class="modal" id="craftModal">
-    <div class="modal-content" style="max-width:700px;">
-      <div class="modal-header">
-        <h2>🛠 Крафт</h2>
-        <button onclick="closeCraft()">Закрыть</button>
-      </div>
-      <div class="craft-box">
-        <div style="font-size:42px; margin-bottom:12px;">⚙️</div>
-        <div style="font-size:26px; font-weight:700; margin-bottom:10px;">Скоро в ближайшем обновлении</div>
-        <div style="color:#cfe8ff;">Хехе, будем заинтересовывать игроков 😎</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="toast" id="toast"></div>
 
   <script>
-    const STORAGE_KEY = "beka_prime_vegas_cases_v4";
-
-    const SALE_PRICES = {
-      diamonds: { silver: 40, green: 130, blue: 230, epic: 1200, mythic: 2300, legendary: 8000 },
-      dust:     { silver: 100, green: 300, blue: 700, epic: 1900, mythic: 3500, legendary: 5000 }
-    };
-
-    const RARITY_NAMES = {
-      silver: "Серебряная",
-      green: "Зелёная",
-      blue: "Синяя",
-      epic: "Эпическая",
-      mythic: "Мифическая",
-      legendary: "Легендарная"
-    };
-
-    const RARITY_CLASSES = {
-      silver: "rarity-silver",
-      green: "rarity-green",
-      blue: "rarity-blue",
-      epic: "rarity-epic",
-      mythic: "rarity-mythic",
-      legendary: "rarity-legendary"
-    };
-
-    const RARITY_TEXT_CLASSES = {
-      silver: "silver-text",
-      green: "green-text",
-      blue: "blue-text",
-      epic: "epic-text",
-      mythic: "myth-text",
-      legendary: "legend-text"
-    };
-
-    const RARITY_COLORS = {
-      silver: "#cad4dc",
-      green: "#43ff79",
-      blue: "#43a7ff",
-      epic: "#aa56ff",
-      mythic: "#ff50da",
-      legendary: "#ffcb43"
-    };
-
-    const ACCOUNT_EXP_GAIN = {
-      newbie: 2,
-      standard: 4,
-      elite: 7,
-      japan: 5,
-      special: 12
-    };
-
-    const CASES = {
-      newbie: {
-        id: "newbie",
-        name: "Кейс Новичок",
-        icon: "📦",
-        price: 99,
-        currency: "diamonds",
-        description: "Стартовый кейс с машинами АвтоВАЗа. Максимум — эпик.",
-        mainPrize: "Lada Vesta",
-        items: [
-          { name: "ВАЗ 2107", rarity: "silver" },
-          { name: "ВАЗ 2106", rarity: "silver" },
-          { name: "ВАЗ 2109", rarity: "silver" },
-          { name: "ВАЗ 2114", rarity: "silver" },
-          { name: "ВАЗ 2110", rarity: "green" },
-          { name: "Lada Priora", rarity: "green" },
-          { name: "ВАЗ 2112", rarity: "green" },
-          { name: "Lada Granta", rarity: "green" },
-          { name: "Lada Kalina Sport", rarity: "blue" },
-          { name: "Lada Samara Turbo", rarity: "blue" },
-          { name: "Lada Priora Sport", rarity: "blue" },
-          { name: "Lada Vesta", rarity: "epic" },
-          { name: "Lada XRay", rarity: "epic" },
-          { name: "Niva Bronto", rarity: "epic" }
-        ],
-        chances: [
-          { rarity: "silver", chance: 55 },
-          { rarity: "green", chance: 28 },
-          { rarity: "blue", chance: 13 },
-          { rarity: "epic", chance: 4 }
-        ]
-      },
-      standard: {
-        id: "standard",
-        name: "Стандартный кейс",
-        icon: "🎁",
-        price: 249,
-        currency: "diamonds",
-        description: "Средний кейс. Максимум — мифик.",
-        mainPrize: "Mercedes W212",
-        items: [
-          { name: "Hyundai Solaris", rarity: "silver" },
-          { name: "Kia Rio", rarity: "silver" },
-          { name: "Chevrolet Cruze", rarity: "silver" },
-          { name: "Toyota Corolla", rarity: "green" },
-          { name: "Honda Civic 2008", rarity: "green" },
-          { name: "Mazda 3", rarity: "green" },
-          { name: "BMW E36", rarity: "blue" },
-          { name: "BMW E39", rarity: "blue" },
-          { name: "Mercedes W202", rarity: "blue" },
-          { name: "Audi A4 B8", rarity: "blue" },
-          { name: "BMW E60", rarity: "epic" },
-          { name: "Audi A6 C7", rarity: "epic" },
-          { name: "Mercedes W204", rarity: "epic" },
-          { name: "Toyota Camry 70", rarity: "epic" },
-          { name: "Mercedes W212", rarity: "mythic" },
-          { name: "BMW F10", rarity: "mythic" },
-          { name: "Lexus GS350", rarity: "mythic" }
-        ],
-        chances: [
-          { rarity: "silver", chance: 38 },
-          { rarity: "green", chance: 29 },
-          { rarity: "blue", chance: 20 },
-          { rarity: "epic", chance: 10 },
-          { rarity: "mythic", chance: 3 }
-        ]
-      },
-      elite: {
-        id: "elite",
-        name: "Элитный кейс",
-        icon: "💎",
-        price: 799,
-        currency: "diamonds",
-        description: "Дорогой кейс. Минимальная редкость — синяя.",
-        mainPrize: "Lamborghini Aventador S 2017",
-        items: [
-          { name: "BMW E46", rarity: "blue" },
-          { name: "Audi TT", rarity: "blue" },
-          { name: "Toyota Mark II", rarity: "blue" },
-          { name: "Nissan Teana", rarity: "blue" },
-          { name: "BMW G20", rarity: "epic" },
-          { name: "Audi A7", rarity: "epic" },
-          { name: "Lexus IS F", rarity: "epic" },
-          { name: "Toyota Supra A90", rarity: "epic" },
-          { name: "BMW M5 F90", rarity: "mythic" },
-          { name: "Mercedes GLE Coupe", rarity: "mythic" },
-          { name: "Porsche Panamera", rarity: "mythic" },
-          { name: "Lamborghini Aventador S 2017", rarity: "legendary" },
-          { name: "BMW M4 CSL", rarity: "legendary" },
-          { name: "Mercedes CLA 2026", rarity: "legendary" }
-        ],
-        chances: [
-          { rarity: "blue", chance: 46 },
-          { rarity: "epic", chance: 31 },
-          { rarity: "mythic", chance: 17 },
-          { rarity: "legendary", chance: 6 }
-        ]
-      },
-      special: {
-        id: "special",
-        name: "Особый кейс",
-        icon: "🧪",
-        price: 10000,
-        currency: "dust",
-        description: "Покупается только за пыль. Минимальная редкость — синяя.",
-        mainPrize: "Bugatti Chiron",
-        items: [
-          { name: "Subaru BRZ Drift", rarity: "blue" },
-          { name: "Nissan 370Z Nismo", rarity: "blue" },
-          { name: "Honda S2000 Turbo", rarity: "blue" },
-          { name: "Mitsubishi Eclipse", rarity: "blue" },
-          { name: "Toyota Chaser JZX100", rarity: "epic" },
-          { name: "Mazda RX-8 Spirit R", rarity: "epic" },
-          { name: "Subaru WRX STI Type RA", rarity: "epic" },
-          { name: "Porsche 911 Turbo S", rarity: "mythic" },
-          { name: "Nissan GTR R35 Nismo", rarity: "mythic" },
-          { name: "Mercedes AMG GT", rarity: "mythic" },
-          { name: "Bugatti Chiron", rarity: "legendary" },
-          { name: "McLaren 720S", rarity: "legendary" },
-          { name: "Ferrari 488 Pista", rarity: "legendary" }
-        ],
-        chances: [
-          { rarity: "blue", chance: 40 },
-          { rarity: "epic", chance: 30 },
-          { rarity: "mythic", chance: 22 },
-          { rarity: "legendary", chance: 8 }
-        ]
-      },
-      japan: {
-        id: "japan",
-        name: "Japan Style",
-        icon: "🇯🇵",
-        price: 399,
-        currency: "diamonds",
-        description: "Сезонный кейс Japan Legends. Главный приз — Supra MK 4 Super Sport.",
-        mainPrize: "Supra MK 4 Super Sport",
-        items: [
-          { name: "Honda Civic EK9", rarity: "blue" },
-          { name: "Mazda MX-5", rarity: "blue" },
-          { name: "Nissan Silvia S13", rarity: "blue" },
-          { name: "Toyota Altezza", rarity: "blue" },
-          { name: "Subaru WRX STI", rarity: "epic" },
-          { name: "Nissan 350Z", rarity: "epic" },
-          { name: "Mazda RX-8", rarity: "epic" },
-          { name: "Toyota Chaser Tourer V", rarity: "epic" },
-          { name: "Nissan GTR R33", rarity: "mythic" },
-          { name: "Nissan Silvia S15", rarity: "mythic" },
-          { name: "Mitsubishi Lancer Evolution IX", rarity: "mythic" },
-          { name: "Honda NSX", rarity: "mythic" },
-          { name: "Supra MK 4 Super Sport", rarity: "legendary" },
-          { name: "Nissan GTR R34 Z-Tune", rarity: "legendary" },
-          { name: "Mazda RX-7 Veilside", rarity: "legendary" }
-        ],
-        chances: [
-          { rarity: "blue", chance: 42 },
-          { rarity: "epic", chance: 32 },
-          { rarity: "mythic", chance: 20 },
-          { rarity: "legendary", chance: 6 }
-        ]
-      }
-    };
-
-    const STORE_ITEMS = [
-      {
-        id: "season_gtr_r35",
-        name: "Nissan GTR R35",
-        rarity: "legendary",
-        price: 8000,
-        type: "seasonal",
-        description: "Лимитная машина сезона. Купить можно только один раз."
-      }
+    const allQuests = [
+      { title: "Заправь кровать", desc: "Начни день с маленькой победы." },
+      { title: "Выпей стакан воды", desc: "Проснулся — и сразу вода." },
+      { title: "Открой окно на 2 минуты", desc: "Пусть в комнату зайдёт свежесть." },
+      { title: "Не бери телефон первые 10 минут", desc: "Пусть мозг проснётся спокойно." },
+      { title: "Умойся прохладной водой", desc: "Мини-перезагрузка с утра." },
+      { title: "Сделай 10 потягиваний", desc: "Тело скажет спасибо." },
+      { title: "Съешь что-нибудь нормальное", desc: "Не оставляй себя без энергии." },
+      { title: "Скажи себе 1 хорошую вещь", desc: "Да, это тоже квест." },
+      { title: "Пройди хотя бы 10 минут", desc: "Даже немного — уже круто." },
+      { title: "Поговори с кем-то дома", desc: "Пару нормальных фраз — уже плюс." },
+      { title: "Не сиди без движения слишком долго", desc: "Встань и разомнись." },
+      { title: "Убери 1 маленький уголок", desc: "Стол, полка, что угодно." },
+      { title: "Сделай 1 полезное дело", desc: "Даже самое мелкое." },
+      { title: "Не смотри тревожный контент днём", desc: "Сегодня день без лишнего мрака." },
+      { title: "Сделай 5 глубоких вдохов", desc: "Спокойствие — это скилл." },
+      { title: "Посиди 5 минут без суеты", desc: "Без телефона, без шума." },
+      { title: "Улыбнись хотя бы раз", desc: "Даже если чисто по приколу." },
+      { title: "Съешь фрукт или что-то полезное", desc: "Организм любит норм отношение." },
+      { title: "Напиши 1 цель на завтра", desc: "План = меньше хаоса." },
+      { title: "Не накручивай себя просто так", desc: "Лови мысль и отпускай." },
+      { title: "Сделай 10 шагов по комнате прямо сейчас", desc: "Мини-активность тоже считается." },
+      { title: "Скажи спасибо кому-нибудь", desc: "За еду, помощь, фильм — за что угодно." },
+      { title: "Послушай спокойную музыку", desc: "Хотя бы одну песню." },
+      { title: "Не спорь по пустякам", desc: "Береги силы на нормальные вещи." },
+      { title: "Сделай паузу для глаз", desc: "Оторвись от экрана на 1–2 минуты." },
+      { title: "Убери телефон перед сном", desc: "Хотя бы за 20–30 минут." },
+      { title: "Подготовь вещи на завтра", desc: "Чтобы утром было легче." },
+      { title: "Вспомни 3 хороших момента дня", desc: "Даже если они маленькие." },
+      { title: "Ляг не слишком поздно", desc: "Сон = главный буст." },
+      { title: "Скажи себе: «Я молодец»", desc: "Потому что ты правда стараешься." }
     ];
 
-    const PASS_LEVELS = Array.from({ length: 35 }, (_, i) => {
-      const level = i + 1;
-
-      let freeReward = { type: "diamonds", amount: 100 + level * 10, label: `${100 + level * 10} 💎` };
-      let premiumReward = { type: "dust", amount: 120 + level * 35, label: `${120 + level * 35} 🧪` };
-
-      if (level % 5 === 0) freeReward = { type: "diamonds", amount: 350 + level * 10, label: `${350 + level * 10} 💎` };
-      if (level % 6 === 0) premiumReward = { type: "diamonds", amount: 500 + level * 15, label: `${500 + level * 15} 💎` };
-
-      if (level === 10) freeReward = { type: "dust", amount: 1500, label: "1500 🧪" };
-      if (level === 15) premiumReward = { type: "caseStock", caseId: "elite", amount: 1, label: "1 Элитный кейс" };
-      if (level === 20) premiumReward = { type: "car", item: { name: "Subaru Impreza 80", rarity: "epic", source: "Battle Pass Premium" }, label: "Subaru Impreza 80" };
-      if (level === 25) freeReward = { type: "caseStock", caseId: "japan", amount: 1, label: "1 Japan Style" };
-      if (level === 30) premiumReward = { type: "caseStock", caseId: "special", amount: 1, label: "1 Особый кейс" };
-      if (level === 35) {
-        freeReward = { type: "car", item: { name: "Nissan Skyline R34", rarity: "legendary", source: "Battle Pass Free" }, label: "Nissan Skyline R34" };
-        premiumReward = { type: "car", item: { name: "Nissan 240sx", rarity: "legendary", source: "Battle Pass Premium" }, label: "Nissan 240sx" };
-      }
-
-      return { level, freeReward, premiumReward };
-    });
-
-    const QUESTS_TEMPLATE = [
-      {
-        id: "open1",
-        title: "Открой 1 кейс",
-        description: "Нужно открыть любой 1 кейс",
-        goal: 1,
-        reward: 50,
-        type: "openCases"
-      },
-      {
-        id: "open3",
-        title: "Открой 3 кейса",
-        description: "Нужно открыть любые 3 кейса",
-        goal: 3,
-        reward: 50,
-        type: "openCases"
-      },
-      {
-        id: "sell2",
-        title: "Продай 2 машины",
-        description: "Продай 2 предмета из инвентаря",
-        goal: 2,
-        reward: 50,
-        type: "sellCars"
-      },
-      {
-        id: "epic1",
-        title: "Получи эпик или выше",
-        description: "Выбей 1 эпическую, мифическую или легендарную машину",
-        goal: 1,
-        reward: 50,
-        type: "epicPlus"
-      }
+    const phrases = [
+      "Сегодня без лишних глюков. Только спокойствие, только кайф 😎",
+      "Даже 5 выполненных квестов — уже победа, не обесценивай себя ✨",
+      "Не надо быть идеальным. Надо быть живым, нормальным и сытым 😄",
+      "Спокойная голова — это тоже суперсила 🛡️",
+      "Ты не ленивый, ты иногда просто перегруженный. Это разные вещи 👍",
+      "Медленный день тоже считается хорошим днём 🌿",
+      "Один нормальный день = уже прогресс 🔥",
+      "Сегодняшний ты делает будущее чуть спокойнее 💛",
+      "Не нужно побеждать весь мир. Сначала победи хаос на столе 😄",
+      "Легенды тоже иногда просто лежат и отдыхают 🛏️"
     ];
+
+    const titleLevels = [
+      { min: 0, name: "Набираешь ход 🌱", desc: "Начало положено, и это уже хорошо." },
+      { min: 5, name: "Спокойничок 😌", desc: "5 квестов — день уже пошёл приятно." },
+      { min: 10, name: "Провёл хорошо день ☀️", desc: "Хороший темп, очень даже красиво." },
+      { min: 15, name: "Мастер спокойствия 🛡️", desc: "Ты уже реально держишь день под контролем." },
+      { min: 20, name: "Лорд тишины 🌙", desc: "Суета сегодня явно проигрывает." },
+      { min: 25, name: "Анти-баг легенда ⚡", desc: "Почти идеальный день без лишних перегрузов." },
+      { min: 30, name: "Император спокойствия 👑", desc: "Все 30 квестов закрыты. Это разнос." }
+    ];
+
+    const STORAGE_KEY = "calmQuestDataV1";
 
     let state = {
-      diamonds: 3000,
-      dust: 2000,
-      inventory: [],
-      caseStock: { newbie: 0, standard: 0, elite: 0, special: 0, japan: 0 },
-      accountLevel: 1,
-      accountExp: 0,
-      bpExp: 0,
-      premiumPass: false,
-      claimedPassRewards: {},
-      purchasedStoreItems: {},
-      storeSeasonEndsAt: Date.now() + 24 * 60 * 60 * 1000,
-      pendingDrop: null,
-      openedCases: 0,
-      legendsDropped: 0,
-      quests: {}
+      date: getTodayString(),
+      quests: Array(30).fill(false),
+      streak: 0,
+      coins: 0,
+      goal: 0,
+      saved: 0
     };
 
-    let currentCase = null;
-    let wheelItems = [];
-    let wheelRotation = 0;
-    let isSpinning = false;
-    let wheelCanvas, wheelCtx;
-
-    function defaultQuestState() {
-      const obj = {};
-      QUESTS_TEMPLATE.forEach(q => {
-        obj[q.id] = { progress: 0, claimed: false };
-      });
-      return obj;
+    function getTodayString(){
+      const d = new Date();
+      return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
     }
 
-    function loadState() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        state.quests = defaultQuestState();
-        return;
-      }
-      try {
-        const parsed = JSON.parse(raw);
-        state = { ...state, ...parsed };
-        state.caseStock = { newbie: 0, standard: 0, elite: 0, special: 0, japan: 0, ...(parsed.caseStock || {}) };
-        state.quests = { ...defaultQuestState(), ...(parsed.quests || {}) };
-      } catch {
-        state.quests = defaultQuestState();
-      }
-    }
-
-    function saveState() {
+    function save(){
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
-    function showToast(text) {
-      const toast = document.getElementById("toast");
-      toast.textContent = text;
-      toast.classList.add("show");
-      clearTimeout(showToast.timer);
-      showToast.timer = setTimeout(() => toast.classList.remove("show"), 2200);
-    }
-
-    function expNeededForAccount(level) {
-      return 8 + (level - 1) * 2;
-    }
-
-    function gainAccountExp(amount) {
-      state.accountExp += amount;
-      while (state.accountExp >= expNeededForAccount(state.accountLevel)) {
-        state.accountExp -= expNeededForAccount(state.accountLevel);
-        state.accountLevel++;
-        showToast(`🎉 Новый уровень аккаунта: ${state.accountLevel}`);
+    function load(){
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        try{
+          const parsed = JSON.parse(raw);
+          state = { ...state, ...parsed };
+        }catch(e){}
       }
-      saveState();
-      updateUI();
+
+      if(state.date !== getTodayString()){
+        state.date = getTodayString();
+        state.quests = Array(30).fill(false);
+      }
+      save();
     }
 
-    function gainBpExp(amount) {
-      state.bpExp += amount;
-      saveState();
-      updateUI();
-    }
-
-    function getBpLevel() {
-      return Math.min(35, Math.floor(state.bpExp / 25) + 1);
-    }
-
-    function getBpExpInCurrentLevel() {
-      return state.bpExp % 25;
-    }
-
-    function rarityLabel(r) {
-      return RARITY_NAMES[r] || r;
-    }
-
-    function getRarityTagClass(r) {
-      return RARITY_CLASSES[r] || "rarity-silver";
-    }
-
-    function getTextRarityClass(r) {
-      return RARITY_TEXT_CLASSES[r] || "silver-text";
-    }
-
-    function addInventoryItem(item) {
-      state.inventory.push({
-        id: Date.now() + "_" + Math.random().toString(36).slice(2, 8),
-        name: item.name,
-        rarity: item.rarity,
-        source: item.source || "Кейс"
-      });
-    }
-
-    function getMainPrizeRarity(caseObj) {
-      const found = caseObj.items.find(item => item.name === caseObj.mainPrize);
-      return found ? found.rarity : "legendary";
-    }
-
-    function countLegends() {
-      return state.inventory.filter(i => i.rarity === "legendary").length + state.legendsDropped;
-    }
-
-    function renderCases() {
-      const grid = document.getElementById("casesGrid");
-      grid.innerHTML = "";
-
-      Object.values(CASES).forEach(c => {
-        const card = document.createElement("div");
-        card.className = "case-card";
-
-        const priceText = c.currency === "diamonds" ? `${c.price} 💎` : `${c.price} 🧪`;
-        const chanceText = c.chances.map(ch => `${rarityLabel(ch.rarity)} ${ch.chance}%`).join(" • ");
-
-        card.innerHTML = `
-          ${c.id === "japan" ? `<div class="season-badge">Japan Legends</div>` : ""}
-          <div class="case-icon">${c.icon}</div>
-          <h3>${c.name}</h3>
-          <div class="price">${priceText}</div>
-          <div class="small">${c.description}</div>
-          <div class="small">Главный приз: <span class="${getTextRarityClass(getMainPrizeRarity(c))}">${c.mainPrize}</span></div>
-          <div class="small">Шансы: ${chanceText}</div>
-          <div class="case-stock">Куплено: ${state.caseStock[c.id] || 0}</div>
-          <button class="bottom-btn" onclick="openCaseWheel('${c.id}')">Открыть окно</button>
+    function renderQuests(){
+      const box = document.getElementById("questList");
+      box.innerHTML = "";
+      allQuests.forEach((q, i) => {
+        const el = document.createElement("div");
+        el.className = "quest" + (state.quests[i] ? " done" : "");
+        el.onclick = () => toggleQuest(i);
+        el.innerHTML = `
+          <div class="check">${state.quests[i] ? "✓" : ""}</div>
+          <div>
+            <div class="quest-title">${i+1}. ${q.title}</div>
+            <div class="quest-desc">${q.desc}</div>
+          </div>
         `;
-
-        grid.appendChild(card);
+        box.appendChild(el);
       });
     }
 
-    function updateUI() {
-      document.getElementById("diamondsLabel").textContent = state.diamonds;
-      document.getElementById("dustLabel").textContent = state.dust;
-      document.getElementById("levelLabel").textContent = state.accountLevel;
-      document.getElementById("bpLevelChip").textContent = getBpLevel();
+    function getDoneCount(){
+      return state.quests.filter(Boolean).length;
+    }
 
-      document.getElementById("statDiamonds").textContent = state.diamonds;
-      document.getElementById("statDust").textContent = state.dust;
-      document.getElementById("statPremium").textContent = state.premiumPass ? "Да" : "Нет";
-      document.getElementById("statLevel").textContent = state.accountLevel;
-      document.getElementById("statAccExp").textContent = state.accountExp;
-      document.getElementById("statAccNeed").textContent = expNeededForAccount(state.accountLevel);
-      document.getElementById("statBpLevel").textContent = getBpLevel();
-      document.getElementById("statBpExp").textContent = getBpExpInCurrentLevel();
-      document.getElementById("statOpened").textContent = state.openedCases;
-      document.getElementById("statLegends").textContent = countLegends();
+    function getCurrentTitle(done){
+      let current = titleLevels[0];
+      for(const t of titleLevels){
+        if(done >= t.min) current = t;
+      }
+      return current;
+    }
 
-      document.getElementById("bpLevelLabel").textContent = getBpLevel();
-      document.getElementById("bpExpLabel").textContent = getBpExpInCurrentLevel();
-      document.getElementById("bpPremiumLabel").textContent = state.premiumPass ? "Да" : "Нет";
-      document.getElementById("bpProgressFill").style.width = (getBpExpInCurrentLevel() / 25 * 100) + "%";
+    function renderTitles(){
+      const done = getDoneCount();
+      const box = document.getElementById("titlesBox");
+      box.innerHTML = "";
+      titleLevels.slice(1).forEach(t => {
+        const active = done >= t.min;
+        const el = document.createElement("div");
+        el.className = "mini-title" + (active ? " active" : "");
+        el.innerHTML = `
+          <h3>${t.name}</h3>
+          <p>${t.min} квестов • ${t.desc}</p>
+        `;
+        box.appendChild(el);
+      });
 
-      renderCases();
-      renderInventory();
-      renderStore();
-      renderBattlePass();
+      const current = getCurrentTitle(done);
+      document.getElementById("currentTitle").textContent = "Текущий титул: " + current.name;
+      document.getElementById("titleNow").textContent = current.name;
+    }
+
+    function renderStats(){
+      const done = getDoneCount();
+      document.getElementById("doneCount").textContent = `${done}/30`;
+      document.getElementById("streakCount").textContent = `${state.streak} 🔥`;
+      document.getElementById("coinsCount").textContent = `${state.coins} 💎`;
+    }
+
+    function renderBank(){
+      document.getElementById("bankSaved").textContent = "Накоплено: " + state.saved;
+      document.getElementById("bankGoal").textContent = "Цель: " + state.goal;
+      const percent = state.goal > 0 ? Math.min(100, Math.round(state.saved / state.goal * 100)) : 0;
+      document.getElementById("bankPercent").textContent = percent + "%";
+      document.getElementById("bankFill").style.width = percent + "%";
+    }
+
+    function renderAll(){
       renderQuests();
+      renderStats();
+      renderTitles();
+      renderBank();
+    }
 
-      if (currentCase) {
-        document.getElementById("wheelCaseStock").textContent = state.caseStock[currentCase.id] || 0;
+    function toggleQuest(i){
+      const wasDone = state.quests[i];
+      state.quests[i] = !state.quests[i];
+
+      if(!wasDone && state.quests[i]){
+        state.coins += 5;
+      } else if(wasDone && !state.quests[i]){
+        state.coins = Math.max(0, state.coins - 5);
       }
 
-      saveState();
+      save();
+      renderAll();
     }
 
-    function openCaseWheel(caseId) {
-      const c = CASES[caseId];
-      if (!c) return;
-      currentCase = c;
-      state.pendingDrop = null;
-      document.getElementById("saveToInventoryBtn").disabled = true;
-      document.getElementById("sellForDiamondsBtn").disabled = true;
-      document.getElementById("sellForDustBtn").disabled = true;
-      document.getElementById("dropResultText").textContent = 'Сначала нажми "Купить", потом SPIN';
-
-      document.getElementById("wheelCaseName").textContent = c.name;
-      document.getElementById("wheelCaseInfo").textContent = c.description;
-      document.getElementById("wheelCasePrice").textContent = c.currency === "diamonds" ? `${c.price} 💎` : `${c.price} 🧪`;
-      document.getElementById("wheelMainPrize").innerHTML = `<span class="${getTextRarityClass(getMainPrizeRarity(c))}">${c.mainPrize}</span>`;
-      document.getElementById("wheelCaseStock").textContent = state.caseStock[c.id] || 0;
-      document.getElementById("wheelModal").style.display = "flex";
-
-      buildWheelItems(c);
-      drawWheel();
+    function completeAll(){
+      let added = 0;
+      state.quests = state.quests.map(v => {
+        if(!v) added += 5;
+        return true;
+      });
+      state.coins += added;
+      save();
+      renderAll();
+      document.getElementById("phraseBox").textContent = "Ну ты дал 😎 Все 30 квестов закрыты. Сегодня ты реально Император спокойствия 👑";
     }
 
-    function closeWheelModal() {
-      if (isSpinning) return;
-      document.getElementById("wheelModal").style.display = "none";
+    function resetToday(){
+      state.quests = Array(30).fill(false);
+      save();
+      renderAll();
+      document.getElementById("phraseBox").textContent = "День сброшен. Ничего страшного — можно начать заново и пройти красиво ✨";
     }
 
-    function buildWheelItems(caseObj) {
-      const pool = [];
-      caseObj.items.forEach(item => pool.push({ ...item }));
-      while (pool.length < 12) {
-        caseObj.items.forEach(item => {
-          if (pool.length < 12) pool.push({ ...item });
-        });
+    function showPhrase(){
+      const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+      document.getElementById("phraseBox").textContent = phrase;
+    }
+
+    function setGoal(){
+      const val = Number(document.getElementById("goalInput").value);
+      if(!val || val <= 0){
+        alert("Введи нормальную цель для копилки 😄");
+        return;
       }
-      wheelItems = shuffleArray(pool).slice(0, 12);
+      state.goal = val;
+      save();
+      renderBank();
     }
 
-    function shuffleArray(arr) {
-      const copy = [...arr];
-      for (let i = copy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [copy[i], copy[j]] = [copy[j], copy[i]];
+    function addMoney(){
+      const val = Number(document.getElementById("addMoneyInput").value);
+      if(!val || val <= 0){
+        alert("Введи сумму, которую хочешь добавить в копилку 💸");
+        return;
       }
-      return copy;
-    }
+      state.saved += val;
+      save();
+      renderBank();
 
-    function weightedRarity(chances) {
-      const roll = Math.random() * 100;
-      let sum = 0;
-      for (const item of chances) {
-        sum += item.chance;
-        if (roll <= sum) return item.rarity;
-      }
-      return chances[chances.length - 1].rarity;
-    }
-
-    function chooseDrop(caseObj) {
-      const rarity = weightedRarity(caseObj.chances);
-      const candidates = caseObj.items.filter(item => item.rarity === rarity);
-      const picked = candidates[Math.floor(Math.random() * candidates.length)];
-      return { ...picked, source: caseObj.name };
-    }
-
-    function ensureDropOnWheel(drop) {
-      const existingIndex = wheelItems.findIndex(item => item.name === drop.name && item.rarity === drop.rarity);
-      if (existingIndex !== -1) return existingIndex;
-      const replaceIndex = Math.floor(Math.random() * wheelItems.length);
-      wheelItems[replaceIndex] = { ...drop };
-      return replaceIndex;
-    }
-
-    function buyCase() {
-      if (!currentCase) return;
-
-      if (currentCase.currency === "diamonds") {
-        if (state.diamonds < currentCase.price) {
-          showToast("❌ Не хватает алмазов");
-          return;
-        }
-        state.diamonds -= currentCase.price;
+      if(state.goal > 0 && state.saved >= state.goal){
+        document.getElementById("phraseBox").textContent = "УРАА! Копилка закрыта! Ты накопил на цель, красавчик 🎉";
       } else {
-        if (state.dust < currentCase.price) {
-          showToast("❌ Не хватает пыли");
-          return;
-        }
-        state.dust -= currentCase.price;
-      }
-
-      state.caseStock[currentCase.id] = (state.caseStock[currentCase.id] || 0) + 1;
-      document.getElementById("wheelCaseStock").textContent = state.caseStock[currentCase.id];
-      showToast(`✅ Куплен кейс: ${currentCase.name}`);
-      updateUI();
-    }
-
-    function openCaseX10() {
-      if (!currentCase) return;
-      const totalCost = currentCase.price * 10;
-
-      if (currentCase.currency === "diamonds") {
-        if (state.diamonds < totalCost) {
-          showToast("❌ Не хватает алмазов");
-          return;
-        }
-        state.diamonds -= totalCost;
-      } else {
-        if (state.dust < totalCost) {
-          showToast("❌ Не хватает пыли");
-          return;
-        }
-        state.dust -= totalCost;
-      }
-
-      const results = [];
-      for (let i = 0; i < 10; i++) {
-        const drop = chooseDrop(currentCase);
-        addInventoryItem(drop);
-        handleOpenedDropForStats(drop, currentCase.id);
-        results.push(drop.name);
-      }
-
-      state.openedCases += 10;
-      updateQuestProgress("openCases", 10);
-      showToast("🔥 x10 открытие выполнено");
-      document.getElementById("dropResultText").textContent = "x10 открыто! Всё уже в инвентаре";
-      updateUI();
-    }
-
-    function spinWheel() {
-      if (!currentCase || isSpinning) return;
-
-      if ((state.caseStock[currentCase.id] || 0) <= 0) {
-        showToast('Сначала нажми "Купить"');
-        return;
-      }
-
-      state.caseStock[currentCase.id]--;
-      document.getElementById("wheelCaseStock").textContent = state.caseStock[currentCase.id];
-
-      const drop = chooseDrop(currentCase);
-      state.pendingDrop = drop;
-
-      const index = ensureDropOnWheel(drop);
-      const segmentAngle = (Math.PI * 2) / wheelItems.length;
-      const targetAngle = -(index * segmentAngle) - segmentAngle / 2;
-      const desiredCanvasRotation = (Math.PI * 1.5) + targetAngle;
-      const fullSpins = (Math.PI * 2) * (5 + Math.random() * 2);
-      const finalRotation = fullSpins + desiredCanvasRotation;
-
-      const startRotation = wheelRotation;
-      const duration = 4500;
-      const startTime = performance.now();
-
-      isSpinning = true;
-      document.getElementById("spinBtn").disabled = true;
-      document.getElementById("dropResultText").textContent = "Колесо крутится...";
-
-      function animate(now) {
-        const elapsed = now - startTime;
-        const t = Math.min(1, elapsed / duration);
-        const ease = 1 - Math.pow(1 - t, 4);
-        wheelRotation = startRotation + (finalRotation - startRotation) * ease;
-        drawWheel();
-
-        if (t < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          isSpinning = false;
-          document.getElementById("spinBtn").disabled = false;
-          state.openedCases++;
-          handleOpenedDropForStats(drop, currentCase.id);
-          showDropResult(drop);
-          updateQuestProgress("openCases", 1);
-          updateUI();
-        }
-      }
-
-      requestAnimationFrame(animate);
-    }
-
-    function handleOpenedDropForStats(drop, caseId) {
-      gainAccountExp(ACCOUNT_EXP_GAIN[caseId] || 1);
-      if (drop.rarity === "legendary") {
-        state.legendsDropped++;
-        gainAccountExp(7);
-      } else if (drop.rarity === "mythic") {
-        gainAccountExp(3);
-      }
-
-      if (["epic", "mythic", "legendary"].includes(drop.rarity)) {
-        updateQuestProgress("epicPlus", 1);
+        document.getElementById("phraseBox").textContent = `В копилку добавлено ${val}. Так держать 💛`;
       }
     }
 
-    function showDropResult(drop) {
-      document.getElementById("dropResultText").innerHTML =
-        `Тебе выпало: <span class="${getTextRarityClass(drop.rarity)}">${drop.name}</span>`;
-      document.getElementById("saveToInventoryBtn").disabled = false;
-      document.getElementById("sellForDiamondsBtn").disabled = false;
-      document.getElementById("sellForDustBtn").disabled = false;
-      showToast(`🎉 Выпало: ${drop.name}`);
-    }
-
-    function saveDropToInventory() {
-      if (!state.pendingDrop) return;
-      addInventoryItem(state.pendingDrop);
-      showToast(`📥 ${state.pendingDrop.name} добавлен в инвентарь`);
-      state.pendingDrop = null;
-      resetPendingDropButtons();
-      updateUI();
-    }
-
-    function sellPendingDrop(type) {
-      if (!state.pendingDrop) return;
-      const rarity = state.pendingDrop.rarity;
-      const amount = SALE_PRICES[type][rarity] || 0;
-
-      if (type === "diamonds") {
-        state.diamonds += amount;
-        showToast(`💎 Продано за ${amount} алмазов`);
-      } else {
-        state.dust += amount;
-        showToast(`🧪 Продано за ${amount} пыли`);
-      }
-
-      updateQuestProgress("sellCars", 1);
-      state.pendingDrop = null;
-      resetPendingDropButtons();
-      updateUI();
-    }
-
-    function resetPendingDropButtons() {
-      document.getElementById("saveToInventoryBtn").disabled = true;
-      document.getElementById("sellForDiamondsBtn").disabled = true;
-      document.getElementById("sellForDustBtn").disabled = true;
-      document.getElementById("dropResultText").textContent = 'Сначала нажми "Купить", потом SPIN';
-    }
-
-    function drawWheel() {
-      if (!wheelCtx) return;
-
-      const ctx = wheelCtx;
-      const canvas = wheelCanvas;
-      const w = canvas.width;
-      const h = canvas.height;
-      const cx = w / 2;
-      const cy = h / 2;
-      const radius = 220;
-
-      ctx.clearRect(0, 0, w, h);
-
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate(wheelRotation);
-
-      const segAngle = (Math.PI * 2) / wheelItems.length;
-
-      for (let i = 0; i < wheelItems.length; i++) {
-        const item = wheelItems[i];
-        const start = i * segAngle - Math.PI / 2;
-        const end = start + segAngle;
-
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.arc(0, 0, radius, start, end);
-        ctx.closePath();
-        ctx.fillStyle = RARITY_COLORS[item.rarity];
-        ctx.globalAlpha = 0.92;
-        ctx.fill();
-
-        ctx.lineWidth = 3;
-        ctx.strokeStyle = "rgba(255,255,255,.14)";
-        ctx.stroke();
-
-        ctx.save();
-        ctx.rotate(start + segAngle / 2);
-        ctx.textAlign = "right";
-        ctx.fillStyle = "#0b1024";
-        ctx.font = "bold 15px Arial";
-        ctx.fillText(shortName(item.name, 16), radius - 18, 6);
-        ctx.restore();
-      }
-
-      ctx.restore();
-
-      ctx.beginPath();
-      ctx.arc(cx, cy, 52, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(7,17,27,.96)";
-      ctx.fill();
-      ctx.lineWidth = 4;
-      ctx.strokeStyle = "rgba(255,255,255,.15)";
-      ctx.stroke();
-
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "bold 22px Arial";
-      ctx.textAlign = "center";
-      ctx.fillText("SPIN", cx, cy + 8);
-    }
-
-    function shortName(name, maxLen) {
-      return name.length > maxLen ? name.slice(0, maxLen - 1) + "…" : name;
-    }
-
-    function renderInventory() {
-      const list = document.getElementById("inventoryList");
-      list.innerHTML = "";
-
-      if (!state.inventory.length) {
-        list.innerHTML = `<div class="empty-text">Пока что инвентарь пуст 😔</div>`;
-        return;
-      }
-
-      state.inventory.forEach(item => {
-        const dPrice = SALE_PRICES.diamonds[item.rarity];
-        const dustPrice = SALE_PRICES.dust[item.rarity];
-
-        const card = document.createElement("div");
-        card.className = "item-card";
-        card.innerHTML = `
-          <div class="tag ${getRarityTagClass(item.rarity)}">${rarityLabel(item.rarity)}</div>
-          <h4>${item.name}</h4>
-          <div class="meta">Источник: ${item.source}</div>
-          <div class="meta">💎 Продажа: ${dPrice}</div>
-          <div class="meta">🧪 Продажа: ${dustPrice}</div>
-          <div class="item-actions">
-            <button onclick="sellInventoryItem('${item.id}','diamonds')">Продать за 💎</button>
-            <button onclick="sellInventoryItem('${item.id}','dust')">Продать за 🧪</button>
-          </div>
-        `;
-        list.appendChild(card);
-      });
-    }
-
-    function sellInventoryItem(itemId, type) {
-      const index = state.inventory.findIndex(item => item.id === itemId);
-      if (index === -1) return;
-
-      const item = state.inventory[index];
-      const amount = SALE_PRICES[type][item.rarity] || 0;
-
-      if (type === "diamonds") {
-        state.diamonds += amount;
-        showToast(`💎 ${item.name} продан за ${amount}`);
-      } else {
-        state.dust += amount;
-        showToast(`🧪 ${item.name} продан за ${amount}`);
-      }
-
-      state.inventory.splice(index, 1);
-      updateQuestProgress("sellCars", 1);
-      updateUI();
-    }
-
-    function openInventory() {
-      document.getElementById("inventoryModal").style.display = "flex";
-      renderInventory();
-    }
-
-    function closeInventory() {
-      document.getElementById("inventoryModal").style.display = "none";
-    }
-
-    function renderStore() {
-      const grid = document.getElementById("storeGrid");
-      grid.innerHTML = "";
-
-      STORE_ITEMS.forEach(item => {
-        const bought = !!state.purchasedStoreItems[item.id];
-        const expired = item.type === "seasonal" && Date.now() > state.storeSeasonEndsAt;
-
-        const card = document.createElement("div");
-        card.className = "item-card";
-        card.innerHTML = `
-          <div class="tag ${getRarityTagClass(item.rarity)}">LIMITED</div>
-          <h4>${item.name}</h4>
-          <div class="meta">${item.description}</div>
-          <div class="meta">Цена: ${item.price} 💎</div>
-          <div class="item-actions">
-            <button class="gold-btn" onclick="buyStoreItem('${item.id}')" ${bought || expired ? "disabled" : ""}>
-              ${bought ? "Уже куплено" : expired ? "Недоступно" : "Купить"}
-            </button>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function buyStoreItem(itemId) {
-      const item = STORE_ITEMS.find(x => x.id === itemId);
-      if (!item) return;
-      if (state.purchasedStoreItems[item.id]) {
-        showToast("Уже куплено");
-        return;
-      }
-      if (Date.now() > state.storeSeasonEndsAt) {
-        showToast("❌ Время предложения закончилось");
-        return;
-      }
-      if (state.diamonds < item.price) {
-        showToast("❌ Не хватает алмазов");
-        return;
-      }
-
-      state.diamonds -= item.price;
-      addInventoryItem({ name: item.name, rarity: item.rarity, source: "Магазин" });
-      state.purchasedStoreItems[item.id] = true;
-      showToast(`🔥 Куплено: ${item.name}`);
-      updateUI();
-    }
-
-    function openStore() {
-      document.getElementById("storeModal").style.display = "flex";
-      renderStore();
-      updateStoreTimer();
-    }
-
-    function closeStore() {
-      document.getElementById("storeModal").style.display = "none";
-    }
-
-    function updateStoreTimer() {
-      const el = document.getElementById("storeTimer");
-      if (!el) return;
-
-      const diff = Math.max(0, state.storeSeasonEndsAt - Date.now());
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      el.textContent = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-    }
-
-    function renderBattlePass() {
-      const grid = document.getElementById("passGrid");
-      grid.innerHTML = "";
-
-      PASS_LEVELS.forEach(levelData => {
-        const freeKey = `free_${levelData.level}`;
-        const premiumKey = `premium_${levelData.level}`;
-        const freeClaimed = !!state.claimedPassRewards[freeKey];
-        const premiumClaimed = !!state.claimedPassRewards[premiumKey];
-
-        const card = document.createElement("div");
-        card.className = "pass-level-card";
-        card.innerHTML = `
-          <h4>Уровень ${levelData.level}</h4>
-          <div class="reward-box ${freeClaimed ? "claimed" : ""}">
-            Бесплатно: ${levelData.freeReward.label} ${freeClaimed ? "✅" : ""}
-          </div>
-          <div class="reward-box ${premiumClaimed ? "claimed" : ""}">
-            Premium: ${levelData.premiumReward.label} ${premiumClaimed ? "✅" : ""} ${!state.premiumPass ? "(нужен пасс)" : ""}
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function claimAvailablePassRewards() {
-      const unlocked = getBpLevel();
-      let claimedAny = false;
-
-      for (let level = 1; level <= unlocked; level++) {
-        const data = PASS_LEVELS.find(l => l.level === level);
-        if (!data) continue;
-
-        const freeKey = `free_${level}`;
-        if (!state.claimedPassRewards[freeKey]) {
-          givePassReward(data.freeReward);
-          state.claimedPassRewards[freeKey] = true;
-          claimedAny = true;
-        }
-
-        const premiumKey = `premium_${level}`;
-        if (state.premiumPass && !state.claimedPassRewards[premiumKey]) {
-          givePassReward(data.premiumReward);
-          state.claimedPassRewards[premiumKey] = true;
-          claimedAny = true;
-        }
-      }
-
-      if (claimedAny) {
-        updateUI();
-        showToast("🎁 Награды Battle Pass получены");
-      } else {
-        showToast("Пока нечего забирать");
+    function resetBank(){
+      if(confirm("Точно сбросить копилку?")){
+        state.goal = 0;
+        state.saved = 0;
+        save();
+        renderBank();
+        document.getElementById("phraseBox").textContent = "Копилка сброшена. Если что — можно начать новую цель ✨";
       }
     }
 
-    function givePassReward(reward) {
-      if (reward.type === "diamonds") {
-        state.diamonds += reward.amount;
-      } else if (reward.type === "dust") {
-        state.dust += reward.amount;
-      } else if (reward.type === "car") {
-        addInventoryItem(reward.item);
-      } else if (reward.type === "caseStock") {
-        state.caseStock[reward.caseId] = (state.caseStock[reward.caseId] || 0) + reward.amount;
+    function newDay(){
+      const done = getDoneCount();
+      if(done >= 5){
+        state.streak += 1;
+        state.coins += 20;
       }
+      state.date = getTodayString() + "-manual-" + Math.random().toString(36).slice(2,6);
+      state.quests = Array(30).fill(false);
+      save();
+
+      // сразу вернуть дату на обычную, чтобы новый день жил нормально
+      state.date = getTodayString();
+      save();
+
+      renderAll();
+      document.getElementById("phraseBox").textContent = done >= 5
+        ? "Новый день начался! Серия сохранена, +20 кристаллов за хороший день 🔥"
+        : "Новый день начался! Чтобы серия росла, постарайся сделать хотя бы 5 квестов 😄";
     }
 
-    function buyPremiumPass() {
-      if (state.premiumPass) {
-        showToast("Премиум уже куплен");
-        return;
-      }
-      if (state.diamonds < 13000) {
-        showToast("❌ Не хватает алмазов");
-        return;
-      }
-      state.diamonds -= 13000;
-      state.premiumPass = true;
-      gainAccountExp(20);
-      showToast("🎟 Premium Pass куплен");
-      updateUI();
-    }
-
-    function openBattlePass() {
-      document.getElementById("battlePassModal").style.display = "flex";
-      renderBattlePass();
-    }
-
-    function closeBattlePass() {
-      document.getElementById("battlePassModal").style.display = "none";
-    }
-
-    function updateQuestProgress(type, amount) {
-      QUESTS_TEMPLATE.forEach(q => {
-        if (q.type === type && !state.quests[q.id].claimed) {
-          state.quests[q.id].progress = Math.min(q.goal, state.quests[q.id].progress + amount);
-        }
-      });
-      saveState();
-      renderQuests();
-    }
-
-    function renderQuests() {
-      const grid = document.getElementById("questGrid");
-      if (!grid) return;
-      grid.innerHTML = "";
-
-      QUESTS_TEMPLATE.forEach(q => {
-        const data = state.quests[q.id];
-        const done = data.progress >= q.goal;
-        const card = document.createElement("div");
-        card.className = "quest-card" + (data.claimed ? " done" : "");
-        card.innerHTML = `
-          <h4>${q.title}</h4>
-          <div class="meta">${q.description}</div>
-          <div class="meta">Прогресс: ${Math.min(data.progress, q.goal)} / ${q.goal}</div>
-          <div class="meta">Награда: ${q.reward} BP EXP</div>
-          <div class="item-actions">
-            <button onclick="claimQuest('${q.id}')" ${!done || data.claimed ? "disabled" : ""}>
-              ${data.claimed ? "Получено" : "Забрать"}
-            </button>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function claimQuest(id) {
-      const quest = QUESTS_TEMPLATE.find(q => q.id === id);
-      if (!quest) return;
-      const data = state.quests[id];
-      if (data.claimed) return;
-      if (data.progress < quest.goal) {
-        showToast("Квест ещё не выполнен");
-        return;
-      }
-
-      data.claimed = true;
-      gainBpExp(quest.reward);
-      showToast(`📋 Квест выполнен: +${quest.reward} BP EXP`);
-      renderQuests();
-      renderBattlePass();
-    }
-
-    function openQuests() {
-      document.getElementById("questsModal").style.display = "flex";
-      renderQuests();
-    }
-
-    function closeQuests() {
-      document.getElementById("questsModal").style.display = "none";
-    }
-
-    function openCraft() {
-      document.getElementById("craftModal").style.display = "flex";
-    }
-
-    function closeCraft() {
-      document.getElementById("craftModal").style.display = "none";
-    }
-
-    function setupCanvas() {
-      wheelCanvas = document.getElementById("wheelCanvas");
-      wheelCtx = wheelCanvas.getContext("2d");
-      drawWheel();
-    }
-
-    function closeOnBackdrop(modalId, closeFn) {
-      const modal = document.getElementById(modalId);
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) closeFn();
-      });
-    }
-
-    function init() {
-      loadState();
-      if (!state.storeSeasonEndsAt) {
-        state.storeSeasonEndsAt = Date.now() + 24 * 60 * 60 * 1000;
-      }
-      setupCanvas();
-      updateUI();
-
-      closeOnBackdrop("wheelModal", closeWheelModal);
-      closeOnBackdrop("inventoryModal", closeInventory);
-      closeOnBackdrop("storeModal", closeStore);
-      closeOnBackdrop("battlePassModal", closeBattlePass);
-      closeOnBackdrop("questsModal", closeQuests);
-      closeOnBackdrop("craftModal", closeCraft);
-
-      setInterval(updateStoreTimer, 1000);
-    }
-
-    window.addEventListener("load", init);
+    load();
+    renderAll();
   </script>
 </body>
 </html>

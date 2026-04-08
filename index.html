@@ -3,661 +3,504 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calm Quest — Квесты дня</title>
+  <title>Urbaev Company</title>
   <style>
-    * { box-sizing: border-box; }
-    :root{
-      --bg1:#dff6ff;
-      --bg2:#f4fff4;
-      --card:#ffffffcc;
-      --text:#1f2a44;
-      --muted:#5f6f94;
-      --accent:#6aa9ff;
-      --accent2:#7bd389;
-      --accent3:#ffd166;
-      --danger:#ff8c94;
-      --shadow:0 10px 30px rgba(50,80,130,.15);
-      --radius:22px;
-    }
-    body{
-      margin:0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at top left, #ffffffcc 0, #ffffff00 30%),
-        linear-gradient(135deg,var(--bg1),var(--bg2));
-      min-height:100vh;
-    }
-    .wrap{
-      max-width:1200px;
-      margin:0 auto;
-      padding:20px;
-    }
-    .hero{
-      background:linear-gradient(135deg,#a6d8ff,#d2ffd8,#fff2b2);
-      border-radius:28px;
-      padding:22px;
-      box-shadow:var(--shadow);
-      position:relative;
-      overflow:hidden;
-    }
-    .hero h1{
-      margin:0 0 8px;
-      font-size:38px;
-    }
-    .hero p{
-      margin:0;
-      color:#355070;
-      font-size:17px;
-    }
-    .floating{
-      position:absolute;
-      font-size:26px;
-      opacity:.35;
-      animation: float 5s ease-in-out infinite;
-      user-select:none;
-    }
-    .f1{ top:18px; right:24px; }
-    .f2{ top:65px; right:90px; animation-delay:1s; }
-    .f3{ bottom:18px; right:35px; animation-delay:2s; }
-    @keyframes float{
-      0%,100%{ transform:translateY(0px) rotate(0); }
-      50%{ transform:translateY(-8px) rotate(6deg); }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1.3fr .9fr;
-      gap:18px;
-      margin-top:18px;
-    }
-    .card{
-      background:var(--card);
-      backdrop-filter: blur(10px);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:18px;
-    }
-    .card h2{
-      margin:0 0 14px;
-      font-size:24px;
+    body {
+      background: linear-gradient(180deg, #87ceeb 0%, #dff6ff 100%);
+      font-family: Arial, sans-serif;
+      overflow: hidden;
     }
 
-    .top-stats{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:12px;
-      margin-top:18px;
-    }
-    .stat{
-      background:#fff;
-      border-radius:20px;
-      padding:14px;
-      box-shadow:var(--shadow);
-      text-align:center;
-    }
-    .stat .big{
-      font-size:28px;
-      font-weight:800;
-      margin-bottom:4px;
-    }
-    .stat .small{
-      color:var(--muted);
-      font-size:14px;
+    .topbar {
+      width: 100%;
+      text-align: center;
+      padding: 16px 10px;
+      font-size: 34px;
+      font-weight: bold;
+      color: #ffffff;
+      background: linear-gradient(90deg, #111827, #2563eb, #111827);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      letter-spacing: 1px;
+      z-index: 5;
+      position: relative;
     }
 
-    .quest-controls{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-bottom:14px;
-    }
-    button{
-      border:none;
-      border-radius:14px;
-      padding:11px 15px;
-      font-size:15px;
-      font-weight:700;
-      cursor:pointer;
-      transition:.18s transform,.18s opacity,.18s box-shadow;
-      box-shadow:var(--shadow);
-    }
-    button:hover{ transform:translateY(-2px); }
-    button.primary{ background:var(--accent); color:#fff; }
-    button.green{ background:var(--accent2); color:#123; }
-    button.yellow{ background:var(--accent3); color:#5b4300; }
-    button.red{ background:var(--danger); color:#fff; }
-    button.gray{ background:#e9eef8; color:#334; }
-
-    .quest-list{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
-    .quest{
-      background:#fff;
-      border-radius:18px;
-      padding:14px;
-      border:2px solid transparent;
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      transition:.2s;
-    }
-    .quest.done{
-      border-color:#7bd389;
-      background:#effff2;
-    }
-    .quest .check{
-      width:24px;
-      height:24px;
-      border-radius:50%;
-      border:2px solid #9db8d4;
-      flex:0 0 auto;
-      margin-top:2px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:14px;
-      font-weight:800;
-      color:#fff;
-      background:#fff;
-    }
-    .quest.done .check{
-      background:#7bd389;
-      border-color:#7bd389;
-    }
-    .quest-title{
-      font-weight:700;
-      margin-bottom:4px;
-      line-height:1.3;
-    }
-    .quest-desc{
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.4;
+    .info {
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+      font-size: 18px;
+      color: #111827;
+      background: rgba(255,255,255,0.75);
+      font-weight: bold;
+      z-index: 5;
+      position: relative;
     }
 
-    .title-box{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-    .mini-title{
-      background:#fff;
-      border-radius:16px;
-      padding:12px;
-      border:2px dashed #dbe7ff;
-    }
-    .mini-title.active{
-      background:linear-gradient(135deg,#fef3c7,#fff,#dcfce7);
-      border-color:#ffd166;
-    }
-    .mini-title h3{
-      margin:0 0 4px;
-      font-size:16px;
-    }
-    .mini-title p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
+    #game {
+      display: block;
+      margin: 0 auto;
+      background: linear-gradient(180deg, #9be7ff 0%, #d9f99d 100%);
+      border-top: 3px solid #ffffff55;
     }
 
-    .current-title{
-      margin-top:14px;
-      background:linear-gradient(135deg,#eef7ff,#f4fff6);
-      border-radius:18px;
-      padding:14px;
-      font-size:18px;
-      font-weight:800;
+    .controls {
+      position: fixed;
+      bottom: 14px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      z-index: 10;
+      flex-wrap: wrap;
     }
 
-    .phrase{
-      font-size:16px;
-      line-height:1.5;
-      padding:14px;
-      border-radius:18px;
-      background:#fff;
-      margin-top:12px;
-      color:#335;
+    .controls button {
+      border: none;
+      background: #111827;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
-    .bank-row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:12px;
-    }
-    .bank-row input{
-      flex:1;
-      min-width:140px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:2px solid #d8e6ff;
-      font-size:15px;
-      outline:none;
-    }
-    .progress{
-      width:100%;
-      height:24px;
-      border-radius:999px;
-      background:#e7edf8;
-      overflow:hidden;
-      margin:10px 0 8px;
-    }
-    .progress-fill{
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg,#6aa9ff,#7bd389,#ffd166);
-      transition:.25s;
-    }
-    .bank-info{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      color:var(--muted);
-      font-weight:700;
+    .controls button:hover {
+      background: #2563eb;
     }
 
-    .anti-box{
-      display:grid;
-      gap:10px;
-    }
-    .tip{
-      background:#fff;
-      border-radius:15px;
-      padding:12px;
-      font-size:14px;
-      line-height:1.45;
-    }
-
-    .footer-note{
-      margin-top:18px;
-      text-align:center;
-      color:#5b6b90;
-      font-size:14px;
+    .mobile-controls {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .badge{
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:13px;
-      font-weight:800;
-      background:#eef5ff;
-      color:#355070;
-      margin:4px 6px 0 0;
+    .mobile-controls button {
+      width: 70px;
+      height: 70px;
+      font-size: 26px;
+      border: none;
+      border-radius: 16px;
+      background: rgba(17,24,39,0.85);
+      color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      cursor: pointer;
     }
 
-    @media (max-width: 980px){
-      .grid{ grid-template-columns:1fr; }
-      .quest-list{ grid-template-columns:1fr; }
-      .top-stats{ grid-template-columns:1fr 1fr; }
-    }
+    @media (max-width: 700px) {
+      .topbar {
+        font-size: 25px;
+      }
 
-    @media (max-width: 560px){
-      .hero h1{ font-size:29px; }
-      .top-stats{ grid-template-columns:1fr; }
-      .title-box{ grid-template-columns:1fr; }
+      .info {
+        font-size: 15px;
+      }
+
+      #game {
+        width: 100vw;
+        height: calc(100vh - 170px);
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <div class="floating f1">🌤️</div>
-      <div class="floating f2">🛡️</div>
-      <div class="floating f3">✨</div>
-      <h1>Calm Quest — Квесты дня</h1>
-      <p>Проходи квесты, получай титулы, держи серию дней и копи на свою цель. День без лишних глюков = лучший день 😄</p>
-    </section>
+  <div class="topbar">Urbaev Company</div>
+  <div class="info">
+    Монеты: <span id="coins">0</span> |
+    Жизни: <span id="lives">3</span> |
+    Уровень: <span id="levelText">1</span>
+  </div>
 
-    <div class="top-stats">
-      <div class="stat">
-        <div class="big" id="doneCount">0/30</div>
-        <div class="small">Квестов выполнено</div>
-      </div>
-      <div class="stat">
-        <div class="big" id="streakCount">0 🔥</div>
-        <div class="small">Серия дней</div>
-      </div>
-      <div class="stat">
-        <div class="big" id="coinsCount">0 💎</div>
-        <div class="small">Кристаллы</div>
-      </div>
-      <div class="stat">
-        <div class="big" id="titleNow">—</div>
-        <div class="small">Титул дня</div>
-      </div>
-    </div>
+  <canvas id="game" width="1000" height="500"></canvas>
 
-    <div class="grid">
-      <div>
-        <section class="card">
-          <h2>🎯 30 квестов на сегодня</h2>
-          <div class="quest-controls">
-            <button class="primary" onclick="newDay()">🔄 Новый день</button>
-            <button class="green" onclick="completeAll()">✅ Выполнить всё</button>
-            <button class="yellow" onclick="showPhrase()">💬 Случайная фраза</button>
-            <button class="gray" onclick="resetToday()">🧹 Сбросить день</button>
-          </div>
+  <div class="mobile-controls">
+    <button id="leftBtn">⬅️</button>
+    <button id="jumpBtn">⬆️</button>
+    <button id="rightBtn">➡️</button>
+  </div>
 
-          <div class="quest-list" id="questList"></div>
-
-          <div class="phrase" id="phraseBox">Жми «Случайная фраза» — тут будут прикольные мотивации 😄</div>
-        </section>
-      </div>
-
-      <div>
-        <section class="card">
-          <h2>🏆 Титулы дня</h2>
-          <div class="title-box" id="titlesBox"></div>
-          <div class="current-title" id="currentTitle">Текущий титул: Пока нет, но это легко исправить 😎</div>
-        </section>
-
-        <section class="card" style="margin-top:18px;">
-          <h2>🐷 Мини-копилка</h2>
-          <div class="bank-row">
-            <input type="number" id="goalInput" placeholder="Сколько хочешь накопить?" min="1">
-            <button class="primary" onclick="setGoal()">Поставить цель</button>
-          </div>
-          <div class="bank-row">
-            <input type="number" id="addMoneyInput" placeholder="Сколько добавить?" min="1">
-            <button class="green" onclick="addMoney()">Добавить</button>
-            <button class="red" onclick="resetBank()">Сбросить</button>
-          </div>
-          <div class="progress">
-            <div class="progress-fill" id="bankFill"></div>
-          </div>
-          <div class="bank-info">
-            <div id="bankSaved">Накоплено: 0</div>
-            <div id="bankGoal">Цель: 0</div>
-            <div id="bankPercent">0%</div>
-          </div>
-        </section>
-
-        <section class="card" style="margin-top:18px;">
-          <h2>🌙 Анти-тревога</h2>
-          <div class="anti-box">
-            <div class="tip">🛏️ Ложись примерно в одно и то же время — режим реально делает голову спокойнее.</div>
-            <div class="tip">📱 Перед сном лучше не смотреть жуткие вещи и не накручивать себя.</div>
-            <div class="tip">🫁 Если тревожно — 5 медленных вдохов и выдохов. Это банально, но работает.</div>
-            <div class="tip">👨‍👩‍👦 Поболтай с семьёй, братом или другом. Когда не держишь всё в себе — легче.</div>
-            <div class="tip">🛡️ Напоминание: ты в безопасности, а мозг иногда просто слишком активно защищает.</div>
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <div class="footer-note">
-      Сделано для спокойных, сильных и легендарных дней ✨
-    </div>
+  <div class="controls">
+    <button onclick="restartGame()">Начать заново</button>
+    <button onclick="nextLevel()">Следующий уровень</button>
   </div>
 
   <script>
-    const allQuests = [
-      { title: "Заправь кровать", desc: "Начни день с маленькой победы." },
-      { title: "Выпей стакан воды", desc: "Проснулся — и сразу вода." },
-      { title: "Открой окно на 2 минуты", desc: "Пусть в комнату зайдёт свежесть." },
-      { title: "Не бери телефон первые 10 минут", desc: "Пусть мозг проснётся спокойно." },
-      { title: "Умойся прохладной водой", desc: "Мини-перезагрузка с утра." },
-      { title: "Сделай 10 потягиваний", desc: "Тело скажет спасибо." },
-      { title: "Съешь что-нибудь нормальное", desc: "Не оставляй себя без энергии." },
-      { title: "Скажи себе 1 хорошую вещь", desc: "Да, это тоже квест." },
-      { title: "Пройди хотя бы 10 минут", desc: "Даже немного — уже круто." },
-      { title: "Поговори с кем-то дома", desc: "Пару нормальных фраз — уже плюс." },
-      { title: "Не сиди без движения слишком долго", desc: "Встань и разомнись." },
-      { title: "Убери 1 маленький уголок", desc: "Стол, полка, что угодно." },
-      { title: "Сделай 1 полезное дело", desc: "Даже самое мелкое." },
-      { title: "Не смотри тревожный контент днём", desc: "Сегодня день без лишнего мрака." },
-      { title: "Сделай 5 глубоких вдохов", desc: "Спокойствие — это скилл." },
-      { title: "Посиди 5 минут без суеты", desc: "Без телефона, без шума." },
-      { title: "Улыбнись хотя бы раз", desc: "Даже если чисто по приколу." },
-      { title: "Съешь фрукт или что-то полезное", desc: "Организм любит норм отношение." },
-      { title: "Напиши 1 цель на завтра", desc: "План = меньше хаоса." },
-      { title: "Не накручивай себя просто так", desc: "Лови мысль и отпускай." },
-      { title: "Сделай 10 шагов по комнате прямо сейчас", desc: "Мини-активность тоже считается." },
-      { title: "Скажи спасибо кому-нибудь", desc: "За еду, помощь, фильм — за что угодно." },
-      { title: "Послушай спокойную музыку", desc: "Хотя бы одну песню." },
-      { title: "Не спорь по пустякам", desc: "Береги силы на нормальные вещи." },
-      { title: "Сделай паузу для глаз", desc: "Оторвись от экрана на 1–2 минуты." },
-      { title: "Убери телефон перед сном", desc: "Хотя бы за 20–30 минут." },
-      { title: "Подготовь вещи на завтра", desc: "Чтобы утром было легче." },
-      { title: "Вспомни 3 хороших момента дня", desc: "Даже если они маленькие." },
-      { title: "Ляг не слишком поздно", desc: "Сон = главный буст." },
-      { title: "Скажи себе: «Я молодец»", desc: "Потому что ты правда стараешься." }
-    ];
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
 
-    const phrases = [
-      "Сегодня без лишних глюков. Только спокойствие, только кайф 😎",
-      "Даже 5 выполненных квестов — уже победа, не обесценивай себя ✨",
-      "Не надо быть идеальным. Надо быть живым, нормальным и сытым 😄",
-      "Спокойная голова — это тоже суперсила 🛡️",
-      "Ты не ленивый, ты иногда просто перегруженный. Это разные вещи 👍",
-      "Медленный день тоже считается хорошим днём 🌿",
-      "Один нормальный день = уже прогресс 🔥",
-      "Сегодняшний ты делает будущее чуть спокойнее 💛",
-      "Не нужно побеждать весь мир. Сначала победи хаос на столе 😄",
-      "Легенды тоже иногда просто лежат и отдыхают 🛏️"
-    ];
+    const coinsEl = document.getElementById("coins");
+    const livesEl = document.getElementById("lives");
+    const levelText = document.getElementById("levelText");
 
-    const titleLevels = [
-      { min: 0, name: "Набираешь ход 🌱", desc: "Начало положено, и это уже хорошо." },
-      { min: 5, name: "Спокойничок 😌", desc: "5 квестов — день уже пошёл приятно." },
-      { min: 10, name: "Провёл хорошо день ☀️", desc: "Хороший темп, очень даже красиво." },
-      { min: 15, name: "Мастер спокойствия 🛡️", desc: "Ты уже реально держишь день под контролем." },
-      { min: 20, name: "Лорд тишины 🌙", desc: "Суета сегодня явно проигрывает." },
-      { min: 25, name: "Анти-баг легенда ⚡", desc: "Почти идеальный день без лишних перегрузов." },
-      { min: 30, name: "Император спокойствия 👑", desc: "Все 30 квестов закрыты. Это разнос." }
-    ];
+    let keys = {};
+    let gravity = 0.7;
+    let level = 1;
+    let totalCoins = 0;
+    let lives = 3;
 
-    const STORAGE_KEY = "calmQuestDataV1";
-
-    let state = {
-      date: getTodayString(),
-      quests: Array(30).fill(false),
-      streak: 0,
-      coins: 0,
-      goal: 0,
-      saved: 0
+    const player = {
+      x: 80,
+      y: 100,
+      w: 40,
+      h: 40,
+      dx: 0,
+      dy: 0,
+      speed: 5,
+      jumpPower: -13,
+      grounded: false
     };
 
-    function getTodayString(){
-      const d = new Date();
-      return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
-    }
+    let platforms = [];
+    let enemySquares = [];
+    let collectibleCoins = [];
+    let finishFlag = { x: 920, y: 360, w: 30, h: 80 };
 
-    function save(){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
+    function loadLevel(num) {
+      level = num;
+      levelText.textContent = level;
 
-    function load(){
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if(raw){
-        try{
-          const parsed = JSON.parse(raw);
-          state = { ...state, ...parsed };
-        }catch(e){}
+      player.x = 80;
+      player.y = 100;
+      player.dx = 0;
+      player.dy = 0;
+
+      if (level === 1) {
+        platforms = [
+          { x: 0, y: 450, w: 1000, h: 50 },
+          { x: 170, y: 380, w: 120, h: 20 },
+          { x: 350, y: 320, w: 140, h: 20 },
+          { x: 560, y: 270, w: 140, h: 20 },
+          { x: 760, y: 220, w: 120, h: 20 }
+        ];
+
+        enemySquares = [
+          { x: 420, y: 285, w: 35, h: 35, dir: 1, minX: 360, maxX: 450, speed: 1.5 },
+          { x: 620, y: 235, w: 35, h: 35, dir: -1, minX: 570, maxX: 660, speed: 1.7 }
+        ];
+
+        collectibleCoins = [
+          { x: 210, y: 340, r: 10, taken: false },
+          { x: 390, y: 280, r: 10, taken: false },
+          { x: 600, y: 230, r: 10, taken: false },
+          { x: 800, y: 180, r: 10, taken: false }
+        ];
+
+        finishFlag = { x: 930, y: 370, w: 24, h: 80 };
       }
 
-      if(state.date !== getTodayString()){
-        state.date = getTodayString();
-        state.quests = Array(30).fill(false);
-      }
-      save();
-    }
+      if (level === 2) {
+        platforms = [
+          { x: 0, y: 450, w: 1000, h: 50 },
+          { x: 120, y: 390, w: 90, h: 20 },
+          { x: 260, y: 345, w: 90, h: 20 },
+          { x: 400, y: 300, w: 90, h: 20 },
+          { x: 540, y: 255, w: 90, h: 20 },
+          { x: 680, y: 210, w: 90, h: 20 },
+          { x: 820, y: 165, w: 90, h: 20 }
+        ];
 
-    function renderQuests(){
-      const box = document.getElementById("questList");
-      box.innerHTML = "";
-      allQuests.forEach((q, i) => {
-        const el = document.createElement("div");
-        el.className = "quest" + (state.quests[i] ? " done" : "");
-        el.onclick = () => toggleQuest(i);
-        el.innerHTML = `
-          <div class="check">${state.quests[i] ? "✓" : ""}</div>
-          <div>
-            <div class="quest-title">${i+1}. ${q.title}</div>
-            <div class="quest-desc">${q.desc}</div>
-          </div>
-        `;
-        box.appendChild(el);
-      });
-    }
+        enemySquares = [
+          { x: 280, y: 310, w: 35, h: 35, dir: 1, minX: 260, maxX: 315, speed: 2 },
+          { x: 550, y: 220, w: 35, h: 35, dir: -1, minX: 540, maxX: 590, speed: 2.2 },
+          { x: 830, y: 130, w: 35, h: 35, dir: 1, minX: 820, maxX: 875, speed: 2.4 }
+        ];
 
-    function getDoneCount(){
-      return state.quests.filter(Boolean).length;
-    }
+        collectibleCoins = [
+          { x: 145, y: 350, r: 10, taken: false },
+          { x: 290, y: 305, r: 10, taken: false },
+          { x: 430, y: 260, r: 10, taken: false },
+          { x: 570, y: 215, r: 10, taken: false },
+          { x: 710, y: 170, r: 10, taken: false }
+        ];
 
-    function getCurrentTitle(done){
-      let current = titleLevels[0];
-      for(const t of titleLevels){
-        if(done >= t.min) current = t;
-      }
-      return current;
-    }
-
-    function renderTitles(){
-      const done = getDoneCount();
-      const box = document.getElementById("titlesBox");
-      box.innerHTML = "";
-      titleLevels.slice(1).forEach(t => {
-        const active = done >= t.min;
-        const el = document.createElement("div");
-        el.className = "mini-title" + (active ? " active" : "");
-        el.innerHTML = `
-          <h3>${t.name}</h3>
-          <p>${t.min} квестов • ${t.desc}</p>
-        `;
-        box.appendChild(el);
-      });
-
-      const current = getCurrentTitle(done);
-      document.getElementById("currentTitle").textContent = "Текущий титул: " + current.name;
-      document.getElementById("titleNow").textContent = current.name;
-    }
-
-    function renderStats(){
-      const done = getDoneCount();
-      document.getElementById("doneCount").textContent = `${done}/30`;
-      document.getElementById("streakCount").textContent = `${state.streak} 🔥`;
-      document.getElementById("coinsCount").textContent = `${state.coins} 💎`;
-    }
-
-    function renderBank(){
-      document.getElementById("bankSaved").textContent = "Накоплено: " + state.saved;
-      document.getElementById("bankGoal").textContent = "Цель: " + state.goal;
-      const percent = state.goal > 0 ? Math.min(100, Math.round(state.saved / state.goal * 100)) : 0;
-      document.getElementById("bankPercent").textContent = percent + "%";
-      document.getElementById("bankFill").style.width = percent + "%";
-    }
-
-    function renderAll(){
-      renderQuests();
-      renderStats();
-      renderTitles();
-      renderBank();
-    }
-
-    function toggleQuest(i){
-      const wasDone = state.quests[i];
-      state.quests[i] = !state.quests[i];
-
-      if(!wasDone && state.quests[i]){
-        state.coins += 5;
-      } else if(wasDone && !state.quests[i]){
-        state.coins = Math.max(0, state.coins - 5);
+        finishFlag = { x: 940, y: 85, w: 24, h: 80 };
       }
 
-      save();
-      renderAll();
+      if (level >= 3) {
+        alert("Ты спас город от квадратов! 😎");
+        loadLevel(1);
+      }
     }
 
-    function completeAll(){
-      let added = 0;
-      state.quests = state.quests.map(v => {
-        if(!v) added += 5;
-        return true;
-      });
-      state.coins += added;
-      save();
-      renderAll();
-      document.getElementById("phraseBox").textContent = "Ну ты дал 😎 Все 30 квестов закрыты. Сегодня ты реально Император спокойствия 👑";
+    function rectsCollide(a, b) {
+      return (
+        a.x < b.x + b.w &&
+        a.x + a.w > b.x &&
+        a.y < b.y + b.h &&
+        a.y + a.h > b.y
+      );
     }
 
-    function resetToday(){
-      state.quests = Array(30).fill(false);
-      save();
-      renderAll();
-      document.getElementById("phraseBox").textContent = "День сброшен. Ничего страшного — можно начать заново и пройти красиво ✨";
-    }
+    function hitEnemy() {
+      lives--;
+      livesEl.textContent = lives;
 
-    function showPhrase(){
-      const phrase = phrases[Math.floor(Math.random() * phrases.length)];
-      document.getElementById("phraseBox").textContent = phrase;
-    }
-
-    function setGoal(){
-      const val = Number(document.getElementById("goalInput").value);
-      if(!val || val <= 0){
-        alert("Введи нормальную цель для копилки 😄");
+      if (lives <= 0) {
+        alert("Игра окончена 😢");
+        restartGame();
         return;
       }
-      state.goal = val;
-      save();
-      renderBank();
+
+      player.x = 80;
+      player.y = 100;
+      player.dx = 0;
+      player.dy = 0;
     }
 
-    function addMoney(){
-      const val = Number(document.getElementById("addMoneyInput").value);
-      if(!val || val <= 0){
-        alert("Введи сумму, которую хочешь добавить в копилку 💸");
-        return;
-      }
-      state.saved += val;
-      save();
-      renderBank();
+    function restartGame() {
+      totalCoins = 0;
+      lives = 3;
+      coinsEl.textContent = totalCoins;
+      livesEl.textContent = lives;
+      loadLevel(1);
+    }
 
-      if(state.goal > 0 && state.saved >= state.goal){
-        document.getElementById("phraseBox").textContent = "УРАА! Копилка закрыта! Ты накопил на цель, красавчик 🎉";
-      } else {
-        document.getElementById("phraseBox").textContent = `В копилку добавлено ${val}. Так держать 💛`;
+    function nextLevel() {
+      loadLevel(level + 1);
+    }
+
+    function update() {
+      player.dx = 0;
+
+      if (keys["ArrowLeft"] || keys["a"] || keys["A"]) {
+        player.dx = -player.speed;
+      }
+
+      if (keys["ArrowRight"] || keys["d"] || keys["D"]) {
+        player.dx = player.speed;
+      }
+
+      player.dy += gravity;
+      player.x += player.dx;
+      player.y += player.dy;
+      player.grounded = false;
+
+      // Границы
+      if (player.x < 0) player.x = 0;
+      if (player.x + player.w > canvas.width) player.x = canvas.width - player.w;
+
+      // Платформы
+      for (let p of platforms) {
+        if (
+          player.x < p.x + p.w &&
+          player.x + player.w > p.x &&
+          player.y + player.h > p.y &&
+          player.y + player.h < p.y + p.h + 18 &&
+          player.dy >= 0
+        ) {
+          player.y = p.y - player.h;
+          player.dy = 0;
+          player.grounded = true;
+        }
+      }
+
+      // Упал вниз
+      if (player.y > canvas.height + 100) {
+        hitEnemy();
+      }
+
+      // Движение врагов
+      for (let e of enemySquares) {
+        e.x += e.speed * e.dir;
+        if (e.x <= e.minX || e.x + e.w >= e.maxX) {
+          e.dir *= -1;
+        }
+
+        if (rectsCollide(player, e)) {
+          hitEnemy();
+        }
+      }
+
+      // Монетки
+      for (let c of collectibleCoins) {
+        if (!c.taken) {
+          const centerX = player.x + player.w / 2;
+          const centerY = player.y + player.h / 2;
+          const dist = Math.hypot(centerX - c.x, centerY - c.y);
+          if (dist < 24) {
+            c.taken = true;
+            totalCoins += 1;
+            coinsEl.textContent = totalCoins;
+          }
+        }
+      }
+
+      // Финиш
+      if (rectsCollide(player, finishFlag)) {
+        alert("Уровень пройден! 🚩");
+        loadLevel(level + 1);
       }
     }
 
-    function resetBank(){
-      if(confirm("Точно сбросить копилку?")){
-        state.goal = 0;
-        state.saved = 0;
-        save();
-        renderBank();
-        document.getElementById("phraseBox").textContent = "Копилка сброшена. Если что — можно начать новую цель ✨";
+    function drawBackground() {
+      // Облака
+      ctx.fillStyle = "rgba(255,255,255,0.8)";
+      ctx.beginPath();
+      ctx.arc(140, 90, 28, 0, Math.PI * 2);
+      ctx.arc(170, 80, 34, 0, Math.PI * 2);
+      ctx.arc(205, 90, 28, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(760, 100, 25, 0, Math.PI * 2);
+      ctx.arc(790, 90, 30, 0, Math.PI * 2);
+      ctx.arc(820, 100, 25, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Город
+      ctx.fillStyle = "#475569";
+      ctx.fillRect(40, 350, 90, 100);
+      ctx.fillRect(170, 300, 120, 150);
+      ctx.fillRect(330, 330, 80, 120);
+      ctx.fillRect(450, 290, 110, 160);
+      ctx.fillRect(610, 340, 70, 110);
+      ctx.fillRect(730, 310, 130, 140);
+
+      // Окна
+      ctx.fillStyle = "#fef08a";
+      for (let bx of [40,170,330,450,610,730]) {
+        for (let wy = 0; wy < 4; wy++) {
+          for (let wx = 0; wx < 3; wx++) {
+            ctx.fillRect(bx + 12 + wx * 24, 315 + wy * 26, 10, 14);
+          }
+        }
       }
     }
 
-    function newDay(){
-      const done = getDoneCount();
-      if(done >= 5){
-        state.streak += 1;
-        state.coins += 20;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      drawBackground();
+
+      // Платформы
+      for (let p of platforms) {
+        ctx.fillStyle = "#16a34a";
+        ctx.fillRect(p.x, p.y, p.w, p.h);
+
+        ctx.fillStyle = "#166534";
+        ctx.fillRect(p.x, p.y, p.w, 6);
       }
-      state.date = getTodayString() + "-manual-" + Math.random().toString(36).slice(2,6);
-      state.quests = Array(30).fill(false);
-      save();
 
-      // сразу вернуть дату на обычную, чтобы новый день жил нормально
-      state.date = getTodayString();
-      save();
+      // Флаг
+      ctx.fillStyle = "#6b7280";
+      ctx.fillRect(finishFlag.x, finishFlag.y, 6, finishFlag.h);
+      ctx.fillStyle = "#2563eb";
+      ctx.fillRect(finishFlag.x + 6, finishFlag.y, 28, 18);
 
-      renderAll();
-      document.getElementById("phraseBox").textContent = done >= 5
-        ? "Новый день начался! Серия сохранена, +20 кристаллов за хороший день 🔥"
-        : "Новый день начался! Чтобы серия росла, постарайся сделать хотя бы 5 квестов 😄";
+      // Монетки
+      for (let c of collectibleCoins) {
+        if (!c.taken) {
+          ctx.beginPath();
+          ctx.fillStyle = "#facc15";
+          ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = "#92400e";
+          ctx.font = "bold 12px Arial";
+          ctx.fillText("$", c.x - 4, c.y + 4);
+        }
+      }
+
+      // Враги-квадраты
+      for (let e of enemySquares) {
+        ctx.fillStyle = "#111111";
+        ctx.fillRect(e.x, e.y, e.w, e.h);
+
+        ctx.fillStyle = "white";
+        ctx.fillRect(e.x + 7, e.y + 8, 6, 6);
+        ctx.fillRect(e.x + 22, e.y + 8, 6, 6);
+
+        ctx.fillStyle = "red";
+        ctx.fillRect(e.x + 10, e.y + 24, 15, 4);
+      }
+
+      // Игрок - красный шар
+      ctx.beginPath();
+      ctx.fillStyle = "#ef4444";
+      ctx.arc(player.x + player.w / 2, player.y + player.h / 2, player.w / 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Лицо
+      ctx.fillStyle = "white";
+      ctx.beginPath();
+      ctx.arc(player.x + 14, player.y + 15, 4, 0, Math.PI * 2);
+      ctx.arc(player.x + 26, player.y + 15, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#111";
+      ctx.beginPath();
+      ctx.arc(player.x + 14, player.y + 15, 2, 0, Math.PI * 2);
+      ctx.arc(player.x + 26, player.y + 15, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = "#111";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(player.x + 20, player.y + 24, 7, 0.2, Math.PI - 0.2);
+      ctx.stroke();
     }
 
-    load();
-    renderAll();
+    function gameLoop() {
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    document.addEventListener("keydown", (e) => {
+      keys[e.key] = true;
+
+      if ((e.key === "ArrowUp" || e.key === "w" || e.key === "W" || e.key === " ") && player.grounded) {
+        player.dy = player.jumpPower;
+      }
+    });
+
+    document.addEventListener("keyup", (e) => {
+      keys[e.key] = false;
+    });
+
+    // Мобильные кнопки
+    const leftBtn = document.getElementById("leftBtn");
+    const rightBtn = document.getElementById("rightBtn");
+    const jumpBtn = document.getElementById("jumpBtn");
+
+    leftBtn.addEventListener("touchstart", (e) => { e.preventDefault(); keys["ArrowLeft"] = true; });
+    leftBtn.addEventListener("touchend", (e) => { e.preventDefault(); keys["ArrowLeft"] = false; });
+    rightBtn.addEventListener("touchstart", (e) => { e.preventDefault(); keys["ArrowRight"] = true; });
+    rightBtn.addEventListener("touchend", (e) => { e.preventDefault(); keys["ArrowRight"] = false; });
+
+    jumpBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      if (player.grounded) player.dy = player.jumpPower;
+    });
+
+    // Для мышки тоже
+    leftBtn.addEventListener("mousedown", () => keys["ArrowLeft"] = true);
+    leftBtn.addEventListener("mouseup", () => keys["ArrowLeft"] = false);
+    leftBtn.addEventListener("mouseleave", () => keys["ArrowLeft"] = false);
+
+    rightBtn.addEventListener("mousedown", () => keys["ArrowRight"] = true);
+    rightBtn.addEventListener("mouseup", () => keys["ArrowRight"] = false);
+    rightBtn.addEventListener("mouseleave", () => keys["ArrowRight"] = false);
+
+    jumpBtn.addEventListener("click", () => {
+      if (player.grounded) player.dy = player.jumpPower;
+    });
+
+    loadLevel(1);
+    gameLoop();
   </script>
 </body>
 </html>
